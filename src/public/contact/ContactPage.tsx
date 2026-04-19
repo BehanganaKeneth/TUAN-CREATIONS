@@ -1,0 +1,63 @@
+import { FormEvent, useState } from "react";
+
+type IntakeRoute = "support" | "partner team" | "marketplace matching" | "trust and safety";
+
+export default function ContactPage() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [topic, setTopic] = useState("general inquiry");
+  const [message, setMessage] = useState("");
+  const [result, setResult] = useState<IntakeRoute | null>(null);
+
+  const classify = (subject: string): IntakeRoute => {
+    if (subject.includes("partner")) return "partner team";
+    if (subject.includes("service") || subject.includes("market")) return "marketplace matching";
+    if (subject.includes("scam") || subject.includes("fraud")) return "trust and safety";
+    return "support";
+  };
+
+  const onSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    const route = classify(topic.toLowerCase());
+    setResult(route);
+    setName("");
+    setEmail("");
+    setTopic("general inquiry");
+    setMessage("");
+  };
+
+  return (
+    <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+      <p className="eyebrow">Contact</p>
+      <h1 className="mt-4 font-display text-5xl">Smart intake for support, partnerships, and trust.</h1>
+
+      <div className="mt-10 grid gap-8 lg:grid-cols-2">
+        <form onSubmit={onSubmit} className="card space-y-4">
+          <h2 className="font-display text-2xl">Submit Inquiry</h2>
+          <label className="field-label">Name<input className="field-input" value={name} onChange={(e) => setName(e.target.value)} required /></label>
+          <label className="field-label">Email<input type="email" className="field-input" value={email} onChange={(e) => setEmail(e.target.value)} required /></label>
+          <label className="field-label">Topic
+            <select className="field-input" value={topic} onChange={(e) => setTopic(e.target.value)}>
+              <option>General Inquiry</option>
+              <option>Partnership Request</option>
+              <option>Service Request</option>
+              <option>Scam Report</option>
+            </select>
+          </label>
+          <label className="field-label">Message<textarea className="field-input min-h-24" value={message} onChange={(e) => setMessage(e.target.value)} required /></label>
+          <button className="btn-primary" type="submit">Route Inquiry</button>
+        </form>
+
+        <div className="card">
+          <h2 className="font-display text-2xl">Routing Outcome</h2>
+          <p className="mt-3 text-sm text-[var(--text-soft)]">
+            This frontend demo classifies contact flow into backend service queues. In production this maps to Contact & Inquiry Service endpoints.
+          </p>
+          <p className="mt-6 rounded-xl border border-[var(--line)] bg-[var(--panel)] p-4 text-sm">
+            {result ? `Inquiry routed to: ${result}` : "Submit a message to see intake routing."}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
