@@ -41,7 +41,8 @@ export default function PublicLayout() {
           </nav>
 
           <Link className="btn-primary text-sm" to="/dashboard">
-            Explore TUAN Digital Platform
+            <span className="block">Explore TUAN Digital Platform</span>
+            <span className="mt-1 block text-[11px] leading-tight text-[color:rgba(17,18,24,0.72)]">The United African Nation - "All-in-One Digital Space"</span>
           </Link>
         </div>
       </header>
@@ -52,7 +53,10 @@ export default function PublicLayout() {
 
       <footer className="mt-16 border-t border-[var(--line)] bg-[color:rgba(7,14,24,0.9)]">
         <div className="mx-auto grid max-w-7xl grid-cols-1 gap-4 px-4 py-10 text-sm text-[var(--text-soft)] sm:px-6 lg:grid-cols-3 lg:px-8">
-          <p>TUAN Digital Platform - a product by TUAN Creations Company Ltd.</p>
+          <div>
+            <p>TUAN Digital Platform - a product by TUAN Creations Company Ltd.</p>
+            <p className="mt-1 text-xs">The United African Nation - "All-in-One Digital Space"</p>
+          </div>
           <div className="space-y-1">
             <p>tuancreations.africa@gmail.com</p>
             <p>+256 753 414 058</p>

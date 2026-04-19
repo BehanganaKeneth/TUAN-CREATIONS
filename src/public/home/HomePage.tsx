@@ -20,7 +20,10 @@ export default function HomePage() {
               alt="TUAN Creations Company Ltd Logo"
             />
           </span>
-          <p className="eyebrow">TUAN Digital Platform</p>
+          <div>
+            <p className="eyebrow">TUAN Digital Platform</p>
+            <p className="mt-1 text-xs text-[var(--text-soft)]">The United African Nation - "All-in-One Digital Space"</p>
+          </div>
         </div>
         <h1 className="mt-5 max-w-4xl font-display text-5xl leading-tight sm:text-6xl">
           One trusted place for learning, business services, media, innovation, and partnerships.
