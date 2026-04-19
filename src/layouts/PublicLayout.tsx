@@ -41,7 +41,7 @@ export default function PublicLayout() {
           </nav>
 
           <Link className="btn-primary text-sm" to="/dashboard">
-            Explore Dashboard
+            Explore TUAN Digital Platform
           </Link>
         </div>
       </header>
