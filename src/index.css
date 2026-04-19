@@ -143,6 +143,8 @@ body {
 .logo-oval-shell {
   border-radius: 9999px;
   clip-path: ellipse(49% 47% at 50% 50%);
+  transform: scale(1.28);
+  transform-origin: center;
 }
 
 @keyframes float-glow {
