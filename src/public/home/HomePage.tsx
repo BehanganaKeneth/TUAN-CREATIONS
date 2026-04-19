@@ -18,7 +18,7 @@ export default function HomePage() {
           One connected platform for learning, commerce, media, collaboration, and innovation.
         </h1>
         <p className="mt-6 max-w-3xl text-lg text-[var(--text-soft)]">
-          TUAN OS is not a collection of tools. It is a unified identity-driven ecosystem where every action compounds value across the continent.
+          TUAN Digital is not a collection of tools. It is a unified identity-driven ecosystem where every action compounds value across the continent.
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
           <Link className="btn-primary" to="/auth">Enter Protected Ecosystem</Link>

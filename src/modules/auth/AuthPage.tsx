@@ -32,7 +32,7 @@ export default function AuthPage() {
       </div>
 
       <form onSubmit={onSubmit} className="card space-y-5">
-        <h2 className="font-display text-2xl">Continue to TUAN OS</h2>
+        <h2 className="font-display text-2xl">Continue to TUAN Digital</h2>
         <label className="field-label">
           Full name
           <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Your name" className="field-input" required />

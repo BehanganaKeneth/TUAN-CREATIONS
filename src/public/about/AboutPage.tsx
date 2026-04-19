@@ -2,7 +2,7 @@ export default function AboutPage() {
   const pillars = [
     {
       title: "Identity",
-      text: "Every experience in TUAN OS is connected to who you are and what role you play in the ecosystem.",
+      text: "Every experience in TUAN Digital is connected to who you are and what role you play in the ecosystem.",
     },
     {
       title: "Trust",

@@ -35,7 +35,7 @@ const HomePage = memo(() => {
             Building <span className="text-teal-300">The United African Nation</span>
           </h1>
           <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
-            TUAN Creations (Africa) LTD is envisioned as a Pan-African ICT innovation enterprise designed to unify and transform the continent's fragmented digital economy.
+            TUAN Creations Company Ltd is envisioned as a Pan-African ICT innovation enterprise designed to unify and transform the continent's fragmented digital economy.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button 

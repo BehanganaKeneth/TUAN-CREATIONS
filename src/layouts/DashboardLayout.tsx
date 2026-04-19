@@ -19,7 +19,7 @@ export default function DashboardLayout() {
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-6 px-4 py-6 sm:px-6 lg:grid-cols-[250px_1fr] lg:px-8">
         <aside className="h-fit rounded-3xl border border-[var(--line)] bg-[var(--card)] p-5">
           <Link to="/dashboard" className="font-display text-lg text-[var(--gold)]">
-            TUAN Ecosystem
+            TUAN Digital
           </Link>
           <p className="mt-2 text-sm text-[var(--text-soft)]">{user?.name} ({user?.role})</p>
 

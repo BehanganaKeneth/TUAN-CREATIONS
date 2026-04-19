@@ -4,7 +4,7 @@ import { ShoppingBag, Code2, Briefcase, Globe, Search } from "lucide-react";
 const TUANMarketPlacePage: React.FC = () => {
   const companies = [
     {
-      name: "TUAN Creations (Africa) Ltd",
+      name: "TUAN Creations Company Ltd",
       description:
         "Creators of Africa-inspired digital solutions - software, telecom, media and creative technology.",
       category: "Software, Telecom & Media",

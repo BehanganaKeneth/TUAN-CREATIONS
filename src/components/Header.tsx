@@ -80,7 +80,7 @@ const Header: React.FC = memo(() => {
               className="h-14 w-auto mr-3"
             />
             <span className="text-2xl font-bold text-gray-900 tracking-tight">
-              TUAN Creations (Africa) LTD
+              TUAN Creations Company Ltd
             </span>
           </Link>
 
