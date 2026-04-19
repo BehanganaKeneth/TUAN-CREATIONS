@@ -158,8 +158,8 @@ body {
 }
 
 .logo-container img {
-  width: 110%;
-  height: auto;
+  width: 130%;
+  height: 130%;
   object-fit: cover;
 }
 
