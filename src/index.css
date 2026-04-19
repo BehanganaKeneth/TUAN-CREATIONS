@@ -141,11 +141,8 @@ body {
 }
 
 .logo-oval-shell {
-  background: #050505;
-  border: 2px solid #f5c518;
   border-radius: 9999px;
-  padding: 4px 10px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+  clip-path: ellipse(49% 47% at 50% 50%);
 }
 
 @keyframes float-glow {

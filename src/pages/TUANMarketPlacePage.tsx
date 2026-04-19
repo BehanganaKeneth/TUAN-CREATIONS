@@ -67,7 +67,7 @@ const TUANMarketPlacePage: React.FC = () => {
               <img
                 src={company.image}
                 alt={company.name}
-                className={`h-20 w-20 object-contain ${company.image === "/tuan-logo.png" ? "logo-oval-shell" : ""}`}
+                className={`h-20 w-auto object-contain ${company.image === "/tuan-logo.png" ? "logo-oval-shell" : ""}`}
               />
             </div>
             <div className="p-6">
