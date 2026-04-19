@@ -41,7 +41,7 @@ export const courses: Course[] = [
   {
     id: 2,
     title: "Cloud Security Essentials",
-    instructor: "Eng. Gift Benson",
+    instructor: "Eng. Behangana Keneth",
     level: "Intermediate",
     duration: "8 weeks",
     enrolled: 990,
@@ -49,7 +49,7 @@ export const courses: Course[] = [
   {
     id: 3,
     title: "IoT Build Lab: Smart Farming Kits",
-    instructor: "Eng. Joshua Ssali",
+    instructor: "Eng. Butera Marcel",
     level: "Beginner",
     duration: "6 weeks",
     enrolled: 760,
