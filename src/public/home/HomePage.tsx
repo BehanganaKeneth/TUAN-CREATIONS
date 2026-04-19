@@ -17,7 +17,7 @@ export default function HomePage() {
           <img
             src="/tuan-logo.png"
             alt="TUAN Creations Company LTD Logo"
-            className="h-10 w-auto"
+            className="h-20 w-auto"
           />
           <p className="eyebrow">TUAN Digital Platform</p>
         </div>
