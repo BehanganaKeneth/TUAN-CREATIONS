@@ -141,15 +141,26 @@ body {
 }
 
 .logo-oval-shell {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background: #050505;
   border: 2px solid #f5c518;
   border-radius: 9999px;
-  clip-path: ellipse(49% 47% at 50% 50%);
+  overflow: hidden;
   padding: 4px 10px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
-  transform: scale(1.28);
+  isolation: isolate;
+}
+
+.logo-oval-shell-img {
+  display: block;
+  height: 100%;
+  width: auto;
+  object-fit: cover;
+  transform: scale(1.18);
   transform-origin: center;
+  mix-blend-mode: multiply;
 }
 
 @keyframes float-glow {

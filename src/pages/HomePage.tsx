@@ -26,11 +26,13 @@ const HomePage = memo(() => {
       {/* Hero Section */}
       <section className="bg-amber-600 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <img 
-            src="/tuan-logo.png" 
-            alt="TUAN Creations Company LTD Logo" 
-            className="h-16 w-auto mx-auto mb-6 logo-oval-shell"
-          />
+          <span className="logo-oval-shell mx-auto mb-6 h-16">
+            <img
+              src="/tuan-logo.png"
+              alt="TUAN Creations Company LTD Logo"
+              className="logo-oval-shell-img"
+            />
+          </span>
           <h1 className="text-5xl md:text-6xl font-bold mb-6">
             Building <span className="text-teal-300">The United African Nation</span>
           </h1>

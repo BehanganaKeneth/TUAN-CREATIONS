@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Brain, Tv, Wifi, Rocket, Shield, GraduationCap, Users, Building } from "lucide-react";
+import { Brain, Tv, Wifi, Rocket, Shield, GraduationCap } from "lucide-react";
 
 const divisions = [
   {
@@ -49,22 +49,6 @@ const divisions = [
     color: "from-yellow-500 to-yellow-600",
     services: ["Skills Training", "Startup Incubation", "Certification Programs", "Mentorship", "Innovation Labs"],
     to: "/academy",
-  },
-  {
-    icon: Users,
-    name: "Strategy & Partnerships Office",
-    description: "Coordinate with governments, donors, and anchor enterprise growth.",
-    color: "from-teal-500 to-teal-600",
-    services: ["Strategic Planning", "Government Relations", "Partnership Development", "Business Development", "Policy Advocacy"],
-    to: "/auth",
-  },
-  {
-    icon: Building,
-    name: "Executive Office",
-    description: "Provide governance, finance, compliance, and brand direction.",
-    color: "from-gray-500 to-gray-600",
-    services: ["Corporate Governance", "Financial Management", "Legal Compliance", "Brand Management", "Executive Leadership"],
-    to: "/dashboard",
   },
 ];
 
