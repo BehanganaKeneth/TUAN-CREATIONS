@@ -13,7 +13,7 @@ export default function HomePage() {
   return (
     <div>
       <section className="mx-auto max-w-7xl px-4 pb-20 pt-16 sm:px-6 lg:px-8">
-        <div className="flex flex-col items-center justify-center gap-3 text-center">
+        <div className="flex items-center gap-3">
           <span className="logo-container logo-container-sm">
             <img
               src="/tuan-logo.png"

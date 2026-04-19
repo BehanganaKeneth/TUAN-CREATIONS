@@ -19,11 +19,11 @@ export default function DashboardLayout() {
     <div className="min-h-screen bg-[var(--surface)] text-[var(--text)]">
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-6 px-4 py-6 sm:px-6 lg:grid-cols-[250px_1fr] lg:px-8">
         <aside className="h-fit rounded-3xl border border-[var(--line)] bg-[var(--card)] p-5">
-          <Link to="/dashboard" className="flex items-center gap-3 text-[var(--gold)]">
+          <Link to="/dashboard" className="flex flex-col items-center justify-center gap-2 text-center text-[var(--gold)]">
             <span className="logo-container logo-container-sm">
               <img src="/tuan-logo.png" alt="TUAN Creations Company Ltd Logo" />
             </span>
-            <span className="font-display text-lg">TUAN Creations Company Ltd</span>
+            <span className="font-display text-lg">TUAN Digital Platform</span>
           </Link>
           <p className="mt-2 text-sm text-[var(--text-soft)]">
             {isGuest ? "Guest access" : `${user?.name} (${user?.role})`}
