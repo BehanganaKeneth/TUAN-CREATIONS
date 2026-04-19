@@ -16,7 +16,7 @@ const Footer = memo(() => {
             <img
               src="/tuan-logo.png"
               alt="TUAN Creations Company LTD Logo"
-              className="h-16 w-auto mb-4"
+              className="h-16 w-auto mb-4 logo-oval-shell"
             />
             <p className="text-gray-800 mb-4 max-w-md">
               Building the United African Nation in Technology — a Pan-African

@@ -29,7 +29,7 @@ const HomePage = memo(() => {
           <img 
             src="/tuan-logo.png" 
             alt="TUAN Creations Company LTD Logo" 
-            className="h-16 w-auto mx-auto mb-6"
+            className="h-16 w-auto mx-auto mb-6 logo-oval-shell"
           />
           <h1 className="text-5xl md:text-6xl font-bold mb-6">
             Building <span className="text-teal-300">The United African Nation</span>

@@ -77,7 +77,7 @@ const Header: React.FC = memo(() => {
             <img
               src="/tuan-logo.png"
               alt="TUAN Creations Company LTD Logo"
-              className="h-14 w-auto mr-3"
+              className="h-14 w-auto mr-3 logo-oval-shell"
             />
             <span className="text-2xl font-bold text-gray-900 tracking-tight">
               TUAN Creations Company LTD
