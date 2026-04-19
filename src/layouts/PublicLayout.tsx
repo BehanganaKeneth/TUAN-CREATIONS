@@ -17,9 +17,9 @@ export default function PublicLayout() {
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
           <Link to="/" className="flex items-center gap-3 text-[var(--gold)]">
             <span className="logo-oval-shell h-12">
-              <img src="/tuan-logo.png" alt="TUAN Creations Company LTD Logo" className="logo-oval-shell-img" />
+              <img src="/tuan-logo.png" alt="TUAN Creations Company Ltd Logo" className="logo-oval-shell-img" />
             </span>
-            <span className="font-display text-xl tracking-wide">TUAN Creations Company LTD</span>
+            <span className="font-display text-xl tracking-wide">TUAN Creations Company Ltd</span>
           </Link>
 
           <nav className="hidden gap-2 md:flex">
@@ -52,7 +52,7 @@ export default function PublicLayout() {
 
       <footer className="mt-16 border-t border-[var(--line)] bg-[color:rgba(7,14,24,0.9)]">
         <div className="mx-auto grid max-w-7xl grid-cols-1 gap-4 px-4 py-10 text-sm text-[var(--text-soft)] sm:px-6 lg:grid-cols-3 lg:px-8">
-          <p>TUAN Digital Platform - Unified African digital infrastructure.</p>
+          <p>TUAN Digital Platform - a product by TUAN Creations Company Ltd.</p>
           <div className="space-y-1">
             <p>tuancreations.africa@gmail.com</p>
             <p>+256 753 414 058</p>

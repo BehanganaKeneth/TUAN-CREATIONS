@@ -6,7 +6,7 @@ const discovery = [
   { title: "Start Learning", to: "/academy", description: "Access verified live academy lessons, partner classes, and recordings." },
   { title: "Watch TUAN TV", to: "/media", description: "Stream educational broadcasts, partner promotions, and recorded channels." },
   { title: "Hire Services", to: "/marketplace", description: "Find vetted freelancers, agencies, and digital service providers." },
-  { title: "Join Ecosystem", to: "/auth", description: "Create a role-based identity and unlock the shared partner dashboard." },
+  { title: "Join Ecosystem", to: "/auth", description: "Create a role-based identity and unlock your TUAN Digital Platform workspace." },
 ];
 
 export default function HomePage() {
@@ -17,7 +17,7 @@ export default function HomePage() {
           <span className="logo-oval-shell h-24">
             <img
               src="/tuan-logo.png"
-              alt="TUAN Creations Company LTD Logo"
+              alt="TUAN Creations Company Ltd Logo"
               className="logo-oval-shell-img"
             />
           </span>
@@ -27,7 +27,7 @@ export default function HomePage() {
           One trusted platform for skills, services, media, innovation, and collaboration.
         </h1>
         <p className="mt-6 max-w-3xl text-lg text-[var(--text-soft)]">
-          TUAN Digital unifies Africa's fragmented digital ecosystem into one locally guided, affordable, and verified environment.
+          TUAN Digital is a product of TUAN Creations Company Ltd, built to unify Africa's fragmented digital ecosystem into one locally guided, affordable, and verified environment.
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
           <Link className="btn-primary" to="/auth">Create Your Account</Link>
@@ -69,8 +69,8 @@ export default function HomePage() {
               <p className="mt-2 text-sm text-[var(--text-soft)]">Education, innovation showcases, partner promotions, and recorded broadcasts.</p>
             </div>
             <div>
-              <h3 className="font-display text-xl">IoT & Robotics Hub</h3>
-              <p className="mt-2 text-sm text-[var(--text-soft)]">Practical resources, learning kits, and innovation content for young builders and schools.</p>
+              <h3 className="font-display text-xl">TUAN Innovations</h3>
+              <p className="mt-2 text-sm text-[var(--text-soft)]">Practical IoT and robotics tracks, prototype support, and chip design pathways for builders and institutions.</p>
             </div>
           </div>
         </div>

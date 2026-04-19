@@ -26,7 +26,7 @@ export default function AuthPage() {
         <p className="eyebrow">Welcome</p>
         <h1 className="mt-4 font-display text-5xl leading-tight">Identity unlocks the full TUAN Digital Platform.</h1>
         <p className="mt-5 max-w-xl text-[var(--text-soft)]">
-          Sign in to access your role-based dashboard, verification status, and services across academy,
+          Sign in to access your role-based platform space, verification status, and services across academy,
           marketplace, media, collaboration, and innovation programs.
         </p>
       </div>
@@ -59,7 +59,7 @@ export default function AuthPage() {
         </div>
 
         <button className="btn-primary w-full" type="submit">
-          Access Dashboard
+          Access TUAN Digital Platform
         </button>
       </form>
     </div>

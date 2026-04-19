@@ -10,7 +10,7 @@ export default function AboutPage() {
     },
     {
       title: "Shared Partner Model",
-      text: "Partners operate through a single dashboard to deliver classes, services, adverts, and client work professionally.",
+      text: "Partners operate through one TUAN Digital Platform workspace to deliver classes, services, adverts, and client work professionally.",
     },
   ];
 
@@ -25,7 +25,7 @@ export default function AboutPage() {
       <p className="eyebrow">About TUAN</p>
       <h1 className="mt-4 max-w-3xl font-display text-5xl">Building Africa's trusted digital operating platform.</h1>
       <p className="mt-6 max-w-4xl text-[var(--text-soft)]">
-        TUAN Digital is designed for African realities: high data costs, fragmented systems, unverified services, and the need for a central trusted space for skills, services, media, and innovation.
+        TUAN Creations Company Ltd builds and operates TUAN Digital Platform for African realities: high data costs, fragmented systems, unverified services, and the need for one trusted space for skills, services, media, and innovation.
       </p>
 
       <div className="mt-10 grid gap-5 md:grid-cols-3">

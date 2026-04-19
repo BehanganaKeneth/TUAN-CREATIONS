@@ -77,12 +77,12 @@ const Header: React.FC = memo(() => {
             <span className="logo-oval-shell mr-3 h-16">
               <img
                 src="/tuan-logo.png"
-                alt="TUAN Creations Company LTD Logo"
+                alt="TUAN Creations Company Ltd Logo"
                 className="logo-oval-shell-img"
               />
             </span>
             <span className="text-2xl font-bold text-gray-900 tracking-tight">
-              TUAN Creations Company LTD
+              TUAN Creations Company Ltd
             </span>
           </Link>
 

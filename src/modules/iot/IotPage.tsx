@@ -22,12 +22,20 @@ const programs = [
     summary: "Launch guided robotics builds with mentors, challenges, and demo day showcases.",
     icon: Cpu,
   },
+  {
+    title: "Semiconductor Design Pathway",
+    mode: "Cohort",
+    seats: 40,
+    summary: "Train teams in chip architecture, FPGA prototyping, and fabrication partner readiness.",
+    icon: Cpu,
+  },
 ];
 
 const outcomes = [
   "Hands-on kits and guided build sessions",
   "Mentorship for student and community teams",
   "Prototype reviews and showcase opportunities",
+  "Semiconductor chip design pathway with manufacturing partners",
   "Pathways into academy, media, and marketplace services",
 ];
 

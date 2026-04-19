@@ -16,7 +16,7 @@ const Footer = memo(() => {
             <span className="logo-oval-shell mb-4 h-20">
               <img
                 src="/tuan-logo.png"
-                alt="TUAN Creations Company LTD Logo"
+                alt="TUAN Creations Company Ltd Logo"
                 className="logo-oval-shell-img"
               />
             </span>

@@ -2,7 +2,7 @@ import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 import { useAuth } from "../store/auth";
 
 const moduleNav = [
-  { to: "/dashboard", label: "Dashboard" },
+  { to: "/dashboard", label: "Platform Home" },
   { to: "/academy", label: "Academy" },
   { to: "/marketplace", label: "Marketplace" },
   { to: "/media", label: "Media" },
@@ -21,15 +21,15 @@ export default function DashboardLayout() {
         <aside className="h-fit rounded-3xl border border-[var(--line)] bg-[var(--card)] p-5">
           <Link to="/dashboard" className="flex items-center gap-3 text-[var(--gold)]">
             <span className="logo-oval-shell h-12">
-              <img src="/tuan-logo.png" alt="TUAN Creations Company LTD Logo" className="logo-oval-shell-img" />
+              <img src="/tuan-logo.png" alt="TUAN Creations Company Ltd Logo" className="logo-oval-shell-img" />
             </span>
-            <span className="font-display text-lg">TUAN Creations Company LTD</span>
+            <span className="font-display text-lg">TUAN Creations Company Ltd</span>
           </Link>
           <p className="mt-2 text-sm text-[var(--text-soft)]">
             {isGuest ? "Guest access" : `${user?.name} (${user?.role})`}
           </p>
           <p className="mt-2 text-xs text-[var(--text-soft)]">
-            You can browse all dashboards as a guest. Sign in or sign up to save your choices, submit requests, and manage your activity.
+            You can browse the TUAN Digital Platform as a guest. Sign in or sign up to save your choices, submit requests, and manage your activity.
           </p>
 
           <nav className="mt-6 flex flex-col gap-2">
@@ -68,7 +68,7 @@ export default function DashboardLayout() {
 
         <section className="rounded-3xl border border-[var(--line)] bg-[var(--panel)] p-4 sm:p-6 lg:p-8">
           <div className="mb-6 flex items-center justify-between border-b border-[var(--line)] pb-4">
-            <h1 className="font-display text-2xl">{moduleNav.find((i) => i.to === location.pathname)?.label ?? "Dashboard"}</h1>
+            <h1 className="font-display text-2xl">{moduleNav.find((i) => i.to === location.pathname)?.label ?? "Platform Home"}</h1>
             <div className="flex items-center gap-3">
               <Link className="text-sm text-[var(--gold)] hover:underline" to="/">
                 Public Site
