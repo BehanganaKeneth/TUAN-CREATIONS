@@ -144,6 +144,7 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
   background: #050505;
   border: 2px solid #f5c518;
   border-radius: 9999px;
@@ -157,10 +158,10 @@ body {
   display: block;
   height: 100%;
   width: auto;
+  max-width: none;
   object-fit: cover;
-  transform: scale(1.18);
+  transform: scale(1.12);
   transform-origin: center;
-  mix-blend-mode: multiply;
 }
 
 @keyframes float-glow {
