@@ -1,10 +1,32 @@
-const channels = [
-  { name: "TUAN Prime", audience: "42K followers", status: "Live now" },
-  { name: "Innovation Pulse", audience: "18K followers", status: "New episode" },
-  { name: "Builders of Africa", audience: "24K followers", status: "Recording archive" },
-];
+import { useEffect, useState } from "react";
+import { followMediaChannel, getMediaChannels, type MediaChannel } from "../../services/api";
 
 export default function MediaPage() {
+  const [channels, setChannels] = useState<MediaChannel[]>([]);
+  const [message, setMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    let isMounted = true;
+    getMediaChannels().then((items) => {
+      if (!isMounted) return;
+      setChannels(items);
+    });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const handleFollow = async (channelId: number, channelName: string) => {
+    try {
+      const response = await followMediaChannel(channelId);
+      setChannels((prev) => prev.map((channel) => (channel.id === channelId ? response.channel : channel)));
+      setMessage(`Followed ${channelName}. The broadcaster page now reflects the updated audience count.`);
+    } catch {
+      setMessage(`Could not follow ${channelName} right now.`);
+    }
+  };
+
   return (
     <div className="space-y-6">
       <div className="card">
@@ -15,6 +37,7 @@ export default function MediaPage() {
         <p className="mt-3 text-sm text-[var(--text-soft)]">
           TUAN TV supports student learning, partner visibility, client education, and investor insight.
         </p>
+        {message && <p className="mt-3 text-sm text-emerald-300">{message}</p>}
       </div>
 
       <div className="card">
@@ -31,8 +54,16 @@ export default function MediaPage() {
             <h3 className="font-display text-xl">{channel.name}</h3>
             <p className="mt-2 text-sm text-[var(--text-soft)]">{channel.audience}</p>
             <p className="mt-2 text-sm text-[var(--gold)]">{channel.status}</p>
-            <p className="mt-1 text-xs text-[var(--text-soft)]">Saved on this channel for students, clients, and followers</p>
-            <button className="btn-ghost mt-4 text-xs">Follow Channel</button>
+            <p className="mt-1 text-xs text-[var(--text-soft)]">{channel.recordingCount} broadcasts archived on this broadcaster page</p>
+            <p className="mt-1 text-xs text-[var(--text-soft)]">Featured broadcast: {channel.featuredBroadcast}</p>
+            <div className="mt-4 flex items-center gap-2">
+              <button className="btn-ghost text-xs" onClick={() => handleFollow(channel.id, channel.name)}>
+                Follow Channel
+              </button>
+              <a className="text-xs text-[var(--gold)] hover:underline" href={channel.recordingUrl ?? "/media"}>
+                Open broadcaster page
+              </a>
+            </div>
           </article>
         ))}
       </div>

@@ -63,11 +63,11 @@ ${formData.message}
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <section className="bg-indigo-700 py-20">
+      <section className="bg-indigo-700 py-16 sm:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h1 className="text-5xl font-bold text-white mb-6">Contact TUAN Creations</h1>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+            <h1 className="mb-5 text-3xl font-bold text-white sm:text-4xl lg:text-5xl">Contact TUAN Creations</h1>
+            <p className="mx-auto max-w-3xl text-base text-gray-300 sm:text-lg lg:text-xl">
               Ready to be part of Africa's digital transformation? Get in touch with us to discuss 
               partnerships, investments, or how we can help with your digital needs.
             </p>
@@ -76,51 +76,51 @@ ${formData.message}
       </section>
 
       {/* Contact Information & Form */}
-      <section className="py-20 bg-gray-100">
+      <section className="py-16 bg-gray-100 sm:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-12">
             {/* Contact Information */}
             <div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-8">Get in Touch</h2>
+              <h2 className="mb-6 text-2xl font-bold text-gray-900 sm:text-3xl">Get in Touch</h2>
               
-              <div className="space-y-6">
-                <div className="flex items-start space-x-4">
+              <div className="space-y-5">
+                <div className="flex items-start gap-4">
                   <div className="w-12 h-12 bg-indigo-600 rounded-lg flex items-center justify-center flex-shrink-0">
                     <Mail className="w-6 h-6 text-white" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-1">Email Us</h3>
+                    <h3 className="mb-1 text-base font-semibold text-gray-900 sm:text-lg">Email Us</h3>
                     <p className="text-gray-600">tuancreations.africa@gmail.com</p>
                   </div>
                 </div>
 
-                <div className="flex items-start space-x-4">
+                <div className="flex items-start gap-4">
                   <div className="w-12 h-12 bg-indigo-600 rounded-lg flex items-center justify-center flex-shrink-0">
                     <Phone className="w-6 h-6 text-white" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-1">Call Us</h3>
+                    <h3 className="mb-1 text-base font-semibold text-gray-900 sm:text-lg">Call Us</h3>
                     <p className="text-gray-600">+256 753 414 058</p>
                   </div>
                 </div>
 
-                <div className="flex items-start space-x-4">
+                <div className="flex items-start gap-4">
                   <div className="w-12 h-12 bg-indigo-600 rounded-lg flex items-center justify-center flex-shrink-0">
                     <MapPin className="w-6 h-6 text-white" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-1">Headquarters</h3>
+                    <h3 className="mb-1 text-base font-semibold text-gray-900 sm:text-lg">Headquarters</h3>
                     <p className="text-gray-600">Kampala, Uganda</p>
                     <p className="text-gray-600">Pan-African Operations</p>
                   </div>
                 </div>
 
-                <div className="flex items-start space-x-4">
+                <div className="flex items-start gap-4">
                   <div className="w-12 h-12 bg-indigo-600 rounded-lg flex items-center justify-center flex-shrink-0">
                     <Globe className="w-6 h-6 text-white" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-1">Regional Offices</h3>
+                    <h3 className="mb-1 text-base font-semibold text-gray-900 sm:text-lg">Regional Offices</h3>
                     <p className="text-gray-600">Lagos, Nigeria</p>
                     <p className="text-gray-600">Nairobi, Kenya</p>
                     <p className="text-gray-600">Cape Town, South Africa</p>
@@ -130,19 +130,19 @@ ${formData.message}
               </div>
 
               {/* Office Hours */}
-              <div className="mt-12 p-6 bg-white rounded-xl shadow-lg">
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">Office Hours</h3>
+              <div className="mt-10 rounded-xl bg-white p-6 shadow-lg">
+                <h3 className="mb-4 text-lg font-semibold text-gray-900 sm:text-xl">Office Hours</h3>
                 <div className="space-y-2 text-gray-600">
-                  <div className="flex justify-between">
+                  <div className="flex flex-col gap-1 sm:flex-row sm:justify-between">
                     <span>Monday - Friday</span>
                     <span>9:00 AM - 6:00 PM </span>
                   </div>
-                  <div className="flex justify-between">
+                  <div className="flex flex-col gap-1 sm:flex-row sm:justify-between">
                     <span>Saturday</span>
                     <span>10:00 AM - 2:00 PM </span>
-                    <span>EAT/WAT/CVT/SAST/SCT/MUT/CAT</span>
+                    <span className="text-sm sm:text-base">EAT/WAT/CVT/SAST/SCT/MUT/CAT</span>
                   </div>
-                  <div className="flex justify-between">
+                  <div className="flex flex-col gap-1 sm:flex-row sm:justify-between">
                     <span>Sunday</span>
                     <span>Closed</span>
                   </div>
@@ -151,8 +151,8 @@ ${formData.message}
             </div>
 
             {/* Contact Form */}
-            <div className="bg-white rounded-2xl shadow-lg p-8">
-              <h2 className="text-3xl font-bold text-gray-900 mb-8">Send us a Message</h2>
+            <div className="rounded-2xl bg-white p-6 shadow-lg sm:p-8">
+              <h2 className="mb-6 text-2xl font-bold text-gray-900 sm:text-3xl">Send us a Message</h2>
               
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

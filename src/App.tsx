@@ -7,12 +7,14 @@ import DivisionsPage from "./public/divisions/DivisionsPage";
 import BlogPage from "./public/blog/BlogPage";
 import ContactPage from "./public/contact/ContactPage";
 import AuthPage from "./modules/auth/AuthPage";
+import AdminLoginPage from "./modules/auth/AdminLoginPage";
 import DashboardPage from "./modules/dashboard/DashboardPage";
 import AcademyPage from "./modules/academy/AcademyPage";
 import MarketplacePage from "./modules/marketplace/MarketplacePage";
 import MediaPage from "./modules/media/MediaPage";
 import CollaborationPage from "./modules/collaboration/CollaborationPage";
 import IotPage from "./modules/iot/IotPage";
+import AdminPage from "./modules/admin/AdminPage";
 import LiveSessionPage from "./pages/LiveSessionPage";
 
 export default function App() {
@@ -25,6 +27,7 @@ export default function App() {
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/auth" element={<AuthPage />} />
+        <Route path="/admin/login" element={<AdminLoginPage />} />
       </Route>
 
       <Route element={<DashboardLayout />}>
@@ -35,6 +38,7 @@ export default function App() {
         <Route path="/media" element={<MediaPage />} />
         <Route path="/collaboration" element={<CollaborationPage />} />
         <Route path="/iot" element={<IotPage />} />
+        <Route path="/admin" element={<AdminPage />} />
       </Route>
 
       <Route path="*" element={<Navigate to="/" replace />} />

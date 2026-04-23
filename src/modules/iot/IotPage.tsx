@@ -1,35 +1,13 @@
+import { useEffect, useState } from "react";
 import { Bot, Cpu, SatelliteDish, Sparkles } from "lucide-react";
+import { enrollInnovationProgram, getInnovationPrograms, type InnovationProgram } from "../../services/api";
 
-const programs = [
-  {
-    title: "Smart Farming Kit Program",
-    mode: "Hands-on",
-    seats: 120,
-    summary: "Build low-cost soil, weather, and irrigation kits for schools and local farmers.",
-    icon: Bot,
-  },
-  {
-    title: "City Sensors Innovation Track",
-    mode: "Hybrid",
-    seats: 80,
-    summary: "Prototype traffic, air-quality, and safety sensors that support local planning.",
-    icon: SatelliteDish,
-  },
-  {
-    title: "Youth Robotics Sprint",
-    mode: "On-site",
-    seats: 60,
-    summary: "Launch guided robotics builds with mentors, challenges, and demo day showcases.",
-    icon: Cpu,
-  },
-  {
-    title: "Semiconductor Design Pathway",
-    mode: "Cohort",
-    seats: 40,
-    summary: "Train teams in chip architecture, FPGA prototyping, and fabrication partner readiness.",
-    icon: Cpu,
-  },
-];
+const iconByProgram = {
+  1: Bot,
+  2: SatelliteDish,
+  3: Cpu,
+  4: Cpu,
+};
 
 const outcomes = [
   "Hands-on kits and guided build sessions",
@@ -40,14 +18,39 @@ const outcomes = [
 ];
 
 export default function IotPage() {
+  const [programs, setPrograms] = useState<InnovationProgram[]>([]);
+  const [message, setMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    let isMounted = true;
+    getInnovationPrograms().then((items) => {
+      if (!isMounted) return;
+      setPrograms(items);
+    });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const handleEnroll = async (programId: number, title: string) => {
+    try {
+      const response = await enrollInnovationProgram(programId);
+      setPrograms((prev) => prev.map((program) => (program.id === programId ? response.program : program)));
+      setMessage(`You enrolled in ${title}.`);
+    } catch {
+      setMessage(`Could not enroll in ${title} right now.`);
+    }
+  };
+
   return (
     <div className="space-y-6">
-      <section className="overflow-hidden rounded-3xl border border-[var(--line)] bg-gradient-to-br from-[color:rgba(220,173,75,0.14)] via-[color:rgba(38,139,210,0.08)] to-[color:rgba(8,17,29,0.9)] p-6 sm:p-8">
+      <section className="overflow-hidden rounded-3xl border border-[var(--line)] bg-gradient-to-br from-[color:rgba(220,173,75,0.14)] via-[color:rgba(38,139,210,0.08)] to-[color:rgba(8,17,29,0.9)] p-5 sm:p-8">
         <div className="flex flex-wrap items-center gap-3 text-[var(--gold)]">
           <Sparkles className="h-5 w-5" />
           <p className="eyebrow m-0">Build. Test. Launch.</p>
         </div>
-        <h2 className="mt-3 font-display text-4xl">TUAN Innovations</h2>
+        <h2 className="mt-3 font-display text-3xl sm:text-4xl">TUAN Innovations</h2>
         <p className="mt-3 max-w-3xl text-sm text-[var(--text-soft)] sm:text-base">
           A practical innovation space for robotics, IoT, and real-world prototyping. Students, founders, and institutions can explore guided tracks,
           access kits, and turn ideas into solutions that solve real problems.
@@ -56,6 +59,7 @@ export default function IotPage() {
           <button className="btn-primary text-sm">Join Innovation Program</button>
           <button className="btn-ghost text-sm">Request Starter Kit</button>
         </div>
+        {message && <p className="mt-4 text-sm text-emerald-300">{message}</p>}
       </section>
 
       <section className="grid gap-4 md:grid-cols-2">
@@ -87,7 +91,7 @@ export default function IotPage() {
 
       <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         {programs.map((program) => {
-          const Icon = program.icon;
+          const Icon = iconByProgram[program.id as keyof typeof iconByProgram] ?? Cpu;
           return (
             <article key={program.title} className="card card-hover">
               <div className="flex items-center justify-between gap-3">
@@ -96,11 +100,11 @@ export default function IotPage() {
                 </div>
                 <span className="rounded-full border border-[var(--line)] px-3 py-1 text-xs text-[var(--text-soft)]">{program.mode}</span>
               </div>
-              <h3 className="mt-4 font-display text-xl">{program.title}</h3>
+              <h3 className="mt-4 font-display text-lg sm:text-xl">{program.title}</h3>
               <p className="mt-2 text-sm text-[var(--text-soft)]">{program.summary}</p>
-              <p className="mt-3 text-sm text-[var(--gold)]">Available seats: {program.seats}</p>
+              <p className="mt-3 text-sm text-[var(--gold)]">Available seats: {program.seats - program.enrolled} of {program.seats}</p>
               <div className="mt-4 flex flex-wrap gap-2">
-                <button className="btn-primary text-xs">Enroll</button>
+                <button className="btn-primary text-xs" onClick={() => handleEnroll(program.id, program.title)}>Enroll</button>
                 <button className="btn-ghost text-xs">View Resources</button>
                 <button className="btn-ghost text-xs">Submit Project</button>
               </div>

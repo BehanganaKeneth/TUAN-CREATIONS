@@ -24,18 +24,18 @@ const HomePage = memo(() => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="bg-amber-600 text-white py-20">
+      <section className="bg-amber-600 text-white py-16 sm:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <span className="logo-container mx-auto mb-6 h-20">
+          <span className="logo-container mx-auto mb-5 h-16 w-[min(100%,12rem)] sm:h-20 sm:w-[14rem]">
             <img
               src="/tuan-logo.png"
               alt="TUAN Creations Company LTD Logo"
             />
           </span>
-          <h1 className="text-5xl md:text-6xl font-bold mb-6">
+          <h1 className="mx-auto mb-5 max-w-4xl text-3xl font-bold leading-tight sm:text-4xl md:text-5xl lg:text-6xl">
             Building <span className="text-teal-300">The United African Nation</span>
           </h1>
-          <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
+          <p className="mx-auto mb-7 max-w-3xl text-base text-gray-300 sm:text-lg lg:text-xl">
             TUAN Creations Company Ltd is envisioned as a Pan-African ICT innovation enterprise designed to unify and transform the continent's fragmented digital economy.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -56,41 +56,41 @@ const HomePage = memo(() => {
       </section>
 
       {/* Key Pillars Section */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-16 bg-gray-50 sm:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Our Three Pillars</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <h2 className="mb-4 text-3xl font-bold text-gray-900 sm:text-4xl">Our Three Pillars</h2>
+            <p className="mx-auto max-w-3xl text-base text-gray-600 sm:text-lg lg:text-xl">
               The foundation of our strategy rests on three interconnected pillars that will transform Africa's future.
             </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center p-8 rounded-lg border border-gray-200 hover:shadow-lg transition-shadow">
-              <div className="bg-indigo-600 text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
+              <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-indigo-600 text-white sm:h-16 sm:w-16">
                 <Users className="h-8 w-8" />
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Unity & Governance</h3>
+              <h3 className="mb-4 text-xl font-bold text-gray-900 sm:text-2xl">Unity & Governance</h3>
               <p className="text-gray-600">
                 Building shared systems, values, and collaborations that foster trust, efficiency, and unity across African communities.
               </p>
             </div>
 
             <div className="text-center p-8 rounded-lg border border-gray-200 hover:shadow-lg transition-shadow">
-              <div className="bg-indigo-600 text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
+              <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-indigo-600 text-white sm:h-16 sm:w-16">
                 <Globe className="h-8 w-8" />
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Technology & Innovation</h3>
+              <h3 className="mb-4 text-xl font-bold text-gray-900 sm:text-2xl">Technology & Innovation</h3>
               <p className="text-gray-600">
                 Leveraging cutting-edge technology to drive economic growth and digital transformation across the continent.
               </p>
             </div>
 
             <div className="text-center p-8 rounded-lg border border-gray-200 hover:shadow-lg transition-shadow">
-              <div className="bg-indigo-600 text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
+              <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-indigo-600 text-white sm:h-16 sm:w-16">
                 <BookOpen className="h-8 w-8" />
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Education & Development</h3>
+              <h3 className="mb-4 text-xl font-bold text-gray-900 sm:text-2xl">Education & Development</h3>
               <p className="text-gray-600">
                 Building world-class educational systems and human capital development programs for sustainable growth.
               </p>
@@ -100,10 +100,10 @@ const HomePage = memo(() => {
       </section>
 
       {/* Call to Action */}
-      <section className="bg-black text-white py-20">
+      <section className="bg-black text-white py-16 sm:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl font-bold mb-6">Ready to Shape Africa's Future?</h2>
-          <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+          <h2 className="mb-5 text-3xl font-bold sm:text-4xl">Ready to Shape Africa's Future?</h2>
+          <p className="mx-auto mb-7 max-w-2xl text-base text-gray-300 sm:text-lg lg:text-xl">
             Join us in building a united, prosperous, and technologically advanced Africa.
           </p>
           <button 
@@ -116,11 +116,11 @@ const HomePage = memo(() => {
       </section>
 
       {/* Learning Platform Preview */}
-      <section className="bg-black text-white py-20">
+      <section className="bg-black text-white py-16 sm:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">TUAN Digital Academy</h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+            <h2 className="mb-4 text-3xl font-bold sm:text-4xl">TUAN Digital Academy</h2>
+            <p className="mx-auto max-w-3xl text-base text-gray-300 sm:text-lg lg:text-xl">
               Empowering the next generation of African leaders through world-class digital education and training programs.
             </p>
           </div>

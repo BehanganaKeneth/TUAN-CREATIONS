@@ -1,5 +1,5 @@
 import { FormEvent, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { UserRole, useAuth } from "../../store/auth";
 
 const roles: UserRole[] = ["student", "partner", "client", "investor"];
@@ -13,18 +13,34 @@ export default function AuthPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [role, setRole] = useState<UserRole>("student");
+  const [error, setError] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const onSubmit = (e: FormEvent) => {
+  const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    login({ name: name.trim() || "TUAN Member", email: email.trim(), role });
-    navigate(from, { replace: true });
+    setError(null);
+    setIsSubmitting(true);
+
+    try {
+      await login({
+        name: name.trim() || "TUAN Member",
+        email: email.trim(),
+        role,
+      });
+      navigate(from, { replace: true });
+    } catch (nextError) {
+      const fallbackMessage = "Unable to sign in right now. Make sure the backend is running and MongoDB is connected.";
+      setError(nextError instanceof Error && nextError.message ? nextError.message : fallbackMessage);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <div className="mx-auto grid min-h-[80vh] w-full max-w-6xl grid-cols-1 gap-10 px-4 py-16 sm:px-6 lg:grid-cols-2 lg:px-8">
       <div>
         <p className="eyebrow">Welcome</p>
-        <h1 className="mt-4 font-display text-5xl leading-tight">Identity unlocks the full TUAN Digital Platform.</h1>
+        <h1 className="mt-4 max-w-xl font-display text-3xl leading-tight sm:text-4xl lg:text-5xl">Identity unlocks the full TUAN Digital Platform.</h1>
         <p className="mt-5 max-w-xl text-[var(--text-soft)]">
           Sign in to access your role-based platform space, verification status, and services across academy,
           marketplace, media, collaboration, and innovation programs.
@@ -58,8 +74,14 @@ export default function AuthPage() {
           Student, Partner, Client, and Investor accounts give you the right tools and features for your journey on TUAN Digital.
         </div>
 
-        <button className="btn-primary w-full" type="submit">
-          Access TUAN Digital Platform
+        <p className="text-sm text-[var(--text-soft)]">
+          Administrator? Use the dedicated <Link to="/admin/login" className="text-[var(--gold)] hover:underline">admin login</Link>.
+        </p>
+
+        {error && <div className="rounded-xl border border-red-400/40 bg-red-500/10 p-4 text-sm text-red-200">{error}</div>}
+
+        <button className="btn-primary w-full disabled:opacity-60" type="submit" disabled={isSubmitting}>
+          {isSubmitting ? "Signing in..." : "Access TUAN Digital Platform"}
         </button>
       </form>
     </div>

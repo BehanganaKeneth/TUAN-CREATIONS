@@ -73,20 +73,21 @@ const Header: React.FC = memo(() => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* 🔹 Logo Section */}
         <div className="flex justify-between items-center py-3">
-          <Link to="/" className="flex items-center mr-8">
-            <span className="logo-container logo-container-sm mr-3">
+        <div className="flex flex-col gap-3 py-3 md:flex-row md:items-center md:justify-between">
+          <Link to="/" className="flex items-center gap-2 md:mr-8">
+            <span className="logo-container logo-container-sm shrink-0">
               <img
                 src="/tuan-logo.png"
                 alt="TUAN Creations Company Ltd Logo"
               />
             </span>
-            <span className="text-2xl font-bold text-gray-900 tracking-tight">
+            <span className="text-base font-bold text-gray-900 tracking-tight sm:text-lg lg:text-2xl">
               TUAN Creations Company Ltd
             </span>
           </Link>
 
           {/* 🔹 Desktop Navigation */}
-          <nav className="hidden md:flex space-x-4">
+          <nav className="flex flex-wrap justify-center gap-2 md:justify-end">
             <NavLinks />
           </nav>
 
@@ -95,6 +96,7 @@ const Header: React.FC = memo(() => {
             onClick={toggleMenu}
             aria-label="Toggle navigation menu"
             className="md:hidden p-2 rounded-md hover:bg-yellow-400 hover:text-black transition-colors"
+            className="self-end rounded-md p-2 transition-colors hover:bg-yellow-400 hover:text-black md:hidden"
           >
             {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>

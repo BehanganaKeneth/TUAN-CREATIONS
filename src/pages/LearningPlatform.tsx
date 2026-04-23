@@ -2,13 +2,26 @@ import React, { useState, useCallback, memo, useMemo } from 'react';
 import { Play, Users, Clock, Star, BookOpen, Award, Globe, Zap } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
+type LearningCourse = {
+  id: number;
+  title: string;
+  instructor: string;
+  duration: string;
+  students: number;
+  rating: number;
+  level: string;
+  category: string;
+  image: string;
+  nextSession: string;
+};
+
 // Memoized course card component
-const CourseCard = memo(({ course, onEnroll }: { course: any; onEnroll: () => void }) => (
-  <div className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+const CourseCard = memo(({ course, onEnroll }: { course: LearningCourse; onEnroll: () => void }) => (
+  <div className="overflow-hidden rounded-lg bg-white shadow-lg transition-shadow hover:shadow-xl">
     <img
       src={course.image}
       alt={course.title}
-      className="w-full h-48 object-cover"
+      className="h-36 w-full object-cover sm:h-44 lg:h-48"
       loading="lazy"
     />
     <div className="p-6">
@@ -21,7 +34,7 @@ const CourseCard = memo(({ course, onEnroll }: { course: any; onEnroll: () => vo
           <span className="ml-1 text-sm text-gray-600">{course.rating}</span>
         </div>
       </div>
-      <h3 className="text-xl font-bold text-gray-900 mb-2">{course.title}</h3>
+      <h3 className="mb-2 text-lg font-bold text-gray-900 sm:text-xl">{course.title}</h3>
       <p className="text-gray-600 mb-4">by {course.instructor}</p>
       <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
         <div className="flex items-center">
@@ -39,7 +52,7 @@ const CourseCard = memo(({ course, onEnroll }: { course: any; onEnroll: () => vo
       </div>
       <button 
         onClick={onEnroll}
-        className="w-full bg-teal-500 text-white py-2 px-4 rounded-lg font-semibold hover:bg-teal-600 transition-colors"
+        className="w-full rounded-lg bg-teal-500 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-teal-600 sm:text-base"
       >
         Enroll Now
       </button>
@@ -170,10 +183,10 @@ const LearningPlatform = memo(() => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <section className="bg-indigo-700 text-white py-20 text-center">
+      <section className="bg-indigo-700 py-16 text-center text-white sm:py-20">
         <div className="max-w-7xl mx-auto px-4">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6">TUAN Digital Academy</h1>
-          <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
+          <h1 className="mb-5 text-3xl font-bold sm:text-4xl md:text-5xl lg:text-6xl">TUAN Digital Academy</h1>
+          <p className="mx-auto mb-7 max-w-3xl text-base text-gray-300 sm:text-lg lg:text-xl">
             Empowering Africa's future leaders through world-class digital education, innovative learning experiences, and practical skills development.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -189,7 +202,7 @@ const LearningPlatform = memo(() => {
       </section>
 
       {/* Category Filters */}
-      <section className="py-12 bg-gray-50">
+      <section className="bg-gray-50 py-10 sm:py-12">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex flex-wrap gap-4 justify-center mb-8">
             {categories.map((category) => (
@@ -213,8 +226,8 @@ const LearningPlatform = memo(() => {
       <section className="py-16 bg-gray-100">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Featured Courses</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <h2 className="mb-4 text-3xl font-bold text-gray-900 sm:text-4xl">Featured Courses</h2>
+            <p className="mx-auto max-w-3xl text-base text-gray-600 sm:text-lg lg:text-xl">
               Discover our most popular courses designed specifically for African professionals and entrepreneurs.
             </p>
           </div>
@@ -227,10 +240,10 @@ const LearningPlatform = memo(() => {
       </section>
 
       {/* Why Choose TUAN */}
-      <section className="py-20 bg-gray-50">
+      <section className="bg-gray-50 py-16 sm:py-20">
         <div className="max-w-7xl mx-auto px-4 text-center">
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">Why Choose TUAN Digital Academy?</h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-16">
+          <h2 className="mb-4 text-3xl font-bold text-gray-900 sm:text-4xl">Why Choose TUAN Digital Academy?</h2>
+          <p className="mx-auto mb-12 max-w-3xl text-base text-gray-600 sm:mb-16 sm:text-lg lg:text-xl">
             We're committed to providing world-class education that's relevant, practical, and designed for African success.
           </p>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -244,10 +257,10 @@ const LearningPlatform = memo(() => {
               icon: Zap, title: "Practical Skills", desc: "Apply what you learn immediately in real-world scenarios."
             }].map(({ icon: Icon, title, desc }) => (
               <div key={title} className="text-center">
-                <div className="bg-indigo-600 text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-indigo-600 text-white sm:h-16 sm:w-16">
                   <Icon className="h-8 w-8" />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">{title}</h3>
+                <h3 className="mb-2 text-lg font-bold text-gray-900 sm:text-xl">{title}</h3>
                 <p className="text-gray-600">{desc}</p>
               </div>
             ))}
@@ -256,10 +269,10 @@ const LearningPlatform = memo(() => {
       </section>
 
       {/* Call to Action */}
-      <section className="bg-indigo-700 text-white py-20 text-center">
+      <section className="bg-indigo-700 py-16 text-center text-white sm:py-20">
         <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-4xl font-bold mb-6">Ready to Transform Your Future?</h2>
-          <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+          <h2 className="mb-5 text-3xl font-bold sm:text-4xl">Ready to Transform Your Future?</h2>
+          <p className="mx-auto mb-7 max-w-2xl text-base text-gray-300 sm:text-lg lg:text-xl">
             Join thousands of African professionals who are already building the skills for tomorrow's economy.
           </p>
           <button className="bg-teal-500 px-8 py-3 rounded-lg font-semibold hover:bg-teal-600 transition-colors">

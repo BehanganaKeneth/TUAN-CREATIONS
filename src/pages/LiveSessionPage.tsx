@@ -3,7 +3,8 @@ import { useSearchParams } from "react-router-dom";
 import Select from "react-select";
 import countryList from "react-select-country-list";
 import { Globe, X } from "lucide-react";
-import { courses } from "../services/mockApi";
+import { getCourses, getLiveSession, joinLiveSession, recordAction, type Course } from "../services/api";
+import { useAuth } from "../store/auth";
 
 type Role = "instructor" | "co-instructor" | "student" | "admin";
 
@@ -41,50 +42,28 @@ const nowFormatted = () =>
   new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 
 export default function LiveSessionPage() {
+  const { user } = useAuth();
   const [searchParams] = useSearchParams();
   const selectedCourseId = Number(searchParams.get("courseId"));
-  const selectedCourse = useMemo(
-    () => courses.find((course) => course.id === selectedCourseId),
-    [selectedCourseId]
-  );
+  const [courseCatalog, setCourseCatalog] = useState<Course[]>([]);
 
   // ----- demo/local state -----
-  const [currentUser, setCurrentUser] = useState<User>({
-    id: "u-you",
-    name: "You",
-    role: "student",
-    isOnline: true,
-  });
+  const currentUser = useMemo<User>(
+    () => ({
+      id: user?.id ?? "u-you",
+      name: user?.name ?? "Guest User",
+      role: user?.role === "admin" ? "admin" : "student",
+      isOnline: true,
+    }),
+    [user?.id, user?.name, user?.role]
+  );
 
-  const [session, setSession] = useState<SessionMeta>({
-    id: "s-1",
-    title: selectedCourse?.title ?? "Advanced AI & Machine Learning",
-    instructor: selectedCourse?.instructor ?? "Eng. Godwin Ofwono",
-    topic: "Neural Networks and Deep Learning",
-    startTime: new Date(Date.now() + 1000 * 60 * 2).toISOString(), // 2 min later
-    durationMinutes: 120,
-    status: "scheduled",
-    recordingUrl: null,
-    resources: [
-      { title: "Lecture Slides", url: "/resources/slides.pdf" },
-      { title: "Reference Paper", url: "/resources/paper.pdf" },
-    ],
-    previousSessions: [
-      { title: "Intro to AI", recordingUrl: "/recordings/session1.mp4" },
-      { title: "Machine Learning Basics", recordingUrl: "/recordings/session2.mp4" },
-    ],
-  });
+  const [session, setSession] = useState<SessionMeta | null>(null);
+  const [isLoadingSession, setIsLoadingSession] = useState(true);
 
-  const [participants, setParticipants] = useState<User[]>([
-    { id: "u-1", name: "Eng. Godwin", role: "instructor", isOnline: true, isSpeaking: true },
-    { id: "u-2", name: "Eng. Cissyln", role: "co-instructor", isOnline: true },
-    { id: "u-3", name: "Sarah Nakato", role: "student", isOnline: true },
-    { id: "u-you", name: "You", role: "student", isOnline: true },
-  ]);
+  const [participants, setParticipants] = useState<User[]>([]);
 
-  const [chatMessages, setChatMessages] = useState<ChatMessage[]>([
-    { id: 1, senderName: "Eng. Godwin", text: "Welcome everyone!", time: nowFormatted(), isInstructor: true },
-  ]);
+  const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
 
   const [newMessage, setNewMessage] = useState("");
   const chatEndRef = useRef<HTMLDivElement | null>(null);
@@ -100,7 +79,6 @@ export default function LiveSessionPage() {
   const [email, setEmail] = useState("");
   const [countryCode, setCountryCode] = useState<{ label: string; value: string } | null>(null);
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [subscribed, setSubscribed] = useState(false);
   const [showSubscribeOverlay, setShowSubscribeOverlay] = useState(true);
 
   const countries = useMemo(() => countryList().getData(), []);
@@ -115,21 +93,92 @@ export default function LiveSessionPage() {
       showToast("error", "Please fill all fields");
       return;
     }
-    console.log({ email, phone: `${countryCode.value}${phoneNumber}` });
-    setSubscribed(true);
+    recordAction("live.subscribe", {
+      courseId: selectedCourseId,
+      email,
+      phone: `${countryCode.value}${phoneNumber}`,
+    }).catch(() => null);
     showToast("success", "Subscribed for live notifications!");
     setShowSubscribeOverlay(false);
-  }, [email, phoneNumber, countryCode, showToast]);
+  }, [email, phoneNumber, countryCode, showToast, selectedCourseId]);
 
   // ----- Chat -----
   useEffect(() => {
-    if (!selectedCourse) return;
-    setSession((prev) => ({
-      ...prev,
-      title: selectedCourse.title,
-      instructor: selectedCourse.instructor,
-    }));
-  }, [selectedCourse]);
+    let isMounted = true;
+
+    const loadData = async () => {
+      setIsLoadingSession(true);
+      try {
+        const normalizedCourseId = Number.isNaN(selectedCourseId) ? 1 : selectedCourseId;
+
+        if (user) {
+          await joinLiveSession(normalizedCourseId);
+        }
+
+        const [catalog, liveSession] = await Promise.all([
+          getCourses(),
+          getLiveSession(normalizedCourseId),
+        ]);
+
+        if (!isMounted) return;
+
+        setCourseCatalog(catalog);
+        setSession(liveSession);
+        setParticipants(
+          (liveSession.participants ?? []).map((participant) => ({
+            id: participant.id,
+            name: participant.name,
+            role: participant.role as Role,
+            isOnline: participant.isOnline,
+            isSpeaking: participant.isSpeaking,
+          }))
+        );
+        setChatMessages(
+          (liveSession.chatMessages ?? []).map((message) => ({
+            id: message.id,
+            senderId: message.senderId,
+            senderName: message.senderName,
+            text: message.text,
+            time: message.time,
+            isInstructor: message.isInstructor,
+          }))
+        );
+      } catch {
+        if (!isMounted) return;
+        showToast("error", user ? "Unable to join this live room. Enroll first from Academy." : "Sign in and enroll before joining live sessions.");
+      }
+
+      if (!isMounted) return;
+      setIsLoadingSession(false);
+    };
+
+    loadData();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [selectedCourseId, showToast, user]);
+
+  const selectedCourse = useMemo(() => {
+    if (Number.isNaN(selectedCourseId)) {
+      return courseCatalog[0];
+    }
+
+    return courseCatalog.find((course) => course.id === selectedCourseId) ?? courseCatalog[0];
+  }, [courseCatalog, selectedCourseId]);
+
+  useEffect(() => {
+    if (!selectedCourse || session) return;
+    setSession((prev) =>
+      prev
+        ? {
+            ...prev,
+            title: selectedCourse.title,
+            instructor: selectedCourse.instructor,
+          }
+        : prev
+    );
+  }, [selectedCourse, session]);
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -161,13 +210,20 @@ export default function LiveSessionPage() {
 
   // ----- Countdown -----
   const [countdown, setCountdown] = useState<number>(
-    session.startTime ? Math.max(Math.floor((new Date(session.startTime).getTime() - Date.now()) / 1000), 0) : 0
+    session?.startTime ? Math.max(Math.floor((new Date(session.startTime).getTime() - Date.now()) / 1000), 0) : 0
   );
+
+  useEffect(() => {
+    if (!session?.startTime) return;
+
+    const initialCountdown = Math.max(Math.floor((new Date(session.startTime).getTime() - Date.now()) / 1000), 0);
+    setCountdown(initialCountdown);
+  }, [session?.startTime]);
 
   useEffect(() => {
     if (countdown <= 0) {
       setShowSubscribeOverlay(false);
-      setSession((s) => ({ ...s, status: "live" }));
+      setSession((s) => (s ? { ...s, status: "live" } : s));
       return;
     }
     const timer = setInterval(() => setCountdown((c) => c - 1), 1000);
@@ -181,6 +237,10 @@ export default function LiveSessionPage() {
   };
 
   const onlineCount = useMemo(() => participants.filter((p) => p.isOnline).length, [participants]);
+
+  if (isLoadingSession || !session) {
+    return <div className="min-h-screen bg-black p-6 text-white">Loading live session...</div>;
+  }
 
   return (
     <div className="min-h-screen bg-black text-white flex flex-col">

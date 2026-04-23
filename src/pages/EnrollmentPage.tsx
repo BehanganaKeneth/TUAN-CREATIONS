@@ -1,4 +1,4 @@
-import React, { useState, useCallback, memo } from 'react';
+import React, { useState, useCallback, memo, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Users, Building, GraduationCap, Briefcase, CheckCircle } from 'lucide-react';
 
@@ -18,7 +18,7 @@ const EnrollmentPage = memo(() => {
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const enrollmentTypes = [
+  const enrollmentTypes = useMemo(() => [
     {
       id: 'investor',
       title: 'Become an Investor',
@@ -47,7 +47,7 @@ const EnrollmentPage = memo(() => {
       description: 'Engage TUAN for your digital transformation and innovation needs',
       color: 'from-orange-500 to-orange-600'
     }
-  ];
+  ], []);
 
   const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData(prev => ({
@@ -298,8 +298,8 @@ ${formData.message}
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="max-w-md w-full bg-white p-8 rounded-2xl shadow-lg text-center">
-          <CheckCircle className="w-16 h-16 text-teal-500 mx-auto mb-4" />
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Application Submitted!</h2>
+          <CheckCircle className="mx-auto mb-4 h-12 w-12 text-teal-500 sm:h-16 sm:w-16" />
+          <h2 className="mb-4 text-xl font-bold text-gray-900 sm:text-2xl">Application Submitted!</h2>
           <p className="text-gray-600 mb-6">
             Thank you for your interest in TUAN Creations. We'll review your application and get back to you within 48 hours.
           </p>
@@ -317,11 +317,11 @@ ${formData.message}
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <section className="bg-indigo-700 py-20">
+      <section className="bg-indigo-700 py-16 sm:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h1 className="text-5xl font-bold text-white mb-6">Join TUAN Creations</h1>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+            <h1 className="mb-5 text-3xl font-bold text-white sm:text-4xl lg:text-5xl">Join TUAN Creations</h1>
+            <p className="mx-auto max-w-3xl text-base text-gray-300 sm:text-lg lg:text-xl">
               Whether you're an investor, partner, student, or client, there's a place for you 
               in building Africa's digital future.
             </p>
@@ -330,9 +330,9 @@ ${formData.message}
       </section>
 
       {/* Enrollment Types */}
-      <section className="py-12 bg-gray-100">
+      <section className="py-10 bg-gray-100 sm:py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+          <div className="mb-12 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 lg:gap-6">
             {enrollmentTypes.map((type) => {
               const Icon = type.icon;
               return (
@@ -345,10 +345,10 @@ ${formData.message}
                       : 'bg-white shadow-md hover:shadow-lg'
                   }`}
                 >
-                  <div className="w-12 h-12 bg-indigo-600 rounded-lg flex items-center justify-center mb-4">
+                  <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-600 sm:h-12 sm:w-12">
                     <Icon className="w-6 h-6 text-white" />
                   </div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">{type.title}</h3>
+                  <h3 className="mb-2 text-base font-semibold text-gray-900 sm:text-lg">{type.title}</h3>
                   <p className="text-sm text-gray-600">{type.description}</p>
                 </button>
               );
@@ -357,9 +357,9 @@ ${formData.message}
 
           {/* Enrollment Form */}
           <div className="max-w-3xl mx-auto bg-gray-100">
-            <div className="bg-white rounded-2xl shadow-lg p-8">
+            <div className="rounded-2xl bg-white p-6 shadow-lg sm:p-8">
               <div className="mb-8">
-                <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                <h2 className="mb-4 text-2xl font-bold text-gray-900 sm:text-3xl">
                   {enrollmentTypes.find(t => t.id === selectedType)?.title}
                 </h2>
                 <p className="text-gray-600">

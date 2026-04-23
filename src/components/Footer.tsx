@@ -10,16 +10,17 @@ const Footer = memo(() => {
       className="text-gray-900"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div className="max-w-7xl mx-auto px-4 py-10 sm:px-6 lg:px-8 lg:py-12">
+        <div className="grid grid-cols-1 gap-8 text-center md:grid-cols-4 md:text-left">
           {/* Company Info */}
-          <div className="col-span-1 md:col-span-2 flex flex-col items-start">
-            <span className="logo-container mb-4 h-20">
+          <div className="col-span-1 flex flex-col items-center md:col-span-2 md:items-start">
+            <span className="logo-container mb-4 h-16 w-[min(100%,12rem)] md:h-20 md:w-[16rem]">
               <img
                 src="/tuan-logo.png"
                 alt="TUAN Creations Company Ltd Logo"
               />
             </span>
-            <p className="text-gray-800 mb-4 max-w-md">
+            <p className="mb-4 max-w-md text-sm text-gray-800 md:text-base">
               Building the United African Nation in Technology — a Pan-African
               ICT innovation enterprise unifying and transforming the
               continent's digital economy.
@@ -32,6 +33,7 @@ const Footer = memo(() => {
           {/* Quick Links */}
           <div>
             <h4 className="text-lg font-semibold mb-4 text-gray-900">
+            <h4 className="mb-4 text-base font-semibold text-gray-900 md:text-lg">
               Quick Links
             </h4>
             <ul className="space-y-2">
@@ -41,30 +43,31 @@ const Footer = memo(() => {
                   className="text-gray-800 hover:text-teal-700 transition-colors"
                 >
                   About Us
+              <h4 className="mb-4 text-base font-semibold text-gray-900 md:text-lg">
                 </Link>
               </li>
-              <li>
-                <Link
+              <div className="space-y-3 text-sm text-gray-800 md:text-base">
+                <div className="flex items-center justify-center space-x-2 md:justify-start">
                   to="/divisions"
                   className="text-gray-800 hover:text-teal-700 transition-colors"
                 >
-                  Our Divisions
+                <div className="flex items-center justify-center space-x-2 md:justify-start">
                 </Link>
               </li>
               <li>
-                <Link
+                <div className="flex items-center justify-center space-x-2 md:justify-start">
                   to="/enrollment"
                   className="text-gray-800 hover:text-teal-700 transition-colors"
                 >
-                  Join Us
+                <div className="flex items-center justify-center space-x-2 md:justify-start">
                 </Link>
               </li>
               <li>
                 <Link
                   to="/learning"
                   className="text-gray-800 hover:text-teal-700 transition-colors"
-                >
-                  Learning Platform
+          <div className="mt-8 border-t border-gray-300 pt-6 text-center">
+            <p className="text-sm font-medium text-gray-800 md:text-base">
                 </Link>
               </li>
             </ul>

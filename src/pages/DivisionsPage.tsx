@@ -64,11 +64,11 @@ const DivisionsPage = memo(() => {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="bg-indigo-700 py-20">
+      <section className="bg-indigo-700 py-16 sm:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h1 className="text-5xl font-bold text-white mb-6">Our Innovation Divisions</h1>
-            <p className="text-xl text-gray-300 max-w-4xl mx-auto">
+            <h1 className="mb-5 text-3xl font-bold text-white sm:text-4xl lg:text-5xl">Our Innovation Divisions</h1>
+            <p className="mx-auto max-w-4xl text-base text-gray-300 sm:text-lg lg:text-xl">
               TUAN is proposed as a multi-division enterprise with each unit operating under a central 
               governance model. Together, these divisions provide complete, interoperable services 
               across Africa's digital stack.
@@ -78,20 +78,20 @@ const DivisionsPage = memo(() => {
       </section>
 
       {/* Divisions Grid */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-16 bg-gray-50 sm:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {divisions.map((division, index) => {
               const Icon = division.icon;
               return (
                 <div key={index} className="bg-white border border-gray-200 rounded-2xl shadow-lg hover:shadow-xl transition-shadow overflow-hidden">
-                  <div className={`bg-gradient-to-r ${division.color} p-6`}>
+                  <div className={`bg-gradient-to-r ${division.color} p-5 sm:p-6`}>
                     <div className="flex items-center space-x-4">
-                      <div className="w-16 h-16 bg-white bg-opacity-30 rounded-xl flex items-center justify-center">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white bg-opacity-30 sm:h-16 sm:w-16">
                         <Icon className="w-8 h-8 text-white" />
                       </div>
                       <div>
-                        <h3 className="text-xl font-bold text-white">{division.name}</h3>
+                        <h3 className="text-lg font-bold text-white sm:text-xl">{division.name}</h3>
                       </div>
                     </div>
                   </div>
@@ -117,35 +117,35 @@ const DivisionsPage = memo(() => {
       </section>
 
       {/* Coordination Model */}
-      <section className="py-20 bg-gray-100">
+      <section className="py-16 bg-gray-100 sm:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-6">How Our Divisions Work Together</h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+            <h2 className="mb-5 text-3xl font-bold text-gray-900 sm:text-4xl">How Our Divisions Work Together</h2>
+            <p className="mx-auto max-w-3xl text-sm text-gray-600 sm:text-base lg:text-lg">
               Our coordinated enterprise delivery model ensures seamless execution across all divisions.
             </p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="bg-white p-8 rounded-xl shadow-lg text-center">
-              <div className="w-16 h-16 bg-teal-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-white font-bold text-xl">🌳</span>
+              <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-teal-500 sm:h-16 sm:w-16">
+                <span className="text-lg font-bold text-white sm:text-xl">🌳</span>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">We Build the Trunk. Partners Form the Branches.</h3>
+              <h3 className="mb-3 text-lg font-semibold text-gray-900 sm:text-xl">We Build the Trunk. Partners Form the Branches.</h3>
               <p className="text-gray-600">TUAN departments lead their scope while partners form the branches, extending our reach.</p>
             </div>
             <div className="bg-white p-8 rounded-xl shadow-lg text-center">
-              <div className="w-16 h-16 bg-purple-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-white font-bold text-xl">🧑‍💼</span>
+              <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-purple-500 sm:h-16 sm:w-16">
+                <span className="text-lg font-bold text-white sm:text-xl">🧑‍💼</span>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">We Lead. Partners Deliver Under Us.</h3>
+              <h3 className="mb-3 text-lg font-semibold text-gray-900 sm:text-xl">We Lead. Partners Deliver Under Us.</h3>
               <p className="text-gray-600">TUAN sets direction and maintains client communication while partners operate under our supervision.</p>
             </div>
             <div className="bg-white p-8 rounded-xl shadow-lg text-center">
-              <div className="w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-white font-bold text-xl">⟳</span>
+              <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-orange-500 sm:h-16 sm:w-16">
+                <span className="text-lg font-bold text-white sm:text-xl">⟳</span>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">We Coordinate, Not Compete</h3>
+              <h3 className="mb-3 text-lg font-semibold text-gray-900 sm:text-xl">We Coordinate, Not Compete</h3>
               <p className="text-gray-600">All divisions work together seamlessly, with clients seeing one unified TUAN brand.</p>
             </div>
           </div>

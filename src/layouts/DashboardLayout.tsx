@@ -14,9 +14,13 @@ export default function DashboardLayout() {
   const { user, logout } = useAuth();
   const location = useLocation();
   const isGuest = !user;
+  const isAdmin = user?.role === "admin";
+  const navItems = isAdmin ? [...moduleNav, { to: "/admin", label: "Admin" }] : moduleNav;
   const dashboardNote = isGuest
     ? "You are browsing the TUAN Digital Platform as a guest. Sign in or sign up to save your choices, submit requests, and manage your activity."
-    : "Your TUAN workspace is ready. Use this space to manage learning, services, media, collaboration, and innovation from one account.";
+    : isAdmin
+      ? "You are signed in as an admin. Use this space to monitor users, actions, and platform health across the TUAN Digital Platform."
+      : "Your TUAN workspace is ready. Use this space to manage learning, services, media, collaboration, and innovation from one account.";
 
   return (
     <div className="min-h-screen bg-[var(--surface)] text-[var(--text)]">
@@ -36,8 +40,14 @@ export default function DashboardLayout() {
           </p>
           <p className="mt-2 text-xs text-[var(--text-soft)]">{dashboardNote}</p>
 
+          {isAdmin && (
+            <div className="mt-4 rounded-2xl border border-[color:rgba(126,208,255,0.25)] bg-[color:rgba(126,208,255,0.08)] p-3 text-xs text-[var(--text-soft)]">
+              Admin access is enabled for this session.
+            </div>
+          )}
+
           <nav className="mt-6 flex flex-col gap-2">
-            {moduleNav.map((item) => (
+            {navItems.map((item) => (
               <NavLink
                 key={item.to}
                 to={item.to}
@@ -72,7 +82,7 @@ export default function DashboardLayout() {
 
         <section className="rounded-3xl border border-[var(--line)] bg-[var(--panel)] p-4 sm:p-6 lg:p-8">
           <div className="mb-6 flex items-center justify-between border-b border-[var(--line)] pb-4">
-            <h1 className="font-display text-2xl">{moduleNav.find((i) => i.to === location.pathname)?.label ?? "Dashboard"}</h1>
+            <h1 className="font-display text-2xl">{navItems.find((i) => i.to === location.pathname)?.label ?? "Dashboard"}</h1>
             <div className="flex items-center gap-3">
               <Link className="text-sm text-[var(--gold)] hover:underline" to="/">
                 Public Site

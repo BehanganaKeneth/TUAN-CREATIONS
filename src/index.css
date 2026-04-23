@@ -32,10 +32,16 @@ body {
   margin: 0;
   font-family: "Manrope", sans-serif;
   color: var(--text);
+  overflow-x: hidden;
   background:
     radial-gradient(70rem 36rem at 15% -10%, rgba(255, 127, 102, 0.2), transparent 55%),
     radial-gradient(52rem 32rem at 90% 4%, rgba(70, 216, 195, 0.2), transparent 54%),
     linear-gradient(160deg, #040a13 0%, #081321 42%, #060d19 100%);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
 }
 
 .font-display {
@@ -145,22 +151,22 @@ body {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  width: 400px;
-  height: 250px;
+  width: clamp(140px, 34vw, 400px);
+  height: clamp(88px, 22vw, 250px);
   overflow: hidden;
   border-radius: 50% / 40%;
   background: transparent;
 }
 
 .logo-container-sm {
-  width: 168px;
-  height: 105px;
+  width: clamp(92px, 24vw, 168px);
+  height: clamp(58px, 15vw, 105px);
 }
 
 .logo-container img {
-  width: 130%;
-  height: 130%;
-  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 @keyframes float-glow {
@@ -175,9 +181,19 @@ body {
 
 @media (max-width: 768px) {
   .hero-glow {
-    width: 330px;
-    height: 330px;
-    left: -140px;
-    top: -180px;
+    width: 240px;
+    height: 240px;
+    left: -120px;
+    top: -150px;
+  }
+
+  .card {
+    padding: 1rem;
+  }
+
+  .btn-primary,
+  .btn-ghost {
+    padding: 0.58rem 0.95rem;
+    font-size: 0.92rem;
   }
 }

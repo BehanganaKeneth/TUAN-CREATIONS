@@ -1,253 +1,254 @@
-# TUAN Creations Front-End
+# TUAN Creations Platform
 
-This document describes the current front-end architecture and user flow for the TUAN Digital Platform web application.
+TUAN Creations Platform is the current full-stack implementation of the TUAN Digital Platform. It combines the public company site, authenticated workspace modules, admin oversight, and backend-seeded content into one React + Node.js system.
 
-## 1. Front-End Architecture
+## Current System Architecture
 
-### 1.1 Stack
+### Frontend
 
-- React 18 + TypeScript
-- Vite build tooling
-- React Router for navigation
-- Tailwind + custom CSS variables for styling
-- Local React Context for authentication state
+The frontend is a React 18 + TypeScript application built with Vite and routed through React Router.
 
-### 1.2 App Composition
+- `src/main.tsx` mounts the app and wraps it with the auth provider.
+- `src/App.tsx` defines the route map.
+- `src/layouts/PublicLayout.tsx` wraps the public marketing pages.
+- `src/layouts/DashboardLayout.tsx` wraps the workspace pages and shows role-aware navigation.
+- `src/store/auth.tsx` keeps the current user and backend token in localStorage under `tuan_os_auth_session`.
+- `src/services/api.ts` is the shared API client for auth, dashboard data, academy, marketplace, media, collaboration, innovation, admin, and live sessions.
+- `src/services/mockApi.ts` remains the fallback data source when the backend cannot be reached.
 
-The app bootstraps from `src/main.tsx` and wraps the router with `AuthProvider`.
+### Frontend Route Map
 
-Core composition:
-
-- `src/main.tsx`: renders `BrowserRouter`, `AuthProvider`, and root app
-- `src/App.tsx`: central route map
-- `src/layouts/PublicLayout.tsx`: public site shell
-- `src/layouts/DashboardLayout.tsx`: platform workspace shell
-
-### 1.3 Route Topology
-
-Public routes (inside `PublicLayout`):
+Public routes:
 
 - `/` Home
 - `/about` About
 - `/divisions` Divisions
 - `/blog` Blog
 - `/contact` Contact
-- `/auth` Auth
+- `/auth` Member login
+- `/admin/login` Dedicated admin login
 
-Platform routes (inside `DashboardLayout`):
+Dashboard routes:
 
-- `/dashboard` Dashboard
-- `/academy` Academy
+- `/dashboard` Platform overview
+- `/academy` Learning and course discovery
 - `/live-session` Live session room
-- `/marketplace` Marketplace
-- `/media` Media
-- `/collaboration` Collaboration
-- `/iot` TUAN Innovations
+- `/marketplace` Listings and transactions
+- `/media` TUAN TV and broadcaster pages
+- `/collaboration` Shared project workspace
+- `/iot` TUAN Innovations programs
+- `/admin` Admin operations dashboard
 
-Fallback behavior:
+Unknown routes redirect back to `/`.
 
-- Unknown routes redirect to `/`.
+### Backend
 
-### 1.4 State Architecture
+The backend is an Express + Mongoose service in `backend/src/server.js`.
 
-Global auth state (`src/store/auth.tsx`):
+- `backend/src/config.js` resolves the MongoDB connection, JWT secret, client origin, and admin credentials.
+- `backend/src/models.js` defines the MongoDB collections.
+- `backend/src/data.js` contains the seed data.
+- `backend/src/seed.js` bootstraps the database and creates the configured admin account.
 
-- `user` object (`id`, `name`, `email`, `role`)
-- `login(payload)` creates authenticated session
-- `logout()` clears session
-- Session persistence via localStorage key: `tuan_os_auth_user`
+Current backend collections:
 
-Feature-local state:
+- Users
+- Metrics
+- Courses
+- Listings
+- Live sessions
+- Actions
+- Enrollments
+- Media channels
+- Collaboration projects
+- Innovation programs
 
-- Module pages use local `useState`/`useMemo`/`useEffect` for UI concerns
-- `src/pages/LiveSessionPage.tsx` manages countdown, chat, participants, media controls, and notifications locally
+## User Flow
 
-### 1.5 Data Layer (Current)
+### 1. Public Discovery
 
-Static/mock domain data in `src/services/mockApi.ts`:
+Visitors enter through the public site, read about the company, and move into the platform through the auth page or one of the call-to-action paths.
 
-- `dashboardMetrics`
-- `courses`
-- `listings`
+### 2. Member Authentication
 
-This acts as an in-app data source until API integration is introduced.
+Member users sign in through `/auth`.
 
-### 1.6 Live Session Integration (Updated)
+- The frontend sends the request to `POST /api/auth/login`.
+- The backend creates or updates the user session and returns a JWT.
+- The frontend stores the session in `tuan_os_auth_session`.
+- A refresh restores the session through `GET /api/auth/me`.
 
-Academy cards now carry course context into the live room:
+### 3. Admin Authentication
 
-- In `src/modules/academy/AcademyPage.tsx`, Join Live links to `/live-session?courseId=<id>`
-- In `src/pages/LiveSessionPage.tsx`, `courseId` is read from query params and mapped to `courses`
-- Session header (title + instructor) updates to the selected course
+Admin users sign in through `/admin/login`.
 
-## 2. User Flow
+- The admin login uses the configured `ADMIN_EMAIL` and `ADMIN_PASSWORD`.
+- The backend verifies the password hash and returns an admin session token.
+- The dashboard navigation expands to include the Admin page when the session role is `admin`.
 
-### 2.1 Public Discovery Flow
+### 4. Dashboard Entry
 
-1. User lands on Home.
-2. User explores About, Divisions, Blog, or Contact.
-3. User chooses a CTA to enter the platform (`/dashboard`) or authenticate (`/auth`).
+After login, the user lands in the dashboard shell.
 
-### 2.2 Authentication Flow
+- Guests see the workspace but cannot complete protected actions.
+- Signed-in members see role-aware navigation and account-specific actions.
+- Admins see platform monitoring links and admin status messaging.
 
-1. User opens `/auth`.
-2. User submits name, email, and role.
-3. Auth context stores user and redirects to platform dashboard.
+### 5. Academy Flow
 
-### 2.3 Dashboard Access Flow
+The academy is the main learning path and now works for both member users and admin oversight.
 
-1. If user is not authenticated, dashboard renders guest messaging and auth prompts.
-2. If user is authenticated, dashboard renders role-aware workspace messaging and sign-out.
-3. User navigates modules from sidebar nav.
+- `GET /api/courses` returns the course catalog.
+- `POST /api/academy/enroll/:courseId` enrolls the signed-in user.
+- `POST /api/academy/live/:courseId/join` records live room access.
+- `GET /api/academy/enrollments/me` returns the current user’s enrollments.
+- `GET /api/admin/academy/enrollments` lets admins monitor enrollments and live join counts.
+- `src/modules/academy/AcademyPage.tsx` enforces enroll-before-join behavior.
+- `src/pages/LiveSessionPage.tsx` resolves `courseId` and loads the live session room.
 
-### 2.4 Academy to Live Session Flow (Detailed)
+### 6. Marketplace Flow
 
-1. User opens Academy module (`/academy`).
-2. User clicks Join Live on a specific course card.
-3. App navigates to `/live-session?courseId=<courseId>`.
-4. Live session page resolves `courseId` and displays matching course title/instructor.
+The marketplace supports service and product discovery.
 
-### 2.5 Live Session Room Flow (Detailed)
+- `GET /api/listings` returns current offers.
+- Action buttons on the page record orders, tracking requests, and reviews through `POST /api/actions`.
+- The page remains backed by seeded listings if the backend is unavailable.
 
-1. Entry state:
-	- session starts as `scheduled`
-	- countdown timer initializes from `startTime`
-	- subscribe overlay is visible before going live
-2. Notification subscription:
-	- user enters email, country code, and phone number
-	- validation enforces all fields before success
-	- toast feedback confirms success or error
-3. Transition to live:
-	- countdown reaches zero
-	- session status updates to `live`
-	- subscribe overlay auto-hides
-4. Live interaction:
-	- participant list reflects online users
-	- chat supports message send and auto-scroll
-	- controls support mute, video toggle, raise hand, and recording toggle
-5. Supplemental content:
-	- resources are available as links
-	- previous session recordings are shown as links
+### 7. Media Flow
 
-### 2.6 Marketplace Flow (Detailed)
+TUAN TV is modeled as broadcaster channels with archived recordings.
 
-1. Entry point:
-	- user opens `/marketplace` from dashboard sidebar or discovery links
-2. Listing discovery:
-	- cards render from `listings` data in `src/services/mockApi.ts`
-	- each card displays type, provider, verification state, and price
-3. Trust and decision support:
-	- verification badge communicates provider confidence level
-	- pricing and provider identity are visible before action
-4. Action stage:
-	- user can click Order, Track, or Review actions on each listing
-	- current implementation presents UI actions (interaction endpoints for API wiring)
-5. Expected role outcomes:
-	- client role: shortlist providers, place service/product orders
-	- partner role: benchmark competing offers and trust signals
-	- investor role: observe marketplace activity patterns from visible catalog dynamics
+- `GET /api/media/channels` returns channel cards.
+- `POST /api/media/channels/:channelId/follow` increments followers and records the action.
+- The media page shows featured broadcasts, archive counts, and broadcaster links.
 
-### 2.7 Media Flow (Detailed)
+### 8. Collaboration Flow
 
-1. Entry point:
-	- user opens `/media` from dashboard nav
-2. Live broadcast focus:
-	- hero video panel highlights the current live program slot
-	- copy indicates that broadcasts are retained for replay
-3. Channel exploration:
-	- channel cards render audience size and status (`Live now`, `New episode`, `Recording archive`)
-4. Engagement action:
-	- user can trigger Follow Channel on each card
-	- current implementation captures interaction intent at UI level
-5. Audience-specific outcomes:
-	- students: discover educational broadcasts and replay entries
-	- clients: learn provider capabilities and case narratives through shows
-	- partners: gain visibility by associating with active media channels
-	- investors: monitor ecosystem communication reach and consistency
+The collaboration workspace supports shared delivery and project coordination.
 
-### 2.8 Collaboration Flow (Detailed)
+- `GET /api/collaboration/projects` returns the active projects.
+- `POST /api/collaboration/projects` creates a new shared project.
+- `POST /api/collaboration/projects/:projectId/action` logs chat and task-trail updates.
+- The page shows owner, team size, task updates, and workspace channel.
 
-1. Entry point:
-	- user opens `/collaboration`
-2. Workspace setup:
-	- top actions support Create Project and Invite Team
-	- messaging frames the space for partners, freelancers, and clients
-3. Project pipeline visibility:
-	- project cards show name, team size, and lifecycle status (`Planning`, `In Progress`, `Delivery`)
-4. Operational actions:
-	- Open Chat action represents communication channel entry
-	- Manage Tasks action represents execution tracking entry
-5. Delivery outcome:
-	- teams maintain a single shared view of scope, communication, and progress
-	- clients and partners can align from kickoff to handover
+### 9. Innovation Flow
 
-### 2.9 TUAN Innovations Flow (Detailed)
+The innovation hub tracks practical build programs and seat usage.
 
-1. Entry point:
-	- user opens `/iot` (labeled TUAN Innovations in dashboard nav)
-2. Program discovery:
-	- hero section presents innovation positioning and CTA options
-	- users can choose Join Innovation Program or Request Starter Kit
-3. Capability orientation:
-	- outcome list explains practical pathways (kits, mentorship, prototypes, chip design)
-	- support section defines target personas and guest-to-member access model
-4. Program enrollment flow:
-	- program cards show mode, summary, and available seats
-	- users can trigger Enroll, View Resources, or Submit Project actions
-5. Custom engagement flow:
-	- institutions can request tailored innovation tracks via Request Program Design
-	- users can escalate directly via Talk to Innovation Team
-6. Cross-module progression:
-	- innovation outputs can feed into Academy learning, Media visibility, and Marketplace commercialization paths
+- `GET /api/iot/programs` returns innovation programs.
+- `POST /api/iot/programs/:programId/enroll` enrolls a signed-in user and updates seat usage.
+- The page shows program mode, seats, and current enrollments.
 
-### 2.10 End-to-End Cross-Module Journey
+### 10. Admin Oversight Flow
 
-1. User discovers TUAN value proposition on public pages.
-2. User enters dashboard as guest or authenticated member.
-3. User selects module by need:
-	- learning need: Academy -> Live Session
-	- buying/selling need: Marketplace
-	- broadcast/content need: Media
-	- delivery/team need: Collaboration
-	- prototyping/R&D need: TUAN Innovations
-4. User progresses from exploration actions to deeper account-required workflows as APIs and backend services are integrated.
+Admins can monitor the platform from `/admin`.
 
-## 3. Diagram (Flow + Containers)
+- `GET /api/admin/overview` returns platform totals, role counts, and recent activity.
+- `GET /api/admin/users` returns the user list.
+- `GET /api/admin/actions` returns the latest logged actions.
+- `GET /api/admin/academy/enrollments` exposes academy enrollment monitoring.
+
+## Backend API Summary
+
+- `GET /api/health` health check
+- `POST /api/auth/login` member or admin login
+- `GET /api/auth/me` current session lookup
+- `POST /api/auth/logout` session logout
+- `GET /api/dashboard/metrics` dashboard metrics
+- `GET /api/courses` course catalog
+- `GET /api/courses/:id` single course lookup
+- `GET /api/listings` marketplace listings
+- `GET /api/media/channels` media channels
+- `POST /api/media/channels/:channelId/follow` follow channel action
+- `GET /api/collaboration/projects` collaboration projects
+- `POST /api/collaboration/projects` create project
+- `POST /api/collaboration/projects/:projectId/action` collaboration action logging
+- `GET /api/iot/programs` innovation programs
+- `POST /api/iot/programs/:programId/enroll` innovation enrollment
+- `GET /api/live-sessions/:courseId` live session lookup
+- `POST /api/academy/enroll/:courseId` academy enrollment
+- `POST /api/academy/live/:courseId/join` live room join tracking
+- `GET /api/academy/enrollments/me` current user enrollments
+- `GET /api/admin/overview` admin summary
+- `GET /api/admin/users` admin user list
+- `GET /api/admin/actions` admin activity feed
+- `GET /api/admin/academy/enrollments` admin academy monitoring
+- `POST /api/actions` generic action logger
+
+## Local Environment Snapshot
+
+The current backend environment in `backend/.env` and `backend/.env.example` is aligned to the same local values so the next setup starts from the same state.
+
+- `PORT=4000`
+- `MONGODB_URI=mongodb://tuancreationsafrica_db_user:787BKen%40mongo@ac-lewhs6k-shard-00-00.xhk6biz.mongodb.net:27017,ac-lewhs6k-shard-00-01.xhk6biz.mongodb.net:27017,ac-lewhs6k-shard-00-02.xhk6biz.mongodb.net:27017/tuan_creations?ssl=true&authSource=admin&replicaSet=atlas-228ysk-shard-0&retryWrites=true&w=majority&appName=tuan-creations-backend`
+- `ATLAS_USER=tuancreationsafrica_db_user`
+- `ATLAS_PASSWORD=787BKen@mongo`
+- `ATLAS_CLUSTER=cluster0.xhk6biz`
+- `ATLAS_DB=tuan_creations`
+- `ATLAS_APP_NAME=tuan-creations-backend`
+- `JWT_SECRET=P)r(erwQ@wX_WwIMtVK!Z8!AZkcT%2R!0r+j=LsH1(kBjw(nxlvCnBuBFEHW-OO5`
+- `CLIENT_ORIGIN=http://localhost:5173`
+- `ADMIN_EMAIL=tuancreations.africa@gmail.com`
+- `ADMIN_PASSWORD=787TUAN@digital`
+
+## Local Run Order
+
+1. Start the backend from `backend` with `npm run dev`.
+2. Start the frontend from the project root with `npm run dev`.
+3. Open the public site, then sign in through `/auth` or `/admin/login`.
+4. Use the dashboard modules to confirm academy, marketplace, media, collaboration, innovation, and admin flows.
+
+## Notes
+
+- Netlify SPA routing is configured through `netlify.toml` and `public/_redirects`.
+- The frontend still falls back to seeded mock data if the backend is unreachable during local development.
+- The admin account is bootstrapped from the backend env values on startup.
+
+## Architecture Diagram
 
 ```mermaid
 flowchart TD
-	A[User] --> B[PublicLayout]
-	B --> C[Home/About/Divisions/Blog/Contact]
+	A[Public Visitor] --> B[PublicLayout]
+	B --> C[Home / About / Divisions / Blog / Contact]
 	B --> D[AuthPage]
-	B --> E[DashboardLayout]
+	B --> E[AdminLoginPage]
 
-	D --> F[AuthContext login]
-	F --> E
+	D --> F[Auth Context Session]
+	E --> G[Admin JWT Session]
+	F --> H[DashboardLayout]
+	G --> H
 
-	E --> G[Dashboard]
-	E --> H[Academy]
-	E --> I[Marketplace]
-	E --> J[Media]
-	E --> K[Collaboration]
-	E --> L[TUAN Innovations]
-	E --> M[LiveSessionPage]
+	H --> I[Dashboard Overview]
+	H --> J[Academy]
+	H --> K[Live Session]
+	H --> L[Marketplace]
+	H --> M[Media]
+	H --> N[Collaboration]
+	H --> O[TUAN Innovations]
+	H --> P[Admin Dashboard]
 
-	H --> N[Join Live link with courseId]
-	N --> M
-	M --> O[Resolve course from mockApi]
-	O --> P[Render session title + instructor]
+	J --> Q[Enroll in Course]
+	J --> R[Join Live Room]
+	K --> S[Resolve courseId and load session]
+	L --> T[Order / Track / Review]
+	M --> U[Follow Channel / Open Broadcaster Page]
+	N --> V[Create Project / Open Chat / Manage Tasks]
+	O --> W[Enroll in Program]
+	P --> X[Overview / Users / Actions / Academy Monitoring]
 
-	I --> Q[Order Track Review actions]
-	J --> R[Live panel + Follow Channel actions]
-	K --> S[Create Project Invite Team Open Chat Manage Tasks]
-	L --> T[Enroll Submit Project Request Program Design]
+	Q --> Y[POST /api/academy/enroll/:courseId]
+	R --> Z[POST /api/academy/live/:courseId/join]
+	T --> AA[POST /api/actions]
+	U --> AB[POST /api/media/channels/:channelId/follow]
+	V --> AC[POST /api/collaboration/projects and /action]
+	W --> AD[POST /api/iot/programs/:programId/enroll]
+	X --> AE[GET /api/admin/*]
 
-	T --> U[Academy Media Marketplace progression]
-	S --> V[Delivery visibility for clients and partners]
-	R --> W[Replay and audience growth]
-	Q --> X[Trusted transaction path]
+	Y --> AF[(MongoDB)]
+	Z --> AF
+	AA --> AF
+	AB --> AF
+	AC --> AF
+	AD --> AF
+	AE --> AF
 ```
-
-## 4. Next Step (Optional)
-
-To evolve this architecture, the next logical step is replacing `mockApi.ts` with real service modules (academy, marketplace, media, auth) and a shared API client layer.

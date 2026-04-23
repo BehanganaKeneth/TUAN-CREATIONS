@@ -19,11 +19,11 @@ const AboutPage = memo(() => {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="bg-indigo-700 py-20">
+      <section className="bg-indigo-700 py-16 sm:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h1 className="text-5xl font-bold text-white mb-6">About TUAN Creations</h1>
-            <p className="text-xl text-gray-300 max-w-4xl mx-auto">
+            <h1 className="mb-5 text-3xl font-bold text-white sm:text-4xl lg:text-5xl">About TUAN Creations</h1>
+            <p className="mx-auto max-w-4xl text-base text-gray-300 sm:text-lg lg:text-xl">
               TUAN Creations Company Ltd (TUAN = The United African Nation) is envisioned as a Pan-African ICT 
               innovation enterprise designed to unify and transform the continent's fragmented digital economy.
             </p>
@@ -32,29 +32,29 @@ const AboutPage = memo(() => {
       </section>
 
       {/* Identity Section */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-16 bg-gray-50 sm:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-6">Our Identity: Who We Intend to Be</h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto mb-12">
+            <h2 className="mb-5 text-3xl font-bold text-gray-900 sm:text-4xl">Our Identity: Who We Intend to Be</h2>
+            <p className="mx-auto mb-12 max-w-3xl text-sm text-gray-600 sm:text-base lg:text-lg">
               Driven by a bold vision, TUAN is positioned to be:
             </p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center p-6 bg-indigo-600 rounded-xl">
-              <Target className="w-16 h-16 text-white mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-white mb-3">Solutions Engine</h3>
+              <Target className="mx-auto mb-4 h-12 w-12 text-white sm:h-16 sm:w-16" />
+              <h3 className="mb-3 text-lg font-semibold text-white sm:text-xl">Solutions Engine</h3>
               <p className="text-indigo-100">Building scalable African technology products</p>
             </div>
             <div className="text-center p-6 bg-white rounded-xl shadow-md">
-              <Lightbulb className="w-16 h-16 text-teal-500 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Infrastructure Builder</h3>
+              <Lightbulb className="mx-auto mb-4 h-12 w-12 text-teal-500 sm:h-16 sm:w-16" />
+              <h3 className="mb-3 text-lg font-semibold text-gray-900 sm:text-xl">Infrastructure Builder</h3>
               <p className="text-gray-600">Creating digital tools, education platforms, and innovation hubs</p>
             </div>
             <div className="text-center p-6 bg-white rounded-xl shadow-md">
-              <Rocket className="w-16 h-16 text-purple-600 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Innovation Powerhouse</h3>
+              <Rocket className="mx-auto mb-4 h-12 w-12 text-purple-600 sm:h-16 sm:w-16" />
+              <h3 className="mb-3 text-lg font-semibold text-gray-900 sm:text-xl">Innovation Powerhouse</h3>
               <p className="text-gray-600">Driving continental innovation with Africa-first growth strategies</p>
             </div>
           </div>
