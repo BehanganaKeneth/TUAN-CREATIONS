@@ -24,7 +24,6 @@ const Header: React.FC = memo(() => {
     document.body.style.overflow = isMenuOpen ? "hidden" : "auto";
   }, [isMenuOpen]);
 
-  // ✅ Navigation Links — added "OnlineTV" page
   const navigation = [
     { name: "Home", href: "/", icon: Globe },
     { name: "About", href: "/about", icon: Users },
@@ -95,7 +94,6 @@ const Header: React.FC = memo(() => {
           <button
             onClick={toggleMenu}
             aria-label="Toggle navigation menu"
-            className="md:hidden p-2 rounded-md hover:bg-yellow-400 hover:text-black transition-colors"
             className="self-end rounded-md p-2 transition-colors hover:bg-yellow-400 hover:text-black md:hidden"
           >
             {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
