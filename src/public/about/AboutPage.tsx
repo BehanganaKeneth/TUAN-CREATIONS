@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export default function AboutPage() {
   const pillars = [
     {
@@ -54,6 +56,11 @@ export default function AboutPage() {
             <li key={item}>{item}</li>
           ))}
         </ul>
+        <div className="mt-6">
+          <Link to="/about/management-team" className="inline-flex items-center rounded-full border border-[var(--line)] px-4 py-2 text-sm font-medium hover:border-[var(--gold)]">
+            Meet our Management Team
+          </Link>
+        </div>
       </div>
     </div>
   );

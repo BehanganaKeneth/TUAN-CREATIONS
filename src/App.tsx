@@ -3,6 +3,7 @@ import PublicLayout from "./layouts/PublicLayout";
 import DashboardLayout from "./layouts/DashboardLayout";
 import HomePage from "./public/home/HomePage";
 import AboutPage from "./public/about/AboutPage";
+import ManagementTeam from "./public/about/ManagementTeam";
 import DivisionsPage from "./public/divisions/DivisionsPage";
 import BlogPage from "./public/blog/BlogPage";
 import ContactPage from "./public/contact/ContactPage";
@@ -50,6 +51,7 @@ export default function App() {
         <Route element={<PublicLayout />}>
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/about/management-team" element={<ManagementTeam />} />
           <Route path="/divisions" element={<DivisionsPage />} />
           <Route path="/blog" element={<BlogPage />} />
           <Route path="/contact" element={<ContactPage />} />
