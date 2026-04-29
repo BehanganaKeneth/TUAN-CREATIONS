@@ -209,8 +209,8 @@ export default function PublicLayout() {
             </p>
           </div>
 
-          <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2">
-            <div className="space-y-3 text-center md:text-left md:justify-self-start md:max-w-md md:justify-items-start">
+          <div className="mt-8 flex flex-col gap-6 sm:flex-row sm:items-stretch sm:gap-0">
+            <div className="space-y-3 text-center sm:w-1/2 sm:border-r sm:border-white/80 sm:pr-6 sm:text-justify sm:justify-self-start sm:max-w-md sm:justify-items-start">
               <div className="flex items-center justify-center gap-2 md:justify-start">
                 <Mail className="h-4 w-4 text-teal-400" />
                 <a href="mailto:tuancreations.africa@gmail.com" className="hover:underline">tuancreations.africa@gmail.com</a>
@@ -232,7 +232,7 @@ export default function PublicLayout() {
               </div>
             </div>
 
-            <div className="text-center md:text-right md:justify-self-end md:max-w-md">
+            <div className="text-center sm:w-1/2 sm:pl-12 sm:text-left sm:justify-self-end sm:max-w-md">
               <p className="font-medium text-[var(--text)]">© 2026 TUAN Creations Company Ltd</p>
               <p className="mt-1 text-xs leading-relaxed">
                 Company registration number (URSB): 80034131408564. P.O.Box 207659 - Kampala.
