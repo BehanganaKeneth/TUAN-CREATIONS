@@ -9,6 +9,7 @@ import {
   type AdminOverview,
   type AuthUser,
 } from "../../services/api";
+import ManagementTeamAdmin from "./ManagementTeamAdmin";
 import { useAuth } from "../../store/auth";
 
 export default function AdminPage() {
@@ -193,6 +194,8 @@ export default function AdminPage() {
               )}
             </div>
           </section>
+
+          <ManagementTeamAdmin />
         </>
       )}
     </div>
