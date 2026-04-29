@@ -1,11 +1,15 @@
-const WHATSAPP_NUMBER = "256753414058";
+import { useSiteConfig } from "../hooks/useSiteConfig";
+
 const WHATSAPP_MESSAGE = "Hello, TUAN Creations. I need your assistance:";
 
 export default function FloatingWhatsAppButton() {
+  const [config] = useSiteConfig();
+  const whatsappNumber = config["social.whatsapp"] || "256753414058";
+
   return (
     <a
       className="whatsapp-float"
-      href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`}
+      href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Chat with us on WhatsApp"

@@ -1106,3 +1106,41 @@ export async function getMentorshipPartners(courseId: number) {
     return [];
   }
 }
+
+// ===== SITE CONFIGURATION =====
+
+export type SiteConfig = Record<string, string>;
+
+export async function getSiteConfig(): Promise<SiteConfig> {
+  try {
+    const response = await apiRequest<SiteConfig>("/admin/config");
+    return response;
+  } catch {
+    // Return defaults if API fails
+    return {
+      "site.name": "TUAN Creations Company Ltd",
+      "site.tagline": "Africa Inspired!",
+      "site.description": "Building the United African Nation in Technology through practical learning, trusted services, and innovation.",
+      "contact.email": "tuancreations.africa@gmail.com",
+      "contact.phone": "+256 753 414 058",
+      "contact.location": "Kampala, Uganda",
+      "contact.region": "Pan-African Operations",
+      "social.whatsapp": "+256753414058",
+      "hero.heading": "Building The United African Nation",
+      "hero.subheading": "TUAN Creations Company Ltd is envisioned as a Pan-African ICT innovation enterprise designed to unify and transform the continent's fragmented digital economy.",
+      "copyright.year": "2026",
+    };
+  }
+}
+
+export async function updateSiteConfig(updates: Record<string, string>) {
+  try {
+    const response = await apiRequest<SiteConfig>("/admin/config", {
+      method: "POST",
+      body: JSON.stringify(updates),
+    });
+    return response;
+  } catch (error) {
+    throw new Error(`Failed to update site configuration: ${(error as Error).message}`);
+  }
+}

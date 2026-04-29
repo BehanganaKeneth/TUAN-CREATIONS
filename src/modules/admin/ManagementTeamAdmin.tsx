@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Mail, Linkedin, Phone, Twitter, User } from "lucide-react";
+import { User } from "lucide-react";
 import {
   DEFAULT_MANAGEMENT_TEAM,
   loadManagementTeam,
@@ -25,6 +25,7 @@ export default function ManagementTeamAdmin() {
       name: "New member",
       position: "",
       nationality: "",
+      occupation: "",
       photo: DEFAULT_MANAGEMENT_TEAM[0]?.photo ?? "",
       description: "",
       experience: [],
@@ -90,7 +91,7 @@ export default function ManagementTeamAdmin() {
           <div className="mt-3 grid gap-2 sm:grid-cols-2">
             <input value={editing.name} onChange={(e) => setEditing({ ...editing, name: e.target.value })} className="input" placeholder="Full name" />
             <input value={editing.position} onChange={(e) => setEditing({ ...editing, position: e.target.value })} className="input" placeholder="Position" />
-            <input value={editing.nationality} onChange={(e) => setEditing({ ...editing, nationality: e.target.value })} className="input" placeholder="Nationality" />
+            <input value={editing.occupation} onChange={(e) => setEditing({ ...editing, occupation: e.target.value })} className="input" placeholder="Occupation" />
             <input value={editing.photo} onChange={(e) => setEditing({ ...editing, photo: e.target.value })} className="input" placeholder="Photo URL (public or data URI)" />
             <input value={editing.email} onChange={(e) => setEditing({ ...editing, email: e.target.value })} className="input" placeholder="Email" />
             <input value={editing.phone} onChange={(e) => setEditing({ ...editing, phone: e.target.value })} className="input" placeholder="Phone" />
