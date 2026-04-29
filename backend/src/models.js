@@ -363,6 +363,15 @@ const mentorshipPairingSchema = new Schema(
   { timestamps: true }
 );
 
+const siteConfigSchema = new Schema(
+  {
+    key: { type: String, required: true, unique: true, index: true },
+    value: { type: Schema.Types.Mixed, required: true },
+    description: { type: String, default: "" },
+  },
+  { timestamps: true }
+);
+
 export const Quiz = mongoose.model("Quiz", quizSchema);
 export const QuizResult = mongoose.model("QuizResult", quizResultSchema);
 export const StudyGroup = mongoose.model("StudyGroup", studyGroupSchema);
@@ -383,3 +392,4 @@ export const Session = mongoose.model("Session", sessionSchema);
 export const Notification = mongoose.model("Notification", notificationSchema);
 export const ForumThread = mongoose.model("ForumThread", forumThreadSchema);
 export const ForumReply = mongoose.model("ForumReply", forumReplySchema);
+export const SiteConfig = mongoose.model("SiteConfig", siteConfigSchema);

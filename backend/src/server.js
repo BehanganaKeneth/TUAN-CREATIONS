@@ -9,8 +9,9 @@ import { createAdapter } from "@socket.io/redis-adapter";
 import { createClient as createRedisClient } from "redis";
 import { config } from "./config.js";
 import { sendEmail } from "./shared/mailer.js";
-import { Action, Channel, Certificate, Course, Enrollment, ForumReply, ForumThread, InnovationProgram, Listing, LiveSession, Metric, MentorshipPairing, Notification, Project, Quiz, QuizResult, Recording, Session, StudyGroup, User } from "./models.js";
+import { Action, Channel, Certificate, Course, Enrollment, ForumReply, ForumThread, InnovationProgram, Listing, LiveSession, Metric, MentorshipPairing, Notification, Project, Quiz, QuizResult, Recording, Session, StudyGroup, User, SiteConfig } from "./models.js";
 import { seedDatabase } from "./seed.js";
+import configRoutes from "./domains/admin/config-routes.js";
 
 const app = express();
 const httpServer = createServer(app);
@@ -1495,6 +1496,9 @@ app.get("/api/admin/academy/analytics", authenticate, async (req, res) => {
     enrollmentTrend,
   });
 });
+
+// ============ SITE CONFIGURATION ============
+app.use("/api/admin/config", configRoutes);
 
 app.use((err, _req, res, _next) => {
   console.error(err);

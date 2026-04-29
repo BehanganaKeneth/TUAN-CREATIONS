@@ -3,6 +3,7 @@ export type ManagementTeamMember = {
   name: string;
   position: string;
   nationality: string;
+  occupation: string;
   photo: string;
   description: string;
   experience: string[];
@@ -15,6 +16,11 @@ export type ManagementTeamMember = {
 export const MANAGEMENT_TEAM_STORAGE_KEY = "tuan_management_team";
 
 const avatarPalette = ["#1f2937", "#0f766e", "#92400e", "#1d4ed8", "#7c3aed", "#be123c", "#0f172a", "#166534", "#b45309"];
+
+function withEngineeringPrefix(name: string, occupation: string) {
+  if (!occupation.toUpperCase().includes("ENGINEER")) return name;
+  return name.startsWith("ENG.") ? name : `ENG. ${name}`;
+}
 
 function createFacelessAvatar(seed: string, accent: string) {
   const svg = `
@@ -41,12 +47,13 @@ function createFacelessAvatar(seed: string, accent: string) {
 export const DEFAULT_MANAGEMENT_TEAM: ManagementTeamMember[] = [
   {
     id: "behangana-keneth",
-    name: "BEHANGANA KENETH",
+    name: "ENG. BEHANGANA KENETH",
     position: "CHAIRMAN B.O.D",
     nationality: "Ugandan",
+    occupation: "SOFTWARE ENGINEER",
     photo: createFacelessAvatar("BK", avatarPalette[0]),
-    description: "Builds product experiences and helps ship reliable platform features.",
-    experience: ["Software systems development", "Platform implementation and support"],
+    description: "Chairman of the Board providing strategic oversight, governance, and stakeholder relations.",
+    experience: ["Board governance", "Strategic oversight", "Stakeholder engagement"],
     email: "grandeekeneth@gmail.com",
     phone: "+256 753 414 058",
     linkedin: "https://www.linkedin.com/",
@@ -55,11 +62,12 @@ export const DEFAULT_MANAGEMENT_TEAM: ManagementTeamMember[] = [
   {
     id: "nakimuli-hanifah",
     name: "NAKIMULI HANIFAH",
-    position: "CHIEF COMMERCIAL STRATEGIST",
+    position: "CHIEF COMMERCIAL STRATEGIST B.O.D",
     nationality: "Ugandan",
+    occupation: "ACCOUNTANT",
     photo: createFacelessAvatar("NH", avatarPalette[1]),
-    description: "Leads finance operations, reporting, and accountability processes.",
-    experience: ["Financial reporting", "Budget control and bookkeeping"],
+    description: "Leads commercial strategy, partnerships, and revenue development for the company, and provides compliance and tax optimization advisory.",
+    experience: ["Commercial strategy", "Partnership development", "Revenue growth", "Compliance & tax optimization advisory"],
     email: "hanifahnakimuli95@gmail.com",
     phone: "+256 706 965 504",
     linkedin: "https://www.linkedin.com/",
@@ -67,12 +75,13 @@ export const DEFAULT_MANAGEMENT_TEAM: ManagementTeamMember[] = [
   },
   {
     id: "butera-marcel",
-    name: "BUTERA MARCEL",
+    name: "ENG. BUTERA MARCEL",
     position: "SOFTWARE DEVELOPMENT LEAD",
     nationality: "Congolese",
+    occupation: "SOFTWARE ENGINEER",
     photo: createFacelessAvatar("BM", avatarPalette[2]),
-    description: "Supports engineering delivery and builds dependable digital services.",
-    experience: ["Application development", "System testing and integrations"],
+    description: "Leads the software engineering team and the development of the company's digital products.",
+    experience: ["Product architecture", "Engineering leadership", "Quality assurance"],
     email: "buteramarcel@gmail.com",
     phone: "+256 783 858 472",
     linkedin: "https://www.linkedin.com/",
@@ -80,12 +89,13 @@ export const DEFAULT_MANAGEMENT_TEAM: ManagementTeamMember[] = [
   },
   {
     id: "ofwono-godwin",
-    name: "OFWONO GODWIN",
+    name: "ENG. OFWONO GODWIN",
     position: "HEAD OF MARKETING AND SALES",
     nationality: "Ugandan",
+    occupation: "SOFTWARE ENGINEER",
     photo: createFacelessAvatar("OG", avatarPalette[3]),
-    description: "Focuses on product engineering and feature delivery for the platform.",
-    experience: ["Frontend and backend development", "Maintenance and debugging"],
+    description: "Directs marketing strategy, brand development, and sales operations to grow the business.",
+    experience: ["Marketing strategy", "Brand management", "Sales enablement"],
     email: "godwinofwono933@gmail.com",
     phone: "+256 757 013 189",
     linkedin: "https://www.linkedin.com/",
@@ -93,26 +103,28 @@ export const DEFAULT_MANAGEMENT_TEAM: ManagementTeamMember[] = [
   },
   {
     id: "nuwahereza-peter",
-    name: "NUWAHEREZA PETER",
+    name: "ENG. NUWAHEREZA PETER",
     position: "ASSISTANT TECH LEAD",
     nationality: "Ugandan",
     // retained as developer but not shown publicly in this default set
     photo: createFacelessAvatar("NP", avatarPalette[4]),
-    description: "Works on robust software delivery and supports growth initiatives.",
-    experience: ["Product support and feature delivery", "Service integration"],
+    description: "Assists technical leadership by supporting engineering operations, deployments, and infrastructure.",
+    experience: ["Engineering operations support", "Deployment coordination", "Technical troubleshooting"],
     email: "nuwaherezapeter34@gmail.com",
     phone: "+256 779 081 600",
     linkedin: "https://www.linkedin.com/",
     twitter: "https://twitter.com/",
+    occupation: "SOFTWARE ENGINEER",
   },
   {
     id: "nakiyingi-irene",
     name: "DR. IRENE NAKIYINGI",
     position: "HEAD OF OPERATIONS & EXECUTIVE DIRECTOR (C.E.O)",
     nationality: "Ugandan",
+    occupation: "MEDICAL DOCTOR & DATA SCIENTIST",
     photo: createFacelessAvatar("NI", avatarPalette[5]),
-    description: "Medical doctor (MBChb/MMed - MUK). Advises on wellbeing, care, and human-centered support for the team.",
-    experience: ["Medical practice", "Health guidance and advisory work"],
+    description: "Chief Executive responsible for overall operations, service delivery, and organizational leadership.",
+    experience: ["Operational leadership", "Service delivery oversight", "Risk & compliance"],
     email: "iryntracy@gmail.com",
     phone: "+256 786 691 998",
     linkedin: "https://www.linkedin.com/",
@@ -121,11 +133,12 @@ export const DEFAULT_MANAGEMENT_TEAM: ManagementTeamMember[] = [
   {
     id: "agaba-francis",
     name: "AGABA FRANCIS",
-    position: "MANAGEMENT ADVISOR",
+    position: "MANAGEMENT ADVISOR B.O.D",
     nationality: "Ugandan",
+    occupation: "BANK MANAGER",
     photo: createFacelessAvatar("AF", avatarPalette[6]),
-    description: "Coordinates delivery, team operations, and execution across projects.",
-    experience: ["Team management", "Operations coordination"],
+    description: "Advises the executive team on management practices and coordinates cross-functional initiatives.",
+    experience: ["Executive advisory", "Program coordination", "Partnership facilitation"],
     email: "francisagaba137@gmail.com",
     phone: "+256 783 387 303",
     linkedin: "https://www.linkedin.com/",
@@ -136,9 +149,10 @@ export const DEFAULT_MANAGEMENT_TEAM: ManagementTeamMember[] = [
     name: "MUGUMYA BENARD",
     position: "VICE CHAIRMAN B.O.D",
     nationality: "Ugandan",
+    occupation: "HUMAN RESOURCE MANAGER",
     photo: createFacelessAvatar("MB", avatarPalette[7]),
-    description: "Supports administration, planning, and the delivery of internal programs.",
-    experience: ["Program management", "Administrative leadership"],
+    description: "Vice Chairman supporting board governance, stakeholder relations, and company administration.",
+    experience: ["Board liaison", "Governance support", "Administrative oversight"],
     email: "benardmugumya@gmail.com",
     phone: "+256 777 997 258",
     linkedin: "https://www.linkedin.com/",
@@ -149,9 +163,10 @@ export const DEFAULT_MANAGEMENT_TEAM: ManagementTeamMember[] = [
     name: "AKANKWASA AMON",
     position: "HEAD OF ACCOUNTS & COMPLIANCE",
     nationality: "Ugandan",
+    occupation: "ACCOUNTANT",
     photo: createFacelessAvatar("AA", avatarPalette[8]),
-    description: "Manages reporting, financial records, and operational accountability.",
-    experience: ["Accounts management", "Reporting and reconciliation"],
+    description: "Leads accounts, compliance, and statutory financial reporting for the company.",
+    experience: ["Financial controls", "Compliance management", "Statutory reporting"],
     email: "amonbobia2017@gmail.com",
     phone: "+256 787 666 907",
     linkedin: "https://www.linkedin.com/",
@@ -165,7 +180,18 @@ export function loadManagementTeam(): ManagementTeamMember[] {
     if (!raw) return DEFAULT_MANAGEMENT_TEAM;
 
     const parsed = JSON.parse(raw) as ManagementTeamMember[];
-    return Array.isArray(parsed) && parsed.length > 0 ? parsed : DEFAULT_MANAGEMENT_TEAM;
+    if (!Array.isArray(parsed) || parsed.length === 0) return DEFAULT_MANAGEMENT_TEAM;
+
+    return parsed.map((member) => {
+      const fallback = DEFAULT_MANAGEMENT_TEAM.find((item) => item.id === member.id);
+      const occupation = member.occupation || fallback?.occupation || "";
+      return {
+        ...fallback,
+        ...member,
+        occupation,
+        name: withEngineeringPrefix(member.name || fallback?.name || "", occupation),
+      };
+    });
   } catch {
     return DEFAULT_MANAGEMENT_TEAM;
   }

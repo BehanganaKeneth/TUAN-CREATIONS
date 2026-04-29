@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 import { config } from "./config.js";
-import { Action, Channel, Certificate, Course, Enrollment, ForumReply, ForumThread, InnovationProgram, Listing, LiveSession, Metric, MentorshipPairing, Notification, Project, Quiz, QuizResult, Recording, Session, StudyGroup, User } from "./models.js";
+import { Action, Channel, Certificate, Course, Enrollment, ForumReply, ForumThread, InnovationProgram, Listing, LiveSession, Metric, MentorshipPairing, Notification, Project, Quiz, QuizResult, Recording, Session, StudyGroup, User, SiteConfig } from "./models.js";
 import { collaborationProjects, courses, dashboardMetrics, innovationPrograms, listings, mediaChannels, recordingSeeds, sessionSeeds, instructorSeeds, forumThreadSeeds, notificationSeeds, sessionSeeds_tier2, quizSeeds, quizResultSeeds, studyGroupSeeds, mentorshipPairingSeeds } from "./data.js";
 
 const seedCollection = async (Model, documents, uniqueField) => {
@@ -148,11 +148,73 @@ export async function seedDatabase() {
         role: "admin",
         passwordHash,
       });
-      return;
+    } else {
+      existingAdmin.role = "admin";
+      existingAdmin.passwordHash = passwordHash;
+      await existingAdmin.save();
     }
+  }
 
-    existingAdmin.role = "admin";
-    existingAdmin.passwordHash = passwordHash;
-    await existingAdmin.save();
+  // Seed site configuration defaults
+  const existingConfig = await SiteConfig.countDocuments();
+  if (existingConfig === 0) {
+    const defaultConfigs = [
+      {
+        key: "site.name",
+        value: "TUAN Creations Company Ltd",
+        description: "Site/company name",
+      },
+      {
+        key: "site.tagline",
+        value: "Africa Inspired!",
+        description: "Company tagline",
+      },
+      {
+        key: "site.description",
+        value: "Building the United African Nation in Technology through practical learning, trusted services, and innovation.",
+        description: "Company description for footer",
+      },
+      {
+        key: "contact.email",
+        value: "tuancreations.africa@gmail.com",
+        description: "Main contact email",
+      },
+      {
+        key: "contact.phone",
+        value: "+256 753 414 058",
+        description: "Main contact phone",
+      },
+      {
+        key: "contact.location",
+        value: "Kampala, Uganda",
+        description: "Company location",
+      },
+      {
+        key: "contact.region",
+        value: "Pan-African Operations",
+        description: "Operating region",
+      },
+      {
+        key: "social.whatsapp",
+        value: "+256753414058",
+        description: "WhatsApp number for contact",
+      },
+      {
+        key: "hero.heading",
+        value: "Building The United African Nation",
+        description: "Homepage hero section heading",
+      },
+      {
+        key: "hero.subheading",
+        value: "TUAN Creations Company Ltd is envisioned as a Pan-African ICT innovation enterprise designed to unify and transform the continent's fragmented digital economy.",
+        description: "Homepage hero section subheading",
+      },
+      {
+        key: "copyright.year",
+        value: "2026",
+        description: "Copyright year",
+      },
+    ];
+    await SiteConfig.insertMany(defaultConfigs);
   }
 }

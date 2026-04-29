@@ -22,9 +22,24 @@ This README is intentionally sanitized and does not contain secrets, credentials
 - Public pages (home, about, divisions, blog, contact)
 - Member authentication and role-based access
 - Admin authentication and admin-only dashboard access
+- Admin-managed site configuration for company details, contact info, homepage text, WhatsApp, and legal fields
 - Dashboard insights with direct links to corresponding modules
 - Academy, marketplace, media, collaboration, and innovation modules
 - API fallback mode for frontend usability when backend is unavailable
+
+## Admin-Managed Content
+
+The admin dashboard now includes a site configuration panel that lets administrators update global content without code changes.
+
+Managed from the admin area:
+
+- Company name, tagline, description, and copyright year
+- Contact email, phone number, location, and operating region
+- WhatsApp contact number
+- Homepage hero text
+- Management team members and their public profiles
+
+The frontend reads these values through the shared site configuration API and falls back to safe defaults if the backend is unavailable.
 
 ## Local Development
 
@@ -53,6 +68,8 @@ Required variable names:
 - MONGODB_URI
 - ADMIN_EMAIL
 - ADMIN_PASSWORD
+
+If you run the frontend on a port other than `5173`, set `CLIENT_ORIGIN` to match that origin so the backend CORS policy allows admin requests.
 
 Optional Atlas-style variables supported by backend config:
 
@@ -127,6 +144,7 @@ flowchart TD
 - Domain route files live in [backend/src/domains](backend/src/domains).
 - Shared auth logic lives in [backend/src/shared/auth.js](backend/src/shared/auth.js).
 - Frontend service layer with fallback behavior lives in [src/services/api.ts](src/services/api.ts).
+- Global site settings are stored in MongoDB through the `SiteConfig` model and exposed through admin config endpoints.
 
 ---
 

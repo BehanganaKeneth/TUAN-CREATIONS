@@ -1,9 +1,11 @@
 import React, { memo, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowRight, Users, Globe, BookOpen } from 'lucide-react';
+import { useSiteConfig } from '../hooks/useSiteConfig';
 
 const HomePage = memo(() => {
   const navigate = useNavigate();
+  const [config] = useSiteConfig();
 
   const handleExploreVision = useCallback(() => {
     navigate('/about');
@@ -36,7 +38,7 @@ const HomePage = memo(() => {
             Building <span className="text-teal-300">The United African Nation</span>
           </h1>
           <p className="mx-auto mb-7 max-w-3xl text-base text-gray-300 sm:text-lg lg:text-xl">
-            TUAN Creations Company Ltd is envisioned as a Pan-African ICT innovation enterprise designed to unify and transform the continent's fragmented digital economy.
+            {config["hero.subheading"] || "TUAN Creations Company Ltd is envisioned as a Pan-African ICT innovation enterprise designed to unify and transform the continent's fragmented digital economy."}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button 
