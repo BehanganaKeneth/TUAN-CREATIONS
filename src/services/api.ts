@@ -1095,3 +1095,41 @@ export async function addForumReply(threadId: string, replyData: { content: stri
     return { ok: false, reply: null, error: (error as Error).message };
   }
 }
+
+export async function getMentorshipPartners(courseId: number) {
+  try {
+    const response = await apiRequest<{
+      partners: Array<{ id: string; name: string; email: string; progress: number }>;
+    }>(`/academy/mentorship/partners?courseId=${courseId}`);
+    return response.partners;
+  } catch {
+    return [];
+  }
+}
+
+export async function getAcademyAnalytics() {
+  try {
+    const response = await apiRequest<{
+      summary: {
+        totalCourses: number;
+        totalEnrollments: number;
+        totalCertificates: number;
+        totalStudents: number;
+        completionRate: number;
+      };
+      courseAnalytics: Array<{
+        _id: number;
+        enrollmentCount: number;
+        completionCount: number;
+        avgProgress: number;
+      }>;
+      enrollmentTrend: Array<{
+        _id: string;
+        count: number;
+      }>;
+    }>(`/admin/academy/analytics`);
+    return response;
+  } catch {
+    return null;
+  }
+}
