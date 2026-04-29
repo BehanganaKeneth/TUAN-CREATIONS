@@ -3,7 +3,6 @@ export type ManagementTeamMember = {
   name: string;
   position: string;
   nationality: string;
-  dateOfBirth: string;
   photo: string;
   description: string;
   experience: string[];
@@ -43,9 +42,8 @@ export const DEFAULT_MANAGEMENT_TEAM: ManagementTeamMember[] = [
   {
     id: "behangana-keneth",
     name: "BEHANGANA KENETH",
-    position: "Software Developer",
+    position: "CHAIRMAN B.O.D",
     nationality: "Ugandan",
-    dateOfBirth: "03/09/1997",
     photo: createFacelessAvatar("BK", avatarPalette[0]),
     description: "Builds product experiences and helps ship reliable platform features.",
     experience: ["Software systems development", "Platform implementation and support"],
@@ -57,9 +55,8 @@ export const DEFAULT_MANAGEMENT_TEAM: ManagementTeamMember[] = [
   {
     id: "nakimuli-hanifah",
     name: "NAKIMULI HANIFAH",
-    position: "Accountant",
+    position: "CHIEF COMMERCIAL STRATEGIST",
     nationality: "Ugandan",
-    dateOfBirth: "01/05/1995",
     photo: createFacelessAvatar("NH", avatarPalette[1]),
     description: "Leads finance operations, reporting, and accountability processes.",
     experience: ["Financial reporting", "Budget control and bookkeeping"],
@@ -71,9 +68,8 @@ export const DEFAULT_MANAGEMENT_TEAM: ManagementTeamMember[] = [
   {
     id: "butera-marcel",
     name: "BUTERA MARCEL",
-    position: "Software Developer",
+    position: "SOFTWARE DEVELOPMENT LEAD",
     nationality: "Congolese",
-    dateOfBirth: "21/12/2005",
     photo: createFacelessAvatar("BM", avatarPalette[2]),
     description: "Supports engineering delivery and builds dependable digital services.",
     experience: ["Application development", "System testing and integrations"],
@@ -85,9 +81,8 @@ export const DEFAULT_MANAGEMENT_TEAM: ManagementTeamMember[] = [
   {
     id: "ofwono-godwin",
     name: "OFWONO GODWIN",
-    position: "Software Developer",
+    position: "HEAD OF MARKETING AND SALES",
     nationality: "Ugandan",
-    dateOfBirth: "02/06/2003",
     photo: createFacelessAvatar("OG", avatarPalette[3]),
     description: "Focuses on product engineering and feature delivery for the platform.",
     experience: ["Frontend and backend development", "Maintenance and debugging"],
@@ -99,9 +94,9 @@ export const DEFAULT_MANAGEMENT_TEAM: ManagementTeamMember[] = [
   {
     id: "nuwahereza-peter",
     name: "NUWAHEREZA PETER",
-    position: "Software Developer",
+    position: "ASSISTANT TECH LEAD",
     nationality: "Ugandan",
-    dateOfBirth: "24/04/1998",
+    // retained as developer but not shown publicly in this default set
     photo: createFacelessAvatar("NP", avatarPalette[4]),
     description: "Works on robust software delivery and supports growth initiatives.",
     experience: ["Product support and feature delivery", "Service integration"],
@@ -112,12 +107,11 @@ export const DEFAULT_MANAGEMENT_TEAM: ManagementTeamMember[] = [
   },
   {
     id: "nakiyingi-irene",
-    name: "NAKIYINGI IRENE",
-    position: "Doctor",
+    name: "DR. IRENE NAKIYINGI",
+    position: "HEAD OF OPERATIONS & EXECUTIVE DIRECTOR (C.E.O)",
     nationality: "Ugandan",
-    dateOfBirth: "03/09/1998",
     photo: createFacelessAvatar("NI", avatarPalette[5]),
-    description: "Advises on wellbeing, care, and human-centered support for the team.",
+    description: "Medical doctor (MBChb/MMed - MUK). Advises on wellbeing, care, and human-centered support for the team.",
     experience: ["Medical practice", "Health guidance and advisory work"],
     email: "iryntracy@gmail.com",
     phone: "+256 786 691 998",
@@ -127,9 +121,8 @@ export const DEFAULT_MANAGEMENT_TEAM: ManagementTeamMember[] = [
   {
     id: "agaba-francis",
     name: "AGABA FRANCIS",
-    position: "Manager",
+    position: "MANAGEMENT ADVISOR",
     nationality: "Ugandan",
-    dateOfBirth: "17/11/1989",
     photo: createFacelessAvatar("AF", avatarPalette[6]),
     description: "Coordinates delivery, team operations, and execution across projects.",
     experience: ["Team management", "Operations coordination"],
@@ -141,9 +134,8 @@ export const DEFAULT_MANAGEMENT_TEAM: ManagementTeamMember[] = [
   {
     id: "mugumya-benard",
     name: "MUGUMYA BENARD",
-    position: "Manager",
+    position: "VICE CHAIRMAN B.O.D",
     nationality: "Ugandan",
-    dateOfBirth: "23/02/1995",
     photo: createFacelessAvatar("MB", avatarPalette[7]),
     description: "Supports administration, planning, and the delivery of internal programs.",
     experience: ["Program management", "Administrative leadership"],
@@ -154,10 +146,9 @@ export const DEFAULT_MANAGEMENT_TEAM: ManagementTeamMember[] = [
   },
   {
     id: "akankwatssa-amon",
-    name: "AKANKWATSA AMON",
-    position: "Accountant",
+    name: "AKANKWASA AMON",
+    position: "HEAD OF ACCOUNTS & COMPLIANCE",
     nationality: "Ugandan",
-    dateOfBirth: "04/04/1995",
     photo: createFacelessAvatar("AA", avatarPalette[8]),
     description: "Manages reporting, financial records, and operational accountability.",
     experience: ["Accounts management", "Reporting and reconciliation"],

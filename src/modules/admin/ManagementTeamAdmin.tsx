@@ -25,7 +25,6 @@ export default function ManagementTeamAdmin() {
       name: "New member",
       position: "",
       nationality: "",
-      dateOfBirth: "",
       photo: DEFAULT_MANAGEMENT_TEAM[0]?.photo ?? "",
       description: "",
       experience: [],
@@ -92,7 +91,6 @@ export default function ManagementTeamAdmin() {
             <input value={editing.name} onChange={(e) => setEditing({ ...editing, name: e.target.value })} className="input" placeholder="Full name" />
             <input value={editing.position} onChange={(e) => setEditing({ ...editing, position: e.target.value })} className="input" placeholder="Position" />
             <input value={editing.nationality} onChange={(e) => setEditing({ ...editing, nationality: e.target.value })} className="input" placeholder="Nationality" />
-            <input value={editing.dateOfBirth} onChange={(e) => setEditing({ ...editing, dateOfBirth: e.target.value })} className="input" placeholder="Date of birth" />
             <input value={editing.photo} onChange={(e) => setEditing({ ...editing, photo: e.target.value })} className="input" placeholder="Photo URL (public or data URI)" />
             <input value={editing.email} onChange={(e) => setEditing({ ...editing, email: e.target.value })} className="input" placeholder="Email" />
             <input value={editing.phone} onChange={(e) => setEditing({ ...editing, phone: e.target.value })} className="input" placeholder="Phone" />

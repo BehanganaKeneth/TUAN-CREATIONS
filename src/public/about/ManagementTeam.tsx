@@ -20,7 +20,6 @@ export default function ManagementTeam() {
               <p className="text-sm text-[var(--text-soft)]">{m.position}</p>
               <div className="mt-2 flex flex-wrap gap-2 text-xs text-[var(--text-soft)]">
                 <span className="rounded-full border border-[var(--line)] px-3 py-1">{m.nationality}</span>
-                <span className="rounded-full border border-[var(--line)] px-3 py-1">DOB: {m.dateOfBirth}</span>
               </div>
               {m.description && <p className="mt-2 text-sm text-[var(--text-soft)]">{m.description}</p>}
 
