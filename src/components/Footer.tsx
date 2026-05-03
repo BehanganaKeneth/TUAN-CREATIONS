@@ -76,7 +76,7 @@ const Footer = memo(() => {
               </div>
             )}
 
-            {(config["contact.phone"] || true) && (
+            {config["contact.phone"] && (
               <div className="flex items-center gap-2">
                 <Phone className="h-4 w-4 text-teal-700" />
                 <a href={`tel:${config["contact.phone"] || "+256753414058"}`} className="hover:underline">{config["contact.phone"] || "+256 753 414 058"}</a>
