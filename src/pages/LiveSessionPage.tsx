@@ -27,9 +27,6 @@ type ChatMessage = {
   isInstructor?: boolean;
 };
 
-const nowFormatted = () =>
-  new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-
 export default function LiveSessionPage() {
   const { user } = useAuth();
   const [searchParams] = useSearchParams();
@@ -37,16 +34,6 @@ export default function LiveSessionPage() {
   const [courseCatalog, setCourseCatalog] = useState<Course[]>([]);
 
   // ----- demo/local state -----
-  const currentUser = useMemo<User>(
-    () => ({
-      id: user?.id ?? "u-you",
-      name: user?.name ?? "Guest User",
-      role: user?.role === "admin" ? "admin" : "student",
-      isOnline: true,
-    }),
-    [user?.id, user?.name, user?.role]
-  );
-
   const [session, setSession] = useState<SessionMeta | null>(null);
   const [isLoadingSession, setIsLoadingSession] = useState(true);
 
@@ -199,6 +186,7 @@ export default function LiveSessionPage() {
     });
 
     socketRef.current = socket;
+    const typingTimeouts = typingTimeoutRef.current;
 
     const mergeRoomState = (nextSession: SessionMeta) => {
       setSession((current) => ({
@@ -243,7 +231,7 @@ export default function LiveSessionPage() {
       });
     });
 
-    socket.on("live:user-typing", ({ userId, userName, isTyping }: { userId: string; userName: string; isTyping: boolean }) => {
+    socket.on("live:user-typing", ({ userId, isTyping }: { userId: string; isTyping: boolean }) => {
       setUsersTyping((current) => {
         const next = new Set(current);
         if (isTyping) {
@@ -295,8 +283,8 @@ export default function LiveSessionPage() {
       socket.disconnect();
       socketRef.current = null;
       setIsRealtimeConnected(false);
-      typingTimeoutRef.current.forEach((timeout) => clearTimeout(timeout));
-      typingTimeoutRef.current.clear();
+      typingTimeouts.forEach((timeout) => clearTimeout(timeout));
+      typingTimeouts.clear();
     };
   }, [selectedCourse?.id, selectedCourseId, session, selectedCourse, showToast]);
 
@@ -326,7 +314,7 @@ export default function LiveSessionPage() {
       }
       setNewMessage("");
     },
-    [currentUser, newMessage, selectedCourse?.id, selectedCourseId, showToast]
+    [newMessage, selectedCourse?.id, selectedCourseId, showToast]
   );
 
   // Handle typing indicator

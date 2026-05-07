@@ -1,58 +1,35 @@
-export const registerCatalogRoutes = (app, { Metric, Course, Listing, LiveSession }) => {
-  app.get("/api/dashboard/metrics", async (_req, res) => {
-    const metrics = await Metric.find().sort({ order: 1 }).lean();
-    return res.json({ metrics });
-  });
+import express from 'express';
+import { Course } from '../../models.js';
 
-  app.get("/api/courses", async (_req, res) => {
-    const items = await Course.find().sort({ id: 1 }).lean();
-    return res.json({ courses: items });
-  });
+const router = express.Router();
 
-  app.get("/api/courses/:id", async (req, res) => {
-    const courseId = Number(req.params.id);
-    const course = await Course.findOne({ id: courseId }).lean();
+router.get('/courses', async (req, res) => {
+  try {
+    const courses = await Course.find().populate('instructor', 'name profile.avatar');
+    res.json(courses);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 
-    if (!course) {
-      return res.status(404).json({ message: "Course not found" });
-    }
+router.get('/courses/:courseId', async (req, res) => {
+  try {
+    const course = await Course.findById(req.params.courseId).populate('instructor', 'name profile');
+    if (!course) return res.status(404).json({ error: 'Course not found' });
+    res.json(course);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 
-    return res.json({ course });
-  });
+router.post('/courses', authMiddleware, async (req, res) => {
+  try {
+    const course = new Course({ ...req.body, instructor: req.userId });
+    await course.save();
+    res.json(course);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 
-  app.get("/api/listings", async (_req, res) => {
-    const items = await Listing.find().sort({ id: 1 }).lean();
-    return res.json({ listings: items });
-  });
-
-  app.get("/api/live-sessions/:courseId", async (req, res) => {
-    const courseId = Number(req.params.courseId);
-    const session = await LiveSession.findOne({ courseId }).lean();
-
-    if (session) {
-      return res.json({ session });
-    }
-
-    const course = await Course.findOne({ id: courseId }).lean();
-    if (!course) {
-      return res.status(404).json({ message: "Live session not found" });
-    }
-
-    return res.json({
-      session: {
-        courseId: course.id,
-        title: course.title,
-        instructor: course.instructor,
-        topic: "Live learning session",
-        startTime: new Date(Date.now() + 15 * 60 * 1000).toISOString(),
-        durationMinutes: 90,
-        status: "scheduled",
-        recordingUrl: null,
-        resources: [],
-        previousSessions: [],
-        participants: [],
-        chatMessages: [],
-      },
-    });
-  });
-};
+export default router;

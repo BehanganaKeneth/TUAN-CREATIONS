@@ -1,74 +1,43 @@
-import bcrypt from "bcryptjs";
+import express from 'express';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import { User } from '../../models.js';
 
-export const registerAuthRoutes = (app, { User, authenticate, signToken, serializeUser }) => {
-  app.post("/api/auth/login", async (req, res) => {
-    const { name, email, role, password } = req.body ?? {};
+const router = express.Router();
 
-    if (!email || !role) {
-      return res.status(400).json({ message: "email and role are required" });
+router.post('/register', async (req, res) => {
+  try {
+    const { email, password, name, role } = req.body;
+    
+    const existing = await User.findOne({ email });
+    if (existing) {
+      return res.status(400).json({ error: 'User already exists' });
     }
 
-    const normalizedEmail = String(email).trim().toLowerCase();
-    const trimmedName = String(name || "").trim();
+    const user = new User({ email, password, name, role: role || 'student' });
+    await user.save();
 
-    if (role === "admin") {
-      if (!password) {
-        return res.status(400).json({ message: "Admin password is required" });
-      }
+    const token = jwt.sign({ userId: user._id, role: user.role }, process.env.JWT_SECRET || 'secret', { expiresIn: '7d' });
+    res.json({ token, user: { id: user._id, email: user.email, role: user.role } });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 
-      const adminUser = await User.findOne({ email: normalizedEmail }).select("+passwordHash");
-      if (!adminUser || adminUser.role !== "admin" || !adminUser.passwordHash) {
-        return res.status(401).json({ message: "Invalid admin credentials" });
-      }
-
-      const isValidPassword = await bcrypt.compare(String(password), adminUser.passwordHash);
-      if (!isValidPassword) {
-        return res.status(401).json({ message: "Invalid admin credentials" });
-      }
-
-      if (trimmedName) {
-        adminUser.name = trimmedName;
-        await adminUser.save();
-      }
-
-      const token = signToken(adminUser);
-      return res.json({ user: serializeUser(adminUser), token });
+router.post('/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    
+    const user = await User.findOne({ email });
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+      return res.status(401).json({ error: 'Invalid credentials' });
     }
 
-    if (!trimmedName) {
-      return res.status(400).json({ message: "name is required" });
-    }
+    const token = jwt.sign({ userId: user._id, role: user.role }, process.env.JWT_SECRET || 'secret', { expiresIn: '7d' });
+    res.json({ token, user: { id: user._id, email: user.email, name: user.name, role: user.role } });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 
-    let user = await User.findOne({ email: normalizedEmail });
-
-    if (user?.role === "admin") {
-      return res.status(403).json({ message: "This email is reserved for admin access" });
-    }
-
-    if (!user) {
-      user = await User.create({
-        name: trimmedName,
-        email: normalizedEmail,
-        role,
-      });
-    } else {
-      if (user.role !== role) {
-        return res.status(409).json({ message: `This account is registered as ${user.role}. Use that role to sign in.` });
-      }
-
-      user.name = trimmedName;
-      await user.save();
-    }
-
-    const token = signToken(user);
-    return res.json({ user: serializeUser(user), token });
-  });
-
-  app.get("/api/auth/me", authenticate, (req, res) => {
-    return res.json({ user: serializeUser(req.user) });
-  });
-
-  app.post("/api/auth/logout", authenticate, (_req, res) => {
-    return res.json({ ok: true });
-  });
-};
+export default router;

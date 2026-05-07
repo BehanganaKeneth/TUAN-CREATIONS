@@ -58,14 +58,6 @@ export default function NotificationCenter() {
   const filteredNotifications =
     filter === "unread" ? notifications.filter((n) => !n.isRead) : notifications;
 
-  const notificationTypeColors: Record<Notification["type"], string> = {
-    enrollment: "bg-blue-100 text-blue-800",
-    session_reminder: "bg-amber-100 text-amber-800",
-    recording_ready: "bg-purple-100 text-purple-800",
-    completion: "bg-emerald-100 text-emerald-800",
-    announcement: "bg-rose-100 text-rose-800",
-  };
-
   const notificationTypeIcons: Record<Notification["type"], string> = {
     enrollment: "📚",
     session_reminder: "🔔",

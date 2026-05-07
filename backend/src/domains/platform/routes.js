@@ -1,32 +1,17 @@
-export const registerPlatformRoutes = (app, { Action, resolveActorFromRequest }) => {
-  app.get("/api/health", (_req, res) => {
-    res.json({ ok: true, service: "tuan-creations-backend" });
-  });
+import express from 'express';
 
-  app.get("/", (_req, res) => {
-    res.json({
-      ok: true,
-      message: "TUAN backend is running",
-      health: "/api/health",
-    });
-  });
+const router = express.Router();
 
-  app.post("/api/actions", async (req, res) => {
-    const { kind, payload } = req.body ?? {};
-
-    if (!kind) {
-      return res.status(400).json({ message: "kind is required" });
+router.get('/config', async (req, res) => {
+  res.json({
+    version: '1.0.0',
+    features: {
+      academy: true,
+      marketplace: true,
+      collaboration: true,
+      iot: true
     }
-
-    const actor = await resolveActorFromRequest(req);
-
-    const action = await Action.create({
-      kind: String(kind),
-      payload: payload ?? {},
-      actorEmail: actor?.email ?? null,
-      actorName: actor?.name ?? null,
-    });
-
-    return res.status(201).json({ action });
   });
-};
+});
+
+export default router;

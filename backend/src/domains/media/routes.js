@@ -1,30 +1,17 @@
-export const registerMediaRoutes = (app, { Channel, Action, authenticate }) => {
-  app.get("/api/media/channels", async (_req, res) => {
-    const channels = await Channel.find().sort({ id: 1 }).lean();
-    return res.json({ channels });
-  });
+import express from 'express';
 
-  app.post("/api/media/channels/:channelId/follow", authenticate, async (req, res) => {
-    const channelId = Number(req.params.channelId);
-    if (Number.isNaN(channelId)) {
-      return res.status(400).json({ message: "Invalid channel id" });
-    }
+const router = express.Router();
 
-    const channel = await Channel.findOne({ id: channelId });
-    if (!channel) {
-      return res.status(404).json({ message: "Channel not found" });
-    }
+router.get('/media', async (req, res) => {
+  res.json({ message: 'Media endpoint' });
+});
 
-    channel.followers += 1;
-    await channel.save();
+router.post('/upload', async (req, res) => {
+  try {
+    res.json({ message: 'File uploaded' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 
-    await Action.create({
-      kind: "media.channel.follow",
-      payload: { channelId, channelName: channel.name },
-      actorEmail: req.user.email,
-      actorName: req.user.name,
-    });
-
-    return res.json({ ok: true, channel: channel.toObject() });
-  });
-};
+export default router;

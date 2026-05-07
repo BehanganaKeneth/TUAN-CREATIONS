@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../../store/auth";
-import { Course, getCourseFull, createCourse, updateCourse } from "../../services/api";
+import { getCourseFull, createCourse, updateCourse } from "../../services/api";
 
 export default function CourseManagement() {
   const { user } = useAuth();
