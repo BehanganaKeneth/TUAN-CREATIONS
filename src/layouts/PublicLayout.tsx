@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Link, NavLink, Outlet } from "react-router-dom";
-import { ChevronDown, Menu, X, Mail, Phone, MapPin } from "lucide-react";
+import { ChevronDown, Menu, X, Mail, Phone, MapPin, Moon, Sun } from "lucide-react";
 import BackButton from "../components/BackButton";
+import useColorMode from "../hooks/useColorMode";
 
 const publicNav = [
   { to: "/", label: "Home" },
@@ -14,6 +15,7 @@ const publicNav = [
 export default function PublicLayout() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [aboutMenuOpen, setAboutMenuOpen] = useState(false);
+  const { mode, toggleMode } = useColorMode();
 
   const closeMobileMenu = () => {
     setMobileMenuOpen(false);
@@ -23,19 +25,19 @@ export default function PublicLayout() {
     <div className="min-h-screen bg-[var(--surface)] text-[var(--text)]">
       <div className="hero-glow" aria-hidden />
 
-      <header className="sticky top-0 z-40 backdrop-blur-md bg-[color:rgba(8,17,29,0.78)] border-b border-[var(--line)]">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-2 sm:gap-3">
+      <header className="sticky top-0 z-40 border-b border-[var(--line)] bg-[var(--header-bg)] backdrop-blur-md">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
+          <div className="flex items-center gap-2">
             <BackButton fallbackTo="/" label="Back" className="shrink-0" />
-            <Link to="/" className="flex items-center gap-2 text-center text-[var(--gold)] sm:gap-3 lg:text-left">
+            <Link to="/" className="flex items-center gap-2 text-[var(--gold)]">
               <span className="logo-container logo-container-sm">
                 <img src="/tuan-logo.png" alt="TUAN Creations Company Ltd Logo" />
               </span>
-              <span className="font-display text-base tracking-wide sm:text-lg lg:text-xl">TUAN Creations Company Ltd</span>
+              <span className="font-display text-sm tracking-wide sm:text-base lg:text-lg">TUAN Creations Company Ltd</span>
             </Link>
           </div>
 
-          <nav className="hidden flex-wrap justify-center gap-2 md:justify-end lg:flex">
+          <nav className="hidden flex-1 items-center justify-end gap-5 text-sm font-medium lg:flex">
             {publicNav.map((item) => {
               if (item.to === "/about") {
                 return (
@@ -43,17 +45,17 @@ export default function PublicLayout() {
                     <button
                       type="button"
                       onClick={() => setAboutMenuOpen((prev) => !prev)}
-                      className={`inline-flex items-center gap-1 rounded-full px-3 py-2 text-xs transition sm:px-4 sm:text-sm ${
+                      className={`inline-flex items-center gap-2 border-b-2 border-transparent pb-1 transition ${
                         location.pathname.startsWith("/about")
-                          ? "bg-[var(--gold)] text-[var(--ink)]"
-                          : "text-[var(--text-soft)] hover:bg-[var(--card)] hover:text-[var(--text)]"
+                          ? "border-[var(--hero-accent)] text-[var(--hero-text)]"
+                          : "text-[var(--hero-text-soft)] hover:text-[var(--hero-text)]"
                       }`}
                     >
                       {item.label}
                       <ChevronDown size={14} />
                     </button>
                     {aboutMenuOpen && (
-                      <div className="absolute left-0 top-full mt-2 w-56 rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-2 shadow-xl">
+                      <div className="absolute left-0 top-full mt-3 w-56 rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-2 shadow-xl">
                         <NavLink
                           to="/about"
                           onClick={() => setAboutMenuOpen(false)}
@@ -91,10 +93,10 @@ export default function PublicLayout() {
                   key={item.to}
                   to={item.to}
                   className={({ isActive }) =>
-                    `rounded-full px-3 py-2 text-xs transition sm:px-4 sm:text-sm ${
+                    `border-b-2 border-transparent pb-1 transition ${
                       isActive
-                        ? "bg-[var(--gold)] text-[var(--ink)]"
-                        : "text-[var(--text-soft)] hover:bg-[var(--card)] hover:text-[var(--text)]"
+                        ? "border-[var(--hero-accent)] text-[var(--hero-text)]"
+                        : "text-[var(--hero-text-soft)] hover:text-[var(--hero-text)]"
                     }`
                   }
                 >
@@ -107,6 +109,15 @@ export default function PublicLayout() {
           <Link className="btn-primary hidden text-xs sm:text-sm lg:inline-flex" to="/dashboard">
             <span className="block text-center">Explore TUAN Digital Platform</span>
           </Link>
+
+          <button
+            type="button"
+            onClick={toggleMode}
+            aria-label="Toggle color mode"
+            className="inline-flex items-center justify-center rounded-full border border-[var(--line)] p-2 text-[var(--hero-text-soft)] transition hover:border-[var(--hero-accent)] hover:text-[var(--hero-text)]"
+          >
+            {mode === "dark" ? <Sun size={18} /> : <Moon size={18} />}
+          </button>
 
           <button
             type="button"
@@ -198,7 +209,7 @@ export default function PublicLayout() {
         <Outlet />
       </main>
 
-      <footer className="mt-16 border-t border-[var(--line)] bg-[color:rgba(7,14,24,0.9)]">
+      <footer className="mt-16 border-t border-[var(--line)] bg-[var(--footer-bg)]">
         <div className="mx-auto max-w-7xl px-4 py-10 text-sm text-[var(--text-soft)] sm:px-6 lg:px-8">
           <div className="text-center">
             <p className="font-display text-base tracking-wide text-[var(--gold)] sm:text-lg">

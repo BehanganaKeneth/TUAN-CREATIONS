@@ -7,8 +7,8 @@ export default function Layout({ children }: PropsWithChildren) {
   return (
     <div
       style={{
-        backgroundColor: theme.colors.background,
-        color: theme.colors.text,
+        backgroundColor: "var(--surface)",
+        color: "var(--text)",
         fontFamily: theme.typography.fontFamily,
       }}
     >

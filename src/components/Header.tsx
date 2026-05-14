@@ -1,6 +1,6 @@
 import { memo, useCallback, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { BookOpen, Globe, Mail, Menu, ShoppingBag, Tv, Users, X, Lightbulb, Handshake, Bell, BarChart3, GraduationCap, ChevronDown } from "lucide-react";
+import { BookOpen, Globe, Mail, Menu, ShoppingBag, Tv, Users, X, Lightbulb, Handshake, Bell, BarChart3, GraduationCap, ChevronDown, Moon, Sun } from "lucide-react";
 import { theme } from "../bright-gold/theme";
 import { useAuth } from "../store/auth";
 import BackButton from "./BackButton";
@@ -21,11 +21,20 @@ const navigation = [
 const Header = memo(() => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [aboutMenuOpen, setAboutMenuOpen] = useState(false);
+  const [colorMode, setColorMode] = useState<"light" | "dark">("light");
   const location = useLocation();
   const { user } = useAuth();
 
   const toggleMenu = useCallback(() => setIsMenuOpen((prev) => !prev), []);
   const closeMenu = useCallback(() => setIsMenuOpen(false), []);
+  const toggleColorMode = useCallback(() => {
+    setColorMode((prev) => {
+      const next = prev === "dark" ? "light" : "dark";
+      localStorage.setItem("tuan-color-mode", next);
+      document.documentElement.setAttribute("data-theme", next);
+      return next;
+    });
+  }, []);
 
   useEffect(() => {
     document.body.style.overflow = isMenuOpen ? "hidden" : "auto";
@@ -33,6 +42,13 @@ const Header = memo(() => {
       document.body.style.overflow = "auto";
     };
   }, [isMenuOpen]);
+
+  useEffect(() => {
+    const storedMode = localStorage.getItem("tuan-color-mode");
+    const initialMode = storedMode === "dark" ? "dark" : "light";
+    setColorMode(initialMode);
+    document.documentElement.setAttribute("data-theme", initialMode);
+  }, []);
 
   const NavLinks = ({ onClick }: { onClick?: () => void }) => (
     <>
@@ -188,6 +204,15 @@ const Header = memo(() => {
           <nav className="hidden flex-wrap justify-end gap-2 md:flex">
             <NavLinks />
           </nav>
+
+          <button
+            type="button"
+            onClick={toggleColorMode}
+            aria-label="Toggle color mode"
+            className="rounded-md p-2 text-gray-900 transition-colors hover:bg-yellow-400 hover:text-black"
+          >
+            {colorMode === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+          </button>
 
           <button
             onClick={toggleMenu}

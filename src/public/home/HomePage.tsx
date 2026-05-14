@@ -12,32 +12,26 @@ const discovery = [
 export default function HomePage() {
   return (
     <div>
-      <section className="mx-auto max-w-7xl px-4 pb-20 pt-16 sm:px-6 lg:px-8">
-        <div className="flex items-center gap-3">
-          <span className="logo-container logo-container-sm">
-            <img
-              src="/tuan-logo.png"
-              alt="TUAN Creations Company Ltd Logo"
-            />
-          </span>
+      <section className="sunbird-hero">
+        <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 pb-20 pt-16 sm:px-6 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:px-8">
           <div>
             <p className="eyebrow">TUAN Digital Platform</p>
-            <p className="mt-1 text-xs text-[var(--text-soft)]">[The United African Nation - "All-in-One Digital Space"]</p>
+            <h1 className="mt-5 max-w-3xl font-display text-3xl leading-tight sm:text-4xl lg:text-5xl">
+              Trusted all-in-one digital platform for skills, services, and innovation.
+            </h1>
+            <p className="mt-6 max-w-2xl text-base sm:text-lg">
+              TUAN Digital is a product of TUAN Creations Company Ltd, built to help clients, students, investors, and partners access trusted services, learning, media, and innovation in one platform.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link className="btn-primary" to="/auth">Create Your Account</Link>
+              <Link className="btn-ghost" to="/blog">Read Ecosystem Stories</Link>
+            </div>
           </div>
-        </div>
-        <h1 className="mt-5 max-w-4xl font-display text-xl leading-tight sm:text-2xl">
-          — "Trusted all-in-one Digital platform for building ICT skills, providing ICT services, shared media, innovation hubs, and connecting partnerships." —
-        </h1>
-        <p className="mt-6 max-w-3xl text-lg text-[var(--text-soft)]">
-          TUAN Digital is a product of TUAN Creations Company Ltd, designed to help clients, students, investors, and partners connect, grow, and succeed with confidence.
-        </p>
-        <div className="mt-8 flex flex-wrap gap-3">
-          <Link className="btn-primary" to="/auth">Create Your Account</Link>
-          <Link className="btn-ghost" to="/blog">Read Ecosystem Stories</Link>
+          <div className="sunbird-wave" aria-hidden />
         </div>
       </section>
 
-      <section className="mx-auto grid max-w-7xl grid-cols-1 gap-5 px-4 pb-20 sm:px-6 md:grid-cols-2 lg:grid-cols-3 lg:px-8">
+      <section className="mx-auto grid max-w-7xl grid-cols-1 gap-5 px-4 pb-20 pt-12 sm:px-6 md:grid-cols-2 lg:grid-cols-3 lg:px-8">
         {discovery.map((item) => (
           <Link key={item.title} to={item.to} className="card card-hover">
             <h3 className="font-display text-xl">{item.title}</h3>

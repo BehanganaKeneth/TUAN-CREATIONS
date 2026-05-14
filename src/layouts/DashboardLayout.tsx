@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Moon, Sun } from "lucide-react";
 import { useAuth } from "../store/auth";
+import useColorMode from "../hooks/useColorMode";
 
 const moduleNav = [
   { to: "/dashboard", label: "Dashboard" },
@@ -15,6 +16,7 @@ const moduleNav = [
 export default function DashboardLayout() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { user, logout } = useAuth();
+  const { mode, toggleMode } = useColorMode();
   const location = useLocation();
   const isGuest = !user;
   const isAdmin = user?.role === "admin";
@@ -31,7 +33,15 @@ export default function DashboardLayout() {
   return (
     <div className="min-h-screen bg-[var(--surface)] text-[var(--text)]">
       <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-        <div className="mb-3 flex justify-end lg:hidden">
+        <div className="mb-3 flex items-center justify-end gap-2 lg:hidden">
+          <button
+            type="button"
+            onClick={toggleMode}
+            aria-label="Toggle color mode"
+            className="inline-flex items-center justify-center rounded-full border border-[var(--line)] p-2 text-[var(--text-soft)] transition hover:border-[var(--gold)] hover:text-[var(--text)]"
+          >
+            {mode === "dark" ? <Sun size={18} /> : <Moon size={18} />}
+          </button>
           <button
             type="button"
             aria-label={mobileMenuOpen ? "Close dashboard menu" : "Open dashboard menu"}
@@ -113,6 +123,14 @@ export default function DashboardLayout() {
               ) : (
                 <span className="text-sm text-[var(--text-soft)]">Signed in as {user?.role}</span>
               )}
+              <button
+                type="button"
+                onClick={toggleMode}
+                aria-label="Toggle color mode"
+                className="inline-flex items-center justify-center rounded-full border border-[var(--line)] p-2 text-[var(--text-soft)] transition hover:border-[var(--gold)] hover:text-[var(--text)]"
+              >
+                {mode === "dark" ? <Sun size={18} /> : <Moon size={18} />}
+              </button>
             </div>
           </div>
           {isGuest && (
