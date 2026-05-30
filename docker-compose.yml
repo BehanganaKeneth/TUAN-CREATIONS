@@ -1,0 +1,38 @@
+version: "3.8"
+
+services:
+  mongodb:
+    image: mongo:7
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  redis:
+    image: redis:7
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    depends_on:
+      - mongodb
+      - redis
+    environment:
+      - NODE_ENV=production
+      - PORT=4000
+      - CLIENT_ORIGIN=http://localhost:5173
+      - MONGODB_URI=mongodb://mongodb:27017/tuan_creations
+      - REDIS_URL=redis://redis:6379
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./backend:/app
+    restart: unless-stopped
+
+volumes:
+  mongo_data:
