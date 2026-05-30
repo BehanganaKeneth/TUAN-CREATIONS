@@ -339,6 +339,47 @@ app.get("/api/media/channels", async (_req, res) => {
   return res.json({ channels });
 });
 
+app.get("/api/media/public", async (_req, res) => {
+  const recordings = await Recording.find({ $or: [{ recordingUrl: { $ne: null } }, { thumbnailUrl: { $ne: null } }] })
+    .sort({ recordedAt: -1 })
+    .limit(12)
+    .lean();
+
+  const items = recordings.flatMap((recording, index) => {
+    const mediaItems = [];
+
+    if (recording.thumbnailUrl) {
+      mediaItems.push({
+        id: `thumb-${recording._id?.toString?.() ?? recording.courseId}-${index}`,
+        kind: "image",
+        title: recording.courseTitle,
+        subtitle: recording.sessionTopic,
+        source: recording.thumbnailUrl,
+        preview: recording.recordingUrl || recording.thumbnailUrl,
+        label: recording.instructor,
+        recordedAt: recording.recordedAt,
+      });
+    }
+
+    if (recording.recordingUrl) {
+      mediaItems.push({
+        id: `video-${recording._id?.toString?.() ?? recording.courseId}-${index}`,
+        kind: "video",
+        title: recording.courseTitle,
+        subtitle: recording.sessionTopic,
+        source: recording.recordingUrl,
+        preview: recording.thumbnailUrl || recording.recordingUrl,
+        label: recording.instructor,
+        recordedAt: recording.recordedAt,
+      });
+    }
+
+    return mediaItems;
+  });
+
+  return res.json({ items });
+});
+
 app.post("/api/media/channels/:channelId/follow", authenticate, async (req, res) => {
   const channelId = Number(req.params.channelId);
   if (Number.isNaN(channelId)) {

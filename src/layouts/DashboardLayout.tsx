@@ -56,7 +56,7 @@ export default function DashboardLayout() {
         <aside className={`${mobileMenuOpen ? "block" : "hidden"} h-fit rounded-3xl border border-[var(--line)] bg-[var(--card)] p-5 lg:block`}>
           <Link to="/dashboard" className="flex flex-col items-center justify-center gap-2 text-center text-[var(--gold)]">
             <span className="logo-container logo-container-sm">
-              <img src="/tuan-logo.png" alt="TUAN Creations Company Ltd Logo" />
+              <img className="logo" src="/TUAN_CREATIONS_LOGO-removebg-preview%20(3).png" alt="TUAN Creations Company Ltd Logo" />
             </span>
             <div>
               <span className="font-display text-lg">TUAN Digital Platform</span>

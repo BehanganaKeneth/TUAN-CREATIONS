@@ -1,4 +1,4 @@
-import { memo, useCallback, useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { BookOpen, Globe, Mail, Menu, ShoppingBag, Tv, Users, X, Lightbulb, Handshake, Bell, BarChart3, GraduationCap, ChevronDown, Moon, Sun } from "lucide-react";
 import { theme } from "../bright-gold/theme";
@@ -54,11 +54,34 @@ const Header = memo(() => {
     <>
       {navigation.map(({ name, href, icon: Icon }) => {
         if (name === "About") {
+          const aboutRef = useRef<HTMLDivElement | null>(null);
+
+          useEffect(() => {
+            function handleDocClick(e: MouseEvent) {
+              if (!aboutRef.current) return;
+              if (!(e.target instanceof Node)) return;
+              if (!aboutRef.current.contains(e.target)) {
+                setAboutMenuOpen(false);
+              }
+            }
+            if (aboutMenuOpen) {
+              document.addEventListener("mousedown", handleDocClick);
+            }
+            return () => document.removeEventListener("mousedown", handleDocClick);
+          }, [aboutMenuOpen]);
+
           return (
-            <div key={name} className="relative">
+            <div
+              key={name}
+              className={`relative ${aboutMenuOpen ? "menu-open" : ""}`}
+              ref={aboutRef}
+              onMouseEnter={() => setAboutMenuOpen(true)}
+              onMouseLeave={() => setAboutMenuOpen(false)}
+            >
               <button
                 type="button"
                 onClick={() => setAboutMenuOpen((prev) => !prev)}
+                aria-expanded={aboutMenuOpen}
                 className={`flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-all duration-200 ${
                   location.pathname.startsWith("/about")
                     ? "bg-yellow-500 text-black shadow-md"
@@ -194,8 +217,8 @@ const Header = memo(() => {
           <div className="flex items-center gap-2 sm:gap-3">
             <BackButton fallbackTo="/" label="Back" className="shrink-0" />
             <Link to="/" className="flex items-center gap-2" onClick={closeMenu}>
-              <span className="logo-container logo-container-sm shrink-0">
-                <img src="/tuan-logo.png" alt="TUAN Creations Company Ltd Logo" />
+                <span className="logo-container logo-container-sm shrink-0">
+                <img className="logo" src="/TUAN_CREATIONS_LOGO-removebg-preview%20(3).png" alt="TUAN Creations Company Ltd Logo" />
               </span>
               <span className="text-base font-bold tracking-tight text-gray-900 sm:text-lg lg:text-xl">TUAN Creations Company Ltd</span>
             </Link>
@@ -224,7 +247,7 @@ const Header = memo(() => {
         </div>
 
         {isMenuOpen && (
-          <div className="animate-slideDown pb-4 md:hidden">
+          <div className="animate-slideDown pb-4 md:hidden mobile-menu">
             <nav className="flex flex-col gap-2">
               <NavLinks onClick={closeMenu} />
             </nav>

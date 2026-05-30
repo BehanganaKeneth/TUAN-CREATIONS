@@ -63,6 +63,17 @@ export type Recording = {
   thumbnailUrl?: string | null;
 };
 
+export type PublicMediaItem = {
+  id: string;
+  kind: "image" | "video";
+  title: string;
+  subtitle: string;
+  source: string;
+  preview?: string | null;
+  label: string;
+  recordedAt?: string | Date | null;
+};
+
 export type Certificate = {
   _id?: string;
   userId: string;
@@ -311,6 +322,13 @@ export const getApiOrigin = () => {
 
 const API_BASE = getApiBaseUrl();
 
+const normalizeMediaUrl = (url?: string | null) => {
+  if (!url) return null;
+  if (/^https?:\/\//i.test(url)) return url;
+  if (url.startsWith("/")) return `${getApiOrigin()}${url}`;
+  return url;
+};
+
 const createId = () =>
   typeof crypto !== "undefined" && "randomUUID" in crypto
     ? crypto.randomUUID()
@@ -456,6 +474,38 @@ export async function getMediaChannels() {
       { id: 1, name: "TUAN Prime", audience: "42K followers", status: "Live now", recordingUrl: "/media?channel=1", followers: 42000, featuredBroadcast: "Africa Tech Frontlines", recordingCount: 12 },
       { id: 2, name: "Innovation Pulse", audience: "18K followers", status: "New episode", recordingUrl: "/media?channel=2", followers: 18000, featuredBroadcast: "Builders of Africa", recordingCount: 9 },
       { id: 3, name: "Builders of Africa", audience: "24K followers", status: "Recording archive", recordingUrl: "/media?channel=3", followers: 24000, featuredBroadcast: "Community Innovation Showcase", recordingCount: 15 },
+    ];
+  }
+}
+
+export async function getPublicMedia() {
+  try {
+    const response = await apiRequest<{ items: PublicMediaItem[] }>("/media/public");
+    return response.items.map((item) => ({
+      ...item,
+      source: normalizeMediaUrl(item.source) || item.source,
+      preview: normalizeMediaUrl(item.preview) || item.preview,
+    }));
+  } catch {
+    return [
+      {
+        id: "fallback-thumb-1",
+        kind: "image",
+        title: "AI Product Design for African Markets",
+        subtitle: "Intro to AI Product Design",
+        source: "/TUAN_CREATIONS_LOGO-removebg-preview%20(3).png",
+        preview: "/TUAN_CREATIONS_LOGO-removebg-preview%20(3).png",
+        label: "Eng. Godwin Ofwono",
+      },
+      {
+        id: "fallback-video-1",
+        kind: "video",
+        title: "Cloud Security Essentials",
+        subtitle: "IAM Foundations",
+        source: "/TUAN_CREATIONS_LOGO-removebg-preview%20(3).png",
+        preview: "/TUAN_CREATIONS_LOGO-removebg-preview%20(3).png",
+        label: "Eng. Behangana Keneth",
+      },
     ];
   }
 }

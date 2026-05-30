@@ -1,4 +1,7 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { loadManagementTeam } from "../../modules/admin/managementTeamData";
+import { getCourses, getPublicMedia, type Course, type PublicMediaItem } from "../../services/api";
 
 const discovery = [
   { title: "Explore Our Vision", to: "/about", description: "Understand what TUAN is building and how it creates value for communities and businesses." },
@@ -10,6 +13,149 @@ const discovery = [
 ];
 
 export default function HomePage() {
+  const [mediaItems, setMediaItems] = useState<PublicMediaItem[]>([]);
+  const [courseItems, setCourseItems] = useState<Course[]>([]);
+  const managementTeam = loadManagementTeam();
+
+  useEffect(() => {
+    let mounted = true;
+
+    Promise.all([getPublicMedia(), getCourses()]).then(([publicMedia, courses]) => {
+      if (!mounted) return;
+      setMediaItems(publicMedia);
+      setCourseItems(courses);
+    });
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  const motionItems = [
+    ...managementTeam.slice(0, 4).map((member) => ({
+      id: member.id,
+      kind: "profile" as const,
+      title: member.name,
+      subtitle: member.position,
+      description: member.description,
+      source: "/TUAN_CREATIONS_LOGO-removebg-preview%20(3).png",
+      badge: member.occupation,
+    })),
+    ...courseItems.slice(0, 2).map((course) => ({
+      id: `course-${course.id}`,
+      kind: "course" as const,
+      title: course.title,
+      subtitle: `${course.level} • ${course.duration}`,
+      description: course.content?.description ?? `Learn with ${course.instructor} through TUAN Academy.`,
+      source: course.content?.thumbnail ?? "/TUAN_CREATIONS_LOGO-removebg-preview%20(3).png",
+      badge: `${course.enrolled.toLocaleString()} enrolled`,
+    })),
+    ...mediaItems,
+    {
+      id: "feature-services",
+      kind: "feature" as const,
+      title: "Software & ICT Services",
+      subtitle: "Trusted delivery stack",
+      description: "Practical digital services for businesses, institutions, and organizations ready to scale.",
+      source: "/TUAN_CREATIONS_LOGO-removebg-preview%20(3).png",
+      badge: "Core element",
+    },
+    {
+      id: "feature-academy",
+      kind: "feature" as const,
+      title: "TUAN Academy",
+      subtitle: "Live learning and replays",
+      description: "Trusted learning paths for students and professionals across the platform.",
+      source: "/TUAN_CREATIONS_LOGO-removebg-preview%20(3).png",
+      badge: "Feature",
+    },
+    {
+      id: "feature-marketplace",
+      kind: "feature" as const,
+      title: "TUAN Marketplace",
+      subtitle: "Verified providers",
+      description: "A verified space where clients can find reliable freelancers, firms, and digital solutions.",
+      source: "/TUAN_CREATIONS_LOGO-removebg-preview%20(3).png",
+      badge: "Feature",
+    },
+    {
+      id: "feature-media",
+      kind: "feature" as const,
+      title: "TUAN Live",
+      subtitle: "Broadcast and replay",
+      description: "Media that educates, promotes partner work, and keeps communities informed.",
+      source: "/TUAN_CREATIONS_LOGO-removebg-preview%20(3).png",
+      badge: "Feature",
+    },
+    {
+      id: "feature-innovation",
+      kind: "feature" as const,
+      title: "Innovations Hub",
+      subtitle: "IoT, robotics, and chips",
+      description: "Hands-on innovation tracks for future-ready builders and technologists.",
+      source: "/TUAN_CREATIONS_LOGO-removebg-preview%20(3).png",
+      badge: "Feature",
+    },
+  ];
+  const showcaseItems = motionItems.slice(0, 8);
+  const loopItems = showcaseItems.length > 0 ? [...showcaseItems, ...showcaseItems] : [];
+  const reverseItems = showcaseItems.length > 0 ? [...showcaseItems].reverse().concat([...showcaseItems].reverse()) : [];
+
+  const MotionCard = ({ item }: { item: (PublicMediaItem & { kind: "image" | "video" }) | { id: string; kind: "profile" | "feature" | "course"; title: string; subtitle: string; description: string; source: string; badge: string } }) => {
+    const isMedia = item.kind === "image" || item.kind === "video";
+    const isBrandCard = !isMedia;
+    const initials = item.title
+      .split(/\s+/)
+      .filter(Boolean)
+      .slice(0, 2)
+      .map((part) => part[0]?.toUpperCase())
+      .join("");
+    return (
+      <article className={`sunbird-motion__card ${isMedia ? (item.kind === "video" ? "tone-b" : "tone-a") : "tone-c"}`}>
+        <div className="relative">
+          {isMedia ? (
+            <img
+              src={item.preview || item.source || "/TUAN_CREATIONS_LOGO-removebg-preview%20(3).png"}
+              alt=""
+              className="sunbird-motion__media"
+              onError={(event) => {
+                if (event.currentTarget.src.endsWith("/TUAN_CREATIONS_LOGO-removebg-preview%20(3).png")) return;
+                event.currentTarget.src = "/TUAN_CREATIONS_LOGO-removebg-preview%20(3).png";
+              }}
+            />
+          ) : (
+            <div className={`sunbird-motion__brand-art sunbird-motion__brand-art--${item.kind}`} aria-hidden>
+              <span className="sunbird-motion__brand-mark">{initials}</span>
+              <div className="sunbird-motion__brand-signal" />
+            </div>
+          )}
+          <div className={`sunbird-motion__scrim ${isBrandCard ? "sunbird-motion__scrim--brand" : ""}`} />
+          {item.kind === "video" && (
+            <span className="sunbird-motion__kind-badge">
+              Video
+            </span>
+          )}
+          {item.kind === "course" && (
+            <span className="sunbird-motion__kind-badge sunbird-motion__kind-badge--brand">
+              Course
+            </span>
+          )}
+          {item.kind !== "image" && item.kind !== "video" && item.kind !== "course" && (
+            <span className="sunbird-motion__kind-badge sunbird-motion__kind-badge--brand">
+              TUAN
+            </span>
+          )}
+        </div>
+        <div className={`sunbird-motion__meta sunbird-motion__meta--overlay ${isBrandCard ? "sunbird-motion__meta--brand" : ""}`}>
+          <p className="sunbird-motion__name">{item.title}</p>
+          <p className="sunbird-motion__role">{item.subtitle}</p>
+          {"description" in item && <p className="sunbird-motion__description">{item.description}</p>}
+          {"badge" in item && <p className="sunbird-motion__pill">{item.badge}</p>}
+        </div>
+      </article>
+    );
+  };
+
   return (
     <div>
       <section className="sunbird-hero">
@@ -27,20 +173,38 @@ export default function HomePage() {
               <Link className="btn-ghost" to="/blog">Read Ecosystem Stories</Link>
             </div>
           </div>
-          <div className="sunbird-wave" aria-hidden />
+          <div className="sunbird-motion" aria-hidden>
+            <div className="sunbird-motion__halo" />
+            <div className="sunbird-motion__track sunbird-motion__track--forward">
+              {loopItems.map((item, index) => (
+                <MotionCard key={`${item.id}-${index}`} item={item} />
+              ))}
+            </div>
+            <div className="sunbird-motion__track sunbird-motion__track--reverse">
+              {reverseItems.map((item, index) => (
+                <MotionCard key={`${item.id}-reverse-${index}`} item={item} />
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
-      <section className="mx-auto grid max-w-7xl grid-cols-1 gap-5 px-4 pb-20 pt-12 sm:px-6 md:grid-cols-2 lg:grid-cols-3 lg:px-8">
-        {discovery.map((item) => (
-          <Link key={item.title} to={item.to} className="card card-hover">
-            <h3 className="font-display text-xl">{item.title}</h3>
-            <p className="mt-2 text-sm text-[var(--text-soft)]">{item.description}</p>
-          </Link>
-        ))}
+      <section className="mx-auto max-w-7xl px-4 pb-20 pt-12 sm:px-6 lg:px-8">
+        <div className="sunbird-discovery">
+          <div className="sunbird-discovery__glow sunbird-discovery__glow--a" aria-hidden />
+          <div className="sunbird-discovery__glow sunbird-discovery__glow--b" aria-hidden />
+          <div className="sunbird-discovery__grid">
+            {discovery.map((item) => (
+              <Link key={item.title} to={item.to} className="card card-hover sunbird-discovery__card">
+                <h3 className="font-display text-xl">{item.title}</h3>
+                <p className="mt-2 text-sm text-[var(--text-soft)]">{item.description}</p>
+              </Link>
+            ))}
+          </div>
+        </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 pb-20 sm:px-6 lg:px-8">
+      <section className="mx-auto max-w-7xl px-4 pb-20 sm:px-6 lg:px-8 sunbird-core">
         <div className="card">
           <p className="eyebrow">Core Components</p>
           <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
