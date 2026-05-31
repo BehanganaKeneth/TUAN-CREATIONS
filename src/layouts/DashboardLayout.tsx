@@ -9,7 +9,7 @@ const moduleNav = [
   { to: "/academy", label: "TUAN Academy" },
   { to: "/marketplace", label: "TUAN Marketplace" },
   { to: "/media", label: "TUAN Live" },
-  { to: "/collaboration", label: "TUANhub" },
+  { to: "/collaboration", label: "TUAN Hub" },
   { to: "/iot", label: "TUAN Innovations" },
 ];
 
@@ -28,7 +28,7 @@ export default function DashboardLayout() {
     ? "You are browsing the TUAN Digital Platform as a guest. Sign in or sign up to save your choices, submit requests, and manage your activity."
     : isAdmin
       ? "You are signed in as an admin. Use this space to monitor users, actions, and platform health across the TUAN Digital Platform."
-      : "Your TUAN workspace is ready. Use this space to manage learning, services, TUAN Live, TUANhub, and innovation from one account.";
+      : "Your TUAN workspace is ready. Use this space to manage learning, services, TUAN Live, TUAN Hub, and innovation from one account.";
 
   return (
     <div className="min-h-screen bg-[var(--surface)] text-[var(--text)]">

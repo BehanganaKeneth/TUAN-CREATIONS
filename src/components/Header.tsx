@@ -15,7 +15,7 @@ const navigation = [
   { name: "TUAN Marketplace", href: "/marketplace", icon: ShoppingBag },
   { name: "TUAN Live", href: "/media", icon: Tv },
   { name: "TUAN Innovations Hub", href: "/iot", icon: Lightbulb },
-  { name: "TUANhub", href: "/collaboration", icon: Handshake },
+  { name: "TUAN Hub", href: "/collaboration", icon: Handshake },
 ];
 
 const Header = memo(() => {

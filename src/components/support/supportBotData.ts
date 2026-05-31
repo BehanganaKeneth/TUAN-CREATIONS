@@ -172,10 +172,10 @@ supportTopics.push(
   },
   {
     id: "collaboration",
-    label: "TUANhub",
+    label: "TUAN Hub",
     keywords: ["collaboration", "team", "project", "workspace"],
-    response: "TUANhub helps teams work together on projects. Use the TUANhub area to create projects and invite teammates.",
-    followUp: "Do you want help creating a new TUANhub project?",
+    response: "TUAN Hub helps teams work together on projects. Use the TUAN Hub area to create projects and invite teammates.",
+    followUp: "Do you want help creating a new TUAN Hub project?",
     action: { type: "navigate", to: "/collaboration" },
   },
   {
