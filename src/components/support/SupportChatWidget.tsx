@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { FileText, Mic, MicOff, Paperclip, PhoneCall, Send, Sparkles, Trash2, X } from "lucide-react";
 import { askSupportBot, getSupportKnowledge, recordAction, getApiOrigin, getStoredSession, type SupportKnowledgeItem } from "../../services/api";
 import { SUPPORT_USER_ATTACHMENT_ACCEPT, extractSupportAttachmentText } from "./supportInputUtils";
-import { defaultWelcomeMessage, quickReplyPresets } from "./supportBotData";
+import { defaultWelcomeMessage, quickReplyPresets, resolveSupportTopic } from "./supportBotData";
 
 type ChatMessage = {
   id: number;
@@ -273,20 +273,7 @@ export default function SupportChatWidget() {
     }
   };
 
-  const handleQuickReply = (reply: string) => {
-    // If user clicked the search quick-reply, open/focus the search input instead
-    if (reply && reply.toLowerCase().includes("search previously")) {
-      setSearchQuery("");
-      setSearchResults([]);
-      // focus search input after render
-        setTimeout(() => {
-          searchInputRef.current?.focus?.();
-        }, 50);
-      return;
-    }
-
-    void submitMessage(reply, attachments);
-  };
+  
 
   const handleFiles = async (files: FileList | null) => {
     if (!files || files.length === 0) {
@@ -388,6 +375,53 @@ export default function SupportChatWidget() {
       setIsOpen(false);
       setLauncherHidden(false);
     }
+  };
+
+  const executeAction = (action: any, label?: string) => {
+    if (!action) return;
+    if (action.type === "navigate" && action.to) {
+      // Close the widget and navigate
+      setIsOpen(false);
+      setLauncherHidden(false);
+      // use full navigation to allow external routes
+      window.location.href = action.to;
+      return;
+    }
+
+    if (action.type === "handoff") {
+      void handleAdminHandoff();
+      return;
+    }
+
+    // fallback: send as a user message
+    if (label) {
+      void submitMessage(label, attachments);
+    }
+  };
+
+  const handleQuickReply = (reply: string) => {
+    // If user clicked the search quick-reply, open/focus the search input instead
+    if (reply && reply.toLowerCase().includes("search previously")) {
+      setSearchQuery("");
+      setSearchResults([]);
+      setTimeout(() => {
+        searchInputRef.current?.focus?.();
+      }, 50);
+      return;
+    }
+
+    // Try to resolve the reply to a support topic and run its action if present
+    try {
+      const topic = resolveSupportTopic(reply || "");
+      if (topic?.action) {
+        executeAction(topic.action, reply);
+        return;
+      }
+    } catch (err) {
+      // ignore resolver errors and fallback to sending as message
+    }
+
+    void submitMessage(reply, attachments);
   };
 
   const openPanel = () => {

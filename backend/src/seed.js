@@ -178,6 +178,7 @@ export async function seedDatabase() {
   // otherwise fall back to a sensible development default.
   const defaultAdminEmail = config.adminEmail || "tuancreations.africa@gmail.com";
   const defaultAdminPassword = config.adminPassword || "AdminPass123!";
+  const defaultAdminPhone = process.env.ADMIN_PHONE || "+256753414058";
 
   if (defaultAdminEmail && defaultAdminPassword) {
     const passwordHash = await bcrypt.hash(defaultAdminPassword, 12);
@@ -188,11 +189,13 @@ export async function seedDatabase() {
         name: "Platform Admin",
         email: defaultAdminEmail,
         role: "admin",
+        phone: defaultAdminPhone,
         passwordHash,
       });
     } else {
       existingAdmin.role = "admin";
       existingAdmin.email = defaultAdminEmail;
+      existingAdmin.phone = existingAdmin.phone || defaultAdminPhone;
       existingAdmin.passwordHash = passwordHash;
       await existingAdmin.save();
     }

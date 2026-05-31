@@ -1542,6 +1542,21 @@ app.post("/api/support/handoff", async (req, res) => {
     payload: { conversationId: conversation._id.toString(), summary },
   });
 
+  // Emit a real-time notification for connected admin clients
+  try {
+    if (io) {
+      io.emit("support:conversation.created", {
+        conversationId: conversation._id.toString(),
+        summary,
+        userName,
+        userEmail,
+        createdAt: conversation.createdAt,
+      });
+    }
+  } catch (emitErr) {
+    console.warn('[Socket] Failed to emit support conversation event', emitErr && emitErr.message ? emitErr.message : emitErr);
+  }
+
   // return conversation id and admin contacts for UI
   const admins = await User.find({ role: "admin" }).lean();
   const configKeys = await SiteConfig.find({ key: { $in: ["contact.phone", "social.whatsapp"] } }).lean();
@@ -2066,6 +2081,26 @@ async function start() {
     await buildSupportIndex();
   } catch (err) {
     console.error('[SupportTrain] Initial build failed:', err && err.message ? err.message : err);
+  }
+
+  // If OpenAI API key is configured, generate embeddings for the index on startup
+  if (OPENAI_API_KEY) {
+    try {
+      const docs = await SupportIndex.find().lean();
+      if (docs && docs.length > 0) {
+        const texts = docs.map((d) => d.text || "");
+        const embeddings = await embedText(texts);
+        if (embeddings) {
+          await SupportEmbedding.deleteMany({});
+          const inserts = docs.map((d, i) => ({ docId: d._id, vector: embeddings[i], source: d.source, meta: d.meta || {} }));
+          await SupportEmbedding.insertMany(inserts);
+          await Action.create({ kind: 'support.embeddings.train', payload: { count: inserts.length } });
+          console.log('[SupportEmbeddings] Initial embeddings generated for', inserts.length, 'docs');
+        }
+      }
+    } catch (embErr) {
+      console.error('[SupportEmbeddings] Initial embedding generation failed:', embErr && embErr.message ? embErr.message : embErr);
+    }
   }
 
   // Periodic retrain in development by default (can be disabled with AUTO_TRAIN=false)

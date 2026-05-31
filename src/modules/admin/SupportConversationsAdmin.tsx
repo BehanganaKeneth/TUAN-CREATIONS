@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { io as createIo } from "socket.io-client";
+import { getApiOrigin } from "../../services/api";
 import { getAdminSupportConversations, getAdminSupportConversation, claimSupportConversation } from "../../services/api";
 
 export default function SupportConversationsAdmin() {
@@ -12,6 +14,19 @@ export default function SupportConversationsAdmin() {
 
   useEffect(() => {
     void load();
+
+    const socket = createIo(getApiOrigin(), {
+      autoConnect: true,
+      auth: { token: localStorage.getItem("token") },
+    });
+
+    socket.on("support:conversation.created", (payload: any) => {
+      setConversations((current) => [{ id: payload.conversationId, userName: payload.userName || 'Guest', summary: payload.summary || '', status: 'new' }, ...current]);
+    });
+
+    return () => {
+      socket.disconnect();
+    };
   }, []);
 
   const openConversation = async (id: string) => {
