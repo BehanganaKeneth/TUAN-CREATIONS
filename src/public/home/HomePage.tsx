@@ -163,10 +163,10 @@ export default function HomePage() {
           <div>
             <p className="eyebrow">TUAN Digital Platform</p>
             <h1 className="mt-5 max-w-3xl font-display text-3xl leading-tight sm:text-4xl lg:text-5xl">
-              Trusted all-in-one digital platform for skills, services, and innovation.
+              Trusted all-in-one digital platform for ICT skills, services, and innovation.
             </h1>
             <p className="mt-6 max-w-2xl text-base sm:text-lg">
-              TUAN Digital is a product of TUAN Creations Company Ltd, built to help clients, students, investors, and partners access trusted services, learning, media, and innovation in one platform.
+              TUAN Digital is a product of TUAN Creations Company Ltd, built to help clients, students, investors, and partners access trusted ICT services, learning, visibility, and innovation in one platform.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link className="btn-primary" to="/auth">Create Your Account</Link>
