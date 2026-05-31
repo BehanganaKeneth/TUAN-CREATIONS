@@ -67,6 +67,108 @@ supportTopics.push(
   }
 );
 
+// Additional topics to improve coverage
+supportTopics.push(
+  {
+    id: "payments",
+    label: "Payments & refunds",
+    keywords: ["payment", "paid", "refund", "charge", "invoice", "billing"],
+    response: "We process payments securely. Refunds are handled according to our refund policy — tell me more about the issue and I can start an inquiry.",
+    followUp: "Do you want me to open a refund request or connect you to billing?",
+  },
+  {
+    id: "certificates",
+    label: "Certificates",
+    keywords: ["certificate", "certification", "download certificate", "transcript"],
+    response: "Certificates are issued after course completion. You can view and download certificates from the Certificates page in your dashboard.",
+    followUp: "Would you like me to check your certificate status or explain how to obtain one?",
+  },
+  {
+    id: "mentorship",
+    label: "Mentorship & pairing",
+    keywords: ["mentor", "mentorship", "pairing", "find mentor"],
+    response: "TUAN offers mentorship pairings to support your learning. Browse available mentors or request a match through the mentorship area.",
+    followUp: "Do you want me to help you find a mentor for a specific course or topic?",
+  },
+  {
+    id: "study-groups",
+    label: "Study groups",
+    keywords: ["study group", "group", "study", "join group"],
+    response: "Study groups let learners collaborate. You can join or create groups from the Academy study groups page.",
+    followUp: "Shall I help you find a study group for your course?",
+  },
+  {
+    id: "forum",
+    label: "Forum & discussions",
+    keywords: ["forum", "discussion", "thread", "post", "reply"],
+    response: "The course forums are great for peer help and instructor answers. Search the forum or post a question to get community support.",
+    followUp: "Would you like me to open the forum or search threads for your question?",
+  },
+  {
+    id: "recordings",
+    label: "Recordings & replay",
+    keywords: ["recording", "replay", "video", "watch again", "session replay"],
+    response: "Recordings are available after live sessions for enrolled students. Check the course page or Academy for recorded sessions.",
+    followUp: "Which course recording would you like to find?",
+  },
+  {
+    id: "instructor",
+    label: "Instructor help",
+    keywords: ["instructor", "teacher", "tutor", "contact instructor"],
+    response: "Instructor support varies by course — some allow direct messaging while others use forum threads. I can route your question appropriately.",
+    followUp: "Should I prepare a message to send to the instructor or post on the forum?",
+  },
+  {
+    id: "partnerships",
+    label: "Partnerships & listings",
+    keywords: ["partner", "partnership", "listing", "marketplace", "vendor"],
+    response: "For partnerships or marketplace listings, visit the Marketplace area or contact our partnerships team for collaboration opportunities.",
+    followUp: "Would you like to explore marketplace listings or contact partnerships?",
+  },
+  {
+    id: "privacy",
+    label: "Privacy & data",
+    keywords: ["privacy", "data", "gdpr", "personal data", "policy"],
+    response: "We take privacy seriously. You can review our privacy policy for details on data handling and rights.",
+    followUp: "Do you want a link to the privacy policy or to request data access?",
+  },
+  {
+    id: "tech",
+    label: "Technical requirements",
+    keywords: ["browser", "requirements", "supported", "technical", "error", "bug"],
+    response: "TUAN works best on modern browsers. If you encounter technical issues, tell me your device and browser and I can suggest fixes.",
+    followUp: "Are you seeing an error or performance issue right now?",
+  },
+  {
+    id: "accessibility",
+    label: "Accessibility",
+    keywords: ["accessibility", "screen reader", "a11y", "keyboard"],
+    response: "We aim to make TUAN accessible. Let me know what accessibility support you need and I'll pass it to the team.",
+    followUp: "Would you like accessibility settings or to contact support about an accessibility issue?",
+  },
+  {
+    id: "careers",
+    label: "Careers & placements",
+    keywords: ["career", "placement", "job", "hire", "opportunity"],
+    response: "TUAN offers career services and placement support for certain programs — check the Academy career resources or ask me to connect you.",
+    followUp: "Would you like to see job resources or request placement help?",
+  },
+  {
+    id: "collaboration",
+    label: "Collaboration tools",
+    keywords: ["collaboration", "team", "project", "workspace"],
+    response: "Collaboration tools help teams work together on projects. Use the Collaboration area to create projects and invite teammates.",
+    followUp: "Do you want help creating a new collaboration project?",
+  },
+  {
+    id: "refunds",
+    label: "Refund policy",
+    keywords: ["refund", "return", "cancel order", "cancel course"],
+    response: "Refunds follow our refund policy and are handled by billing. Tell me the reason and I can start the process for you.",
+    followUp: "Shall I begin a refund request for you?",
+  }
+);
+
 export function normalizeSupportText(text: string) {
   return text.trim().toLowerCase();
 }
