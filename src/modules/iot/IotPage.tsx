@@ -50,7 +50,7 @@ export default function IotPage() {
           <Sparkles className="h-5 w-5" />
           <p className="eyebrow m-0">Build. Test. Launch.</p>
         </div>
-        <h2 className="mt-3 font-display text-2xl sm:text-3xl">TUAN Innovations Hub</h2>
+        <h2 className="mt-3 font-display text-2xl sm:text-3xl">Innovations Hub</h2>
         <p className="mt-3 max-w-3xl text-sm text-[var(--text-soft)] sm:text-base">
           A practical innovation space for robotics, IoT, and real-world prototyping. Students, founders, and institutions can explore guided tracks,
           access kits, and turn ideas into solutions that solve real problems.
@@ -116,7 +116,7 @@ export default function IotPage() {
       <section className="card">
         <h3 className="font-display text-2xl">Need a custom innovation program?</h3>
         <p className="mt-2 text-sm text-[var(--text-soft)]">
-          TUAN can design a tailored robotics or IoT journey for your school, institution, or community project.
+          We can design a tailored robotics or IoT journey for your school, institution, or community project.
         </p>
         <div className="mt-4 flex flex-wrap gap-3">
           <button className="btn-primary text-sm">Request Program Design</button>

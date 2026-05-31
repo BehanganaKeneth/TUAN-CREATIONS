@@ -42,7 +42,7 @@ export const supportTopics: SupportTopic[] = [
 ];
 
 export const defaultWelcomeMessage =
-  "You are welcome to TUAN live support,";
+  "You are welcome to Live Media support,";
 
 export const quickReplyPresets = [
   "I need help enrolling in a course",

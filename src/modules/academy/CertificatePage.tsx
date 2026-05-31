@@ -43,10 +43,10 @@ export default function CertificatePage() {
 
   const handleShare = (certificate: Certificate) => {
     // In a real implementation, this would share to social media or generate a shareable link
-    const text = `I just completed the "${certificate.courseTitle}" course on TUAN Academy! Certificate: ${certificate.certificateNumber}`;
+    const text = `I just completed the "${certificate.courseTitle}" course on ICT Academy! Certificate: ${certificate.certificateNumber}`;
     if (navigator.share) {
       navigator.share({
-        title: "TUAN Academy Certificate",
+        title: "ICT Academy Certificate",
         text,
       });
     } else {

@@ -5,7 +5,7 @@ import { getCourses, getPublicMedia, type Course, type PublicMediaItem } from ".
 
 const discovery = [
   { title: "Explore Our Vision", to: "/about", description: "Understand what TUAN is building and how it creates value for communities and businesses." },
-  { title: "Explore Divisions", to: "/divisions", description: "See the full range of services from software and telecom to Live Media, ICT Academy, and TUAN Innovations Hub." },
+  { title: "Explore Divisions", to: "/divisions", description: "See the full range of services from software and telecom to Live Media, ICT Academy, and Innovations Hub." },
   { title: "ICT Academy", to: "/academy", description: "Join live classes, learn from trusted instructors, and replay lessons anytime." },
   { title: "Live Media", to: "/media", description: "Follow live programs, partner channels, and recorded shows in one place." },
   { title: "ICT Marketplace", to: "/marketplace", description: "Choose verified ICT companies and freelancers for your next project." },
