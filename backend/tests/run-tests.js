@@ -29,11 +29,52 @@ async function run() {
     process.exit(2);
   }
 
+  // Ensure admin password is set to known value via dev endpoint (non-production)
+  try {
+    const resp = await fetch(`${API}/__dev/set-admin-password`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ password: ADMIN_PASSWORD }),
+    });
+    const body = await json(resp);
+    console.log('Dev: set admin password response:', resp.status, body);
+  } catch (e) {
+    // ignore if endpoint missing
+  }
+
+  // Log current admin contacts for debugging
+  try {
+    const adm = await fetch(`${API}/api/support/admins`);
+    const admJson = await json(adm);
+    console.log('Current admin contacts:', JSON.stringify(admJson, null, 2));
+  } catch (e) {
+    console.log('Failed to fetch admin contacts', e && e.message ? e.message : e);
+  }
+
+  // If there's a different admin email, set the password for that admin
+  try {
+    const adm = await fetch(`${API}/api/support/admins`);
+    const admJson = await json(adm);
+    const firstEmail = admJson?.contacts?.[0]?.email;
+    if (firstEmail) {
+      const resp2 = await fetch(`${API}/__dev/set-admin-password`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: firstEmail, password: ADMIN_PASSWORD }) });
+      const body2 = await json(resp2);
+      console.log('Dev: set admin password for', firstEmail, resp2.status, body2);
+      // use returned email as ADMIN_EMAIL for login
+      process.env.ADMIN_EMAIL = firstEmail;
+    }
+  } catch (e) {
+    // ignore
+  }
+
   console.log('Logging in as admin...');
+  // determine which email to use for login (prefers seeded admin email if present)
+  const adminContactsResp = await fetch(`${API}/api/support/admins`);
+  const adminContacts = await json(adminContactsResp);
+  const loginEmail = (adminContacts?.contacts?.[0]?.email) || ADMIN_EMAIL;
+
   const loginRes = await fetch(`${API}/api/auth/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ name: 'Platform Admin', email: ADMIN_EMAIL, role: 'admin', password: ADMIN_PASSWORD }),
+    body: JSON.stringify({ name: 'Platform Admin', email: loginEmail, role: 'admin', password: ADMIN_PASSWORD }),
   });
   const loginBody = await json(loginRes);
   if (!loginRes.ok || !loginBody.token) {
