@@ -14,6 +14,8 @@ import { sendEmail } from "./shared/mailer.js";
 import { Action, Channel, Certificate, Course, Enrollment, ForumReply, ForumThread, InnovationProgram, Listing, LiveSession, Metric, MentorshipPairing, Notification, Project, Quiz, QuizResult, Recording, Session, StudyGroup, User, SiteConfig } from "./models.js";
 import { seedDatabase } from "./seed.js";
 import configRoutes from "./domains/admin/config-routes.js";
+import { createAuth } from "./shared/auth.js";
+import { serializeEnrollment } from "./shared/serializers.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -22,6 +24,7 @@ const app = express();
 const httpServer = createServer(app);
 const liveRooms = new Map();
 let io;
+const { authenticate, requireAdmin, signToken, serializeUser } = createAuth({ User, jwtSecret: config.jwtSecret });
 
 const now = () => new Date().toISOString();
 
@@ -94,66 +97,6 @@ app.get("*", (req, res, next) => {
   }
 
   return res.sendFile(path.join(distPath, "index.html"));
-});
-
-const serializeUser = (user) => ({
-  id: user._id.toString(),
-  name: user.name,
-  email: user.email,
-  role: user.role,
-});
-
-const signToken = (user) =>
-  jwt.sign(
-    {
-      sub: user._id.toString(),
-      email: user.email,
-      role: user.role,
-    },
-    config.jwtSecret,
-    { expiresIn: "7d" }
-  );
-
-const authenticate = async (req, res, next) => {
-  const header = req.headers.authorization;
-  if (!header?.startsWith("Bearer ")) {
-    return res.status(401).json({ message: "Missing authorization token" });
-  }
-
-  try {
-    const token = header.slice(7);
-    const payload = jwt.verify(token, config.jwtSecret);
-    const user = await User.findById(payload.sub);
-
-    if (!user) {
-      return res.status(401).json({ message: "User session not found" });
-    }
-
-    req.user = user;
-    next();
-  } catch {
-    return res.status(401).json({ message: "Invalid or expired token" });
-  }
-};
-
-const requireAdmin = (req, res, next) => {
-  if (req.user?.role !== "admin") {
-    return res.status(403).json({ message: "Admin access required" });
-  }
-
-  return next();
-};
-
-const serializeEnrollment = (enrollment, user, course) => ({
-  id: enrollment._id.toString(),
-  userId: String(enrollment.userId),
-  userName: user?.name ?? null,
-  userEmail: user?.email ?? null,
-  courseId: enrollment.courseId,
-  courseTitle: course?.title ?? null,
-  enrolledAt: enrollment.enrolledAt,
-  liveJoinCount: enrollment.liveJoinCount,
-  lastJoinedLiveAt: enrollment.lastJoinedLiveAt,
 });
 
 app.get("/api/health", (_req, res) => {
