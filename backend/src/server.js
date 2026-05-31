@@ -156,6 +156,17 @@ const buildSupportIndex = async () => {
       docs.push({ source: 'support-knowledge', key: item._id.toString(), text: textParts.join('\n'), meta: { type: item.type, order: item.order } });
     }
 
+    // Include recent support conversation messages so users can search previous questions
+    try {
+      const recentConvos = await SupportConversation.find().sort({ createdAt: -1 }).limit(200).lean();
+      for (const convo of recentConvos) {
+        const convoText = (convo.messages || []).map((m) => `${m.sender}: ${m.text}`).join('\n');
+        docs.push({ source: 'support-conversation', key: convo._id.toString(), text: `${convo.summary || ''}\n${convoText}`.trim(), meta: { conversationId: convo._id.toString(), userName: convo.userName } });
+      }
+    } catch (e) {
+      console.warn('[SupportTrain] failed to include conversations:', e && e.message ? e.message : e);
+    }
+
     // Add site config entries
     for (const cfg of siteConfigs) {
       docs.push({ source: 'site-config', key: cfg.key, text: `${cfg.key}: ${String(cfg.value)}`, meta: {} });
@@ -312,7 +323,15 @@ app.post('/api/support/embeddings/train', authenticate, requireAdmin, async (_re
 
 app.get('/api/support/search', async (req, res) => {
   const q = String(req.query.q || '');
-  if (!q) return res.status(400).json({ message: 'q query param required' });
+
+  // If q is empty, return recent support conversations and index docs
+  if (!q) {
+    const recentConvos = await SupportConversation.find().sort({ createdAt: -1 }).limit(20).lean();
+    const convoItems = recentConvos.map((c) => ({ id: `conv:${c._id.toString()}`, title: c.summary || `Conversation with ${c.userName || 'Guest'}`, text: (c.messages || []).map((m) => `${m.sender}: ${m.text}`).join('\n'), meta: { conversationId: c._id.toString(), userName: c.userName } }));
+    const indexDocs = await SupportIndex.find().sort({ createdAt: -1 }).limit(20).lean();
+    const indexItems = indexDocs.map((d) => ({ id: d._id.toString(), title: d.key || d.source, text: d.text, meta: d.meta }));
+    return res.json({ ok: true, items: [...convoItems, ...indexItems].slice(0, 40) });
+  }
 
   // Try embedding search
   if (OPENAI_API_KEY) {

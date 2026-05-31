@@ -264,7 +264,11 @@ export default function SupportChatWidget() {
       setSearchQuery("");
       setSearchResults([]);
       // focus search input after render
-      setTimeout(() => searchInputRef.current?.focus?.(), 50);
+        setTimeout(() => {
+          searchInputRef.current?.focus?.();
+          // trigger search to show previous questions
+          void doSearch("");
+        }, 50);
       return;
     }
 
@@ -412,7 +416,7 @@ export default function SupportChatWidget() {
                       void doSearch(searchQuery);
                     }
                   }}
-                  placeholder="Search previously asked questions..."
+                  placeholder="Search previously asked questions or click to view recent ones"
                   className="flex-1 rounded-full border border-white/10 bg-white/6 px-3 py-2 text-sm text-white outline-none placeholder:text-slate-400"
                 />
                 <button
