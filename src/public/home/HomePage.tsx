@@ -221,7 +221,7 @@ export default function HomePage() {
               <p className="mt-2 text-sm text-[var(--text-soft)]">A verified space where clients can find reliable freelancers, firms, and digital solutions.</p>
             </div>
             <div>
-              <h3 className="font-display text-xl">TUAN Collaborations Hub</h3>
+              <h3 className="font-display text-xl">TUANhub</h3>
               <p className="mt-2 text-sm text-[var(--text-soft)]">Simple teamwork tools for project updates, communication, and shared delivery.</p>
             </div>
             <div>

@@ -10,7 +10,7 @@ export type SupportTopic = {
 export const supportTopics: SupportTopic[] = [
   {
     id: "academy",
-    label: "Academy help",
+    label: "TUAN Academy help",
     keywords: ["course", "academy", "enroll", "learning", "study"],
     response: "TUAN Academy lets you enroll in courses, join live sessions, and revisit recordings when you need a refresher.",
     followUp: "If you want, I can help you find the right course or connect you to admin support.",
@@ -25,9 +25,9 @@ export const supportTopics: SupportTopic[] = [
   },
   {
     id: "marketplace",
-    label: "Marketplace",
+    label: "TUAN Marketplace",
     keywords: ["marketplace", "sell", "buy", "listing", "partner"],
-    response: "The marketplace is where TUAN surfaces services, listings, and partner offerings in one place.",
+    response: "The TUAN Marketplace is where TUAN surfaces services, listings, and partner offerings in one place.",
     followUp: "If you need a human review, I can reconnect you to admin support.",
     action: { type: "navigate", to: "/marketplace" },
   },
@@ -172,10 +172,10 @@ supportTopics.push(
   },
   {
     id: "collaboration",
-    label: "Collaboration tools",
+    label: "TUANhub",
     keywords: ["collaboration", "team", "project", "workspace"],
-    response: "Collaboration tools help teams work together on projects. Use the Collaboration area to create projects and invite teammates.",
-    followUp: "Do you want help creating a new collaboration project?",
+    response: "TUANhub helps teams work together on projects. Use the TUANhub area to create projects and invite teammates.",
+    followUp: "Do you want help creating a new TUANhub project?",
     action: { type: "navigate", to: "/collaboration" },
   },
   {
