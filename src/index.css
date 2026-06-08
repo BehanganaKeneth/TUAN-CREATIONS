@@ -443,6 +443,15 @@ img {
   font-weight: 700;
 }
 
+.sunbird-core__label {
+  color: #071022;
+  background: linear-gradient(135deg, #f0c86a, #dcad4b);
+  border-color: rgba(220, 173, 75, 0.9);
+  box-shadow: 0 8px 24px rgba(220, 173, 75, 0.18);
+  font-size: 12px;
+  letter-spacing: 0.2em;
+}
+
 .card {
   border: 1px solid var(--line);
   border-radius: 1.1rem;
