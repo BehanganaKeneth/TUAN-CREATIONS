@@ -86,8 +86,8 @@ const Header = memo(() => {
                 aria-expanded={aboutMenuOpen}
                 className={`flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-all duration-200 ${
                   location.pathname.startsWith("/about")
-                    ? "bg-yellow-500 text-black shadow-md"
-                    : "text-gray-900 hover:bg-yellow-400 hover:text-black"
+                    ? "bg-[#dcad4b] text-black shadow-md"
+                    : "text-gray-900 hover:bg-[#f0c86a] hover:text-black"
                 }`}
               >
                 <Icon className="h-4 w-4" />
@@ -132,13 +132,13 @@ const Header = memo(() => {
         }
 
         const isActive = location.pathname === href;
-        return (
+          return (
           <Link
             key={name}
             to={href}
             onClick={onClick}
             className={`flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-all duration-200 ${
-              isActive ? "bg-yellow-500 text-black shadow-md" : "text-gray-900 hover:bg-yellow-400 hover:text-black"
+              isActive ? "bg-[#dcad4b] text-black shadow-md" : "text-gray-900 hover:bg-[#f0c86a] hover:text-black"
             }`}
           >
             <Icon className="h-4 w-4" />
@@ -259,23 +259,13 @@ const Header = memo(() => {
                 width: "100vw",
                 height: "100vh",
                 overflowY: "auto",
-                padding: "120px 1rem 1rem",
-                backgroundColor: "#071022",
-                color: "#e6eef8",
+                padding: "64px 1rem 1rem",
+                backgroundColor: colorMode === "light" ? "#ffffff" : "#071022",
+                color: colorMode === "light" ? "#071022" : "#e6eef8",
                 opacity: 1,
               }}
             >
-              <div className="absolute left-0 right-0 top-0 flex items-center justify-end p-3">
-                <button
-                  type="button"
-                  onClick={closeMenu}
-                  aria-label="Close menu"
-                  className="rounded-md p-2 bg-white/0 hover:bg-yellow-400/10 dark:bg-transparent"
-                >
-                  <X className="h-6 w-6" />
-                </button>
-              </div>
-              <nav className="flex flex-col gap-2 pt-2">
+                <nav className="flex flex-col gap-2 pt-2">
                 <NavLinks onClick={closeMenu} />
               </nav>
             </div>

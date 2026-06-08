@@ -31,7 +31,11 @@ export default function PublicLayout() {
 
   const mobileCardClass = (active: boolean) =>
     `block rounded-xl border border-white/10 px-4 py-3 text-sm transition ${
-      active ? "bg-[#f0c86a] text-[#071022]" : "bg-[#0b1830] text-[#e6eef8] hover:bg-[#112544]"
+      active
+        ? "bg-[#dcad4b] text-[#071022] shadow-md"
+        : mode === "light"
+        ? "bg-white text-[#071022] hover:bg-[#f0c86a] hover:text-[#071022]"
+        : "bg-[#0b1830] text-[#e6eef8] hover:bg-[#f0c86a] hover:text-[#071022]"
     }`;
 
   return (
@@ -146,18 +150,10 @@ export default function PublicLayout() {
         </div>
 
         {mobileMenuOpen && (
-          <div className="absolute left-0 right-0 top-full z-[10002] border-t border-white/10 bg-[#071022] px-4 py-3 text-[#e6eef8] shadow-2xl lg:hidden sm:px-6">
-            <div className="flex justify-end pb-2">
-              <button
-                type="button"
-                onClick={closeMobileMenu}
-                aria-label="Close menu"
-                className="inline-flex items-center justify-center rounded-full border border-white/10 bg-[#0b1830] p-2 text-[#f0c86a]"
-              >
-                <X size={18} />
-              </button>
-            </div>
-
+          <div
+            className="absolute left-0 right-0 top-full z-[10002] border-t border-white/10 px-4 py-0 shadow-2xl lg:hidden sm:px-6"
+            style={{ backgroundColor: mode === "light" ? "#ffffff" : "#071022", color: mode === "light" ? "#071022" : "#e6eef8" }}
+          >
             <nav className="flex flex-col gap-2">
               {publicNav.map((item) =>
                 item.to === "/about" ? (
